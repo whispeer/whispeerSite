@@ -61,7 +61,7 @@ function recoveryController($scope) {
 		}
 
 		var savePromise = Bluebird.try(function () {
-			return userService.getown().changePassword($scope.changePassword.password);
+			return userService.getOwn().changePassword($scope.changePassword.password);
 		}).then(function () {
 			if (window.indexedDB) {
 				window.indexedDB.deleteDatabase("whispeerCache");

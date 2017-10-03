@@ -82,8 +82,6 @@ var config = {
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
-			workerQueue: "worker/worker-queue",
-			PromiseWorker: "worker/worker-loader",
 			debug: "debug"
 		}
 	},

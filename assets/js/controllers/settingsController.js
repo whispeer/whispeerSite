@@ -49,7 +49,7 @@ function settingsController($scope, $timeout) {
 
 	$scope.getFiltersByID = filterService.getFiltersByID;
 
-	userService.getown().loadBasicData()
+	userService.getOwn().loadBasicData()
     .then(function () {
 	var privacy = settingsService.getBranch("privacy");
 	var sound = settingsService.getBranch("sound");
@@ -78,11 +78,11 @@ function settingsController($scope, $timeout) {
 		enabled: (settingsService.getBranch("mailsEnabled") ? "true": "false")
 	};
 
-	var names = userService.getown().data.names || {};
+	var names = userService.getOwn().data.names || {};
 	$scope.firstName = names.firstname;
 	$scope.lastName = names.lastname;
 	$scope.nickName = names.nickname;
-	var fp = userService.getown().data.fingerprint;
+	var fp = userService.getOwn().data.fingerprint;
 	$scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 	qr.image({
@@ -126,7 +126,7 @@ function settingsController($scope, $timeout) {
 			settingsService.updateBranch("privacy", $scope.safety);
 			return settingsService.uploadChangedData();
 		}).then(function () {
-			return userService.getown().uploadChangedProfile();
+			return userService.getOwn().uploadChangedProfile();
 		});
 
 		errorService.failOnErrorPromise(saveSafetyState, savePromise);
@@ -144,12 +144,12 @@ function settingsController($scope, $timeout) {
 		errorService.failOnErrorPromise(resetSafetyState, resetPromise);
 	};
 
-	$scope.mail = userService.getown().getMail();
+	$scope.mail = userService.getOwn().getMail();
 
 	$scope.saveName = function () {
 		saveNameState.pending();
 
-		var me = userService.getown();
+		var me = userService.getOwn();
 
 		var savePromise = me.setProfileAttribute("basic", {
 			firstname: $scope.firstName,
@@ -178,7 +178,7 @@ function settingsController($scope, $timeout) {
 	$scope.saveMail = function () {
 		saveMailState.pending();
 
-		var savePromise = userService.getown().setMail($scope.mail);
+		var savePromise = userService.getOwn().setMail($scope.mail);
 
 		errorService.failOnErrorPromise(saveMailState, savePromise);
 	};
@@ -191,7 +191,7 @@ function settingsController($scope, $timeout) {
 			return;
 		}
 
-		var savePromise = userService.getown().changePassword($scope.pwState.password);
+		var savePromise = userService.getOwn().changePassword($scope.pwState.password);
 
 		errorService.failOnErrorPromise(savePasswordState, savePromise);
 

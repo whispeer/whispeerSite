@@ -48,7 +48,7 @@ function setupController($scope, $state) {
 	}
 
 	Bluebird.try(function () {
-		var me = userService.getown();
+		var me = userService.getOwn();
 		$scope.profile.mail = me.getMail();
 		return me.getName();
 	}).then(function (names) {
@@ -59,7 +59,7 @@ function setupController($scope, $state) {
 	$scope.saveProfile = function () {
 		saveSetupState.pending();
 
-		var me = userService.getown();
+		var me = userService.getOwn();
 		var savePromise = Bluebird.try(function () {
 			if (!$scope.profile.privateName) {
 				return;

@@ -45,7 +45,7 @@ function rootController($scope, $http, $interval) {
 	var afterInitPromise = Bluebird.resolve();
 
 	function loadUser() {
-		var user = userService.getown();
+		var user = userService.getOwn();
 
 		return user.loadBasicData().then(function () {
 			$scope.user = user.data;

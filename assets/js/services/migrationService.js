@@ -1,5 +1,5 @@
 var Bluebird = require("bluebird");
-var h = require("whispeerHelper").default;
+var h = require("../helper/helper").default;
 
 var errorService = require("services/error.service").errorServiceInstance;
 
@@ -21,7 +21,7 @@ function runMigration(ownUser, migrationState) {
 
 
 var doMigration = function () {
-	var ownUser = require("users/userService").default.getown(), migrationState;
+	var ownUser = require("users/userService").default.getOwn(), migrationState;
 
 	if (ownUser) {
 		ownUser.getMigrationState().then(function(state) {

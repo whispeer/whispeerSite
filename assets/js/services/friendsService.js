@@ -12,15 +12,15 @@ var keyStore = require("services/keyStore.service").default;
 var initService = require("services/initService");
 
 var friends = [],
-		requests = [],
-		requested = [],
-		ignored = [],
-		removed = [],
-		deleted = [],
-		signedList,
-		onlineFriends = {},
-		friendsService,
-		friendsServiceLoaded = false;
+	requests = [],
+	requested = [],
+	ignored = [],
+	removed = [],
+	deleted = [],
+	signedList,
+	onlineFriends = {},
+	friendsService,
+	friendsServiceLoaded = false;
 
 var friendsData = {
 	requestsCount: 0,

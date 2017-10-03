@@ -17,6 +17,7 @@ const blobCache = {
 		return cache.store(blob.getBlobID(), blob.getMeta(), blob.getBlobData());
 	},
 	readFileAsArrayBuffer: (dir, name) => Bluebird.reject(`We are not on a device. Can't read file ${dir} ${name}`),
+	moveFileToBlob: (dir, name, blobID) => Bluebird.reject(`We are not on a device. Can't move file ${dir} ${name} (blobID: ${blobID})`),
 	getBlobUrl: (blobID) => {
 		return cache.get(blobID).then((data) => {
 			if (typeof data.blob === "undefined" || data.blob === false) {

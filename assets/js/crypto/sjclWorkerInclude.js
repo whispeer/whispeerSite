@@ -1,6 +1,6 @@
 "use strict";
 
-const WorkerQueue = require("workerQueue");
+const WorkerQueue = require("../worker/worker-queue");
 const bluebird = require("bluebird");
 const chelper = require("crypto/minimalHelper");
 const config = require("config");

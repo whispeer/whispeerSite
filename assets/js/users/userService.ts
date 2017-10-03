@@ -83,7 +83,6 @@ userService = {
 
 	/** get own user. synchronous */
 	getOwn: () => UserLoader.getLoaded(sessionService.getUserID()),
-	getown: () => UserLoader.getLoaded(sessionService.getUserID()),
 
 	getOwnAsync: () => {
 		return UserLoader.get(sessionService.getUserID())

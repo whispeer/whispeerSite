@@ -1,7 +1,7 @@
 var settings = require("services/settings.service").default;
 
 var Bluebird = require("bluebird");
-var h = require("whispeerHelper").default;
+var h = require("../helper/helper").default;
 var errors = require("asset/errors");
 
 

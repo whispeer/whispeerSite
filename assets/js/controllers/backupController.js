@@ -25,7 +25,7 @@ function setupController($scope, $location) {
 	function createBackup() {
 		var image, keyData;
 
-		return userService.getown().createBackupKey()
+		return userService.getOwn().createBackupKey()
         .then(function (_keyData) {
 	keyData = _keyData;
 
@@ -87,7 +87,7 @@ function setupController($scope, $location) {
 
 	$scope.downloadBackup = function () {
 		loadBackupPromise.then(function () {
-			saveAs(backupBlob, "whispeer-backup-" + userService.getown().getNickname() + ".png");
+			saveAs(backupBlob, "whispeer-backup-" + userService.getOwn().getNickname() + ".png");
 
 			$scope.goToNext();
 		}).catch(errorService.criticalError);
