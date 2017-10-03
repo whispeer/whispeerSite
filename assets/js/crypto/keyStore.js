@@ -24,7 +24,7 @@
 }
 */
 
-var h = require("whispeerHelper").default;
+var h = require("helper/helper").default;
 var chelper = require("crypto/helper");
 var sjcl = require("sjcl");
 var waitForReady = require("crypto/waitForReady");
@@ -798,7 +798,7 @@ function symKeyGenerate(comment) {
 		return new SymKey();
 	}).then(function (key) {
 		if (symKeys[key.getRealID()]) {
-			return symKeyGenerate();
+			return symKeyGenerate(comment);
 		}
 
 		symKeys[key.getRealID()] = key;
@@ -822,7 +822,7 @@ SymKey.get = function (realKeyID) {
 			return symKeys[realKeyID];
 		}
 
-		throw new errors.InvalidDataError("keychain not found (sym)");
+		throw new errors.InvalidDataError("keychain not found (sym) " + realKeyID);
 	});
 };
 
@@ -1252,6 +1252,11 @@ SignKey = function (keyData) {
 	this.verify = function (signature, text, type, id) {
 		var trustManager = require("./trustManager");
 		var signatureCache = require("./signatureCache");
+		var name = chelper.bits2hex(signature).substr(0, 10);
+
+		if (debug.enabled("whispeer:keyStore")) {
+			console.time(`verify-${name}-${type}`);
+		}
 
 		return hash(text).then(function (hash) {
 			hash = chelper.hex2bits(hash);
@@ -1266,17 +1271,8 @@ SignKey = function (keyData) {
 			}
 
 			keyStoreDebug("Slow verify of type: " + type);
-			var name = chelper.bits2hex(signature).substr(0, 10);
-
-			if (debug.enabled("whispeer:keyStore")) {
-				console.time("verify-" + name);
-			}
 
 			return verify(signature, text, hash).then(function (valid) {
-				if (debug.enabled("whispeer:keyStore")) {
-					console.timeEnd("verify-" + name);
-				}
-
 				if (valid) {
 					signatureCache.addValidSignature(signature, hash, realid, type, id);
 				}
@@ -1286,7 +1282,11 @@ SignKey = function (keyData) {
 				console.error(e);
 				return false;
 			});
-		});
+		}).finally(() => {
+			if (debug.enabled("whispeer:keyStore")) {
+				console.timeEnd(`verify-${name}-${type}`);
+			}
+		})
 	};
 };
 
@@ -1467,7 +1467,7 @@ ObjectPadder.prototype._unpadString = function (val) {
 	var unpadded = val.substr(paddingIndex + 2);
 
 	if (isNumber) {
-		return h.parseDecimal(unpadded);
+		return parseFloat(unpadded);
 	}
 
 	return unpadded;

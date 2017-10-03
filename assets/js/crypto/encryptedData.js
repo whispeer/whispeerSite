@@ -1,27 +1,28 @@
 
 "use strict";
 
-const Bluebird = require("bluebird");
-const keyStore = require("crypto/keyStore");
+const h = require("../helper/helper").default
+const Bluebird = require('bluebird');
+const keyStore = require('crypto/keyStore');
 
 var encryptedDataObject = function (data) {
-	var encryptedData = data, decryptedData;
+    var encryptedData = data, decryptedData;
 
-	this.decrypt = function (cb) {
-		if (decryptedData) {
-			return Bluebird.resolve(decryptedData).nodeify(cb);
-		}
+    this.decrypt = function (cb) {
+        if (decryptedData) {
+            return Bluebird.resolve(decryptedData).nodeify(cb);
+        }
 
-		return keyStore.sym.decryptObject(encryptedData, 0).then(function (decryptedObj) {
-			if (decryptedObj) {
-				decryptedData = decryptedObj;
+        return keyStore.sym.decryptObject(encryptedData, 0).then(function (decryptedObj) {
+            if (decryptedObj) {
+                decryptedData = decryptedObj;
 
-				return decryptedData;
-			}
+                return decryptedData;
+            }
 
-			throw new Error("could not decrypt");
-		}).nodeify(cb);
-	};
+            throw new Error("could not decrypt");
+        }).nodeify(cb);
+    };
 };
 
 module.exports = encryptedDataObject;
