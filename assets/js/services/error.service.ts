@@ -38,16 +38,8 @@ class ErrorService {
 				headers: new Headers({
 					"Content-Type": "application/json",
 				}),
-				body: JSON.stringify({ error: e.toString() })
+				body: JSON.stringify({ error: e.toString(), stack: e.stack })
 			}).catch(() => {});
-
-			const windowLocal : any = window;
-
-			windowLocal.globalErrors.push({
-				e: e,
-				str: e.toString(),
-				stack: e.stack
-			});
 		}
 	};
 
