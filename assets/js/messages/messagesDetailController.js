@@ -26,6 +26,14 @@ function messagesDetailController($scope, $element, $state, $stateParams) {
 	$scope.saveTitle = function() {
 		chatDetailsSavingState.pending();
 
+		if ($scope.chatTitle === $scope.activeChat.getTitle()) {
+			$state.go("app.messages.show", {
+				topicid: chatID
+			});
+
+			return
+		}
+
 		var savePromise = $scope.activeChat.setTitle($scope.chatTitle).then(function() {
 			$state.go("app.messages.show", {
 				topicid: chatID

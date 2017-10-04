@@ -31,7 +31,7 @@
 	</span>
 
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
-		<input id="messages-editTitle" data-ng-if="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
+		<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
 		<h2 data-i18n="messages.chatPersons"></h2>
 		<ul>
 			<li class="friendsView-friend" data-ng-repeat="partner in activeChat.getReceivers()">
