@@ -34,7 +34,7 @@ function imageGallery() {
 				return;
 			}
 
-			if (image.lowest.width && image.lowest.height) {
+			if (image.lowest.width && image.lowest.height && !image.lowest.loaded) {
 				const canvas = document.createElement("canvas");
 
 				canvas.width = image.lowest.width
