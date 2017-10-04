@@ -910,7 +910,8 @@ function enhanceOwnUser(userData) {
 
 export default class UserLoader extends MutableObjectLoader<UserInterface, CachedUser>({
 	download: (id) =>
-		socketService.emit("user.getMultiple", { identifiers: [id] })
+		socketService.awaitConnection()
+			.then(() => socketService.definitlyEmit("user.getMultiple", { identifiers: [id] }))
 			.then((response) => response.users[0]),
 	load: (userData) =>
 		Bluebird.resolve(userData),
