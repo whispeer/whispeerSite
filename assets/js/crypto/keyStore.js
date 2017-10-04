@@ -1153,7 +1153,7 @@ SignKey = function (keyData) {
 			}).then(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					keyStoreDebug("key not in key database");
-					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
+					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to feedback@whispeer.de!");
 					throw new errors.SecurityError("key not in key database");
 				}
 
