@@ -431,7 +431,7 @@ loadingPromise = initService.awaitLoading().then(function () {
 initService.awaitLoading().then(function () {
 	return Bluebird.delay(500);
 }).then(function () {
-		return socket.definitlyEmit("friends.getOnline", {});
+	return socket.definitlyEmit("friends.getOnline", {});
 }).then(function (data) {
 	h.objectEach(data.online, function (uid, status) {
 		userOnline(uid, status);
