@@ -372,7 +372,13 @@
 		"newComment": "Add a comment!",
 		"comments": "Comments",
 		"commentsLoading": "Comments are being loaded!",
-		"removeComment": "Remove comment"
+		"removeComment": "Remove comment",
+		"inform": {
+			"more": "Continue",
+			"less": "Show less",
+			"androidBeta": "Test<strong>the Beta</strong><br>now!",
+			"text": "<p><strong>Welcome!</strong><br>whispeer Business is currently in the pilot phase. And you are part of it!<br>As a thank-you we would like to present you the most secure and best communication network worldwide.<br>Interested?</p><p>The team behind whispeer is working at full speed to continuously improve the network. The beta app for Android and iOS can be found in the <strong><a href=\"https://play.google.com/store/apps/details?id=whispeer.app\">Android Play Store</a></strong> and the <strong><a href=\"https://itunes.apple.com/de/app/whispeer/id1031025741\">iOS App Store</a></strong> - so you can access your data from your smartphone, tablet or PC at any time.</p><p>The basic functionality includes messaging, contact and profile management. But the journey has just started.<br>Join us on the way to a comprehensive tool for internal and external communication. The first step has been taken: from now on you are a pioneer. And of course, you will be the first to hear about all the innovations!<br>Grow and thrive with privacy!</p><p>Your team at whispeer</p>"
+		}
 	},
 	"messages": {
 		"chatPersons": "User in this chat",
