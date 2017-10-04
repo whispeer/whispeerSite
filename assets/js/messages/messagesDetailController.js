@@ -10,6 +10,8 @@ const messageService = require("messages/messageService").default
 
 const ChatLoader = require("messages/chat").default
 
+const featureToggles = require("services/featureToggles").default
+
 function messagesDetailController($scope, $element, $state, $stateParams) {
 	var chatLoadingState = new State.default();
 	$scope.topicLoadingState = chatLoadingState.data;
@@ -34,6 +36,9 @@ function messagesDetailController($scope, $element, $state, $stateParams) {
 
 		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
 	};
+
+	$scope.amIAdmin = () => $scope.activeChat.amIAdmin()
+	$scope.featureEnabled = (featureName) => featureToggles.isFeatureEnabled(featureName)
 
 	$scope.chatTitle = "";
 
