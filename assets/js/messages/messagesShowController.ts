@@ -163,8 +163,9 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 		},
 		addFiles: ImageUpload.fileCallback((files) => {
 			$scope.$apply(() => {
+				const fileUploadEnabled = false
 				const imageUploads = files.filter((file) => ImageUpload.isImage(file)).map((file) => new ImageUpload(file))
-				const fileUploads = files.filter((file) => !ImageUpload.isImage(file)).map((file) => new FileUpload(file))
+				const fileUploads = files.filter((file) => !ImageUpload.isImage(file) && fileUploadEnabled).map((file) => new FileUpload(file))
 
 				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
 				$scope.attachments.imageUploads = $scope.attachments.imageUploads.concat(imageUploads)
