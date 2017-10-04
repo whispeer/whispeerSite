@@ -95,22 +95,15 @@ function transformAsymData(data) {
 	}
 }
 
-function hashBuf(buf) {
-	var i, h1 = new sjcl.hash.sha256(), PART = 8 * 64;
+function handleHash(data) {
+	var text = data.toHash;
 
-	for (i = 0; i < buf.byteLength / PART; i+= 1) {
-		h1.update(
-			sjcl.codec.arrayBuffer.toBits(
-				buf.slice(i * PART, (i + 1) * PART)
-			)
-		)
+	var i, h = new sjcl.hash.sha256(), PART = 8 * 50;
+	for (i = 0; i < text.length / PART; i+= 1) {
+		h.update(sjcl.codec.base64.toBits(text.substr(i*PART, PART)));
 	}
 
-	return chelper.bits2hex(h1.finalize());
-}
-
-function handleHash(data) {
-	return hashBuf(data.toHash)
+	return chelper.bits2hex(h.finalize());
 }
 
 function handleAsym(data) {

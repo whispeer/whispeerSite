@@ -3,7 +3,7 @@
 const ImageUpload = require("services/imageUpload.service").default
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default
-const userService = require("user/userService");
+const userService = require("users/userService").default;
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
@@ -52,12 +52,8 @@ function messagesController($scope, $state, $stateParams) {
 	};
 
 	function getUser(userid) {
-		var findUser = Bluebird.promisify(userService.get.bind(userService));
-
-		return findUser(userid).then(function (user) {
-			var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-
-			return loadBasicData().then(function () {
+		return userService.get(userid).then(function (user) {
+			return user.loadBasicData().then(function () {
 				return [user.data];
 			});
 		});

@@ -27,8 +27,9 @@ require("emptyInclude");
 
 /* ensure loading of all init modules */
 require("services/trust.service")
-require("user/userService")
+require("users/userService")
 require("services/settings.service")
+require("services/featureToggles")
 
 module.exports = angular.module("ssn", [
 	"ssn.controllers",

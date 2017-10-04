@@ -13,7 +13,7 @@ var State = require("asset/state");
 var socket = require("services/socket.service").default;
 var keyStore = require("services/keyStore.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var circleService = require("circles/circleService");
 var screenSize = require("services/screenSize.service").default;
 var initService = require("services/initService");
@@ -510,11 +510,11 @@ var postService = {
 
 			var meta = {};
 			meta.time = new Date().getTime();
-			meta.sender = userService.getown().getID();
+			meta.sender = userService.getOwn().getID();
 			meta.walluser = wallUserID;
 			meta.images = imagesMetaData;
 
-			var ownUser = userService.getown();
+			var ownUser = userService.getOwn();
 
 			var secured = SecuredData.createPromisified(content, meta, { type: "post" }, ownUser.getSignKey(), postKey);
 
@@ -529,7 +529,7 @@ var postService = {
 			data.imageKeys = imageKeys.map(keyStore.upload.getKey);
 			data.meta._key = keyStore.upload.getKey(data.meta._key);
 
-			var ownUser = userService.getown();
+			var ownUser = userService.getOwn();
 
 			var privateData = SecuredData.createPromisified(visibleSelection, {}, { type: "postPrivate" }, ownUser.getSignKey(), ownUser.getMainKey());
 			privateData.data.setParent(securedData);
@@ -546,7 +546,7 @@ var postService = {
 			var newPost = makePost(result.createdPost);
 
 			if (h.parseDecimal(wallUserID) === 0) {
-				wallUserID = userService.getown().getID();
+				wallUserID = userService.getOwn().getID();
 			}
 
 			if (postsByUserWall[wallUserID]) {

@@ -61,14 +61,14 @@ export default class Storage {
 
 	clear() {
 		if(this._hasLocalStorage) {
-			var usedKeys = Object.keys(localStorage);
+			const usedKeys = Object.keys(localStorage);
 			usedKeys.filter(function (key) {
 				return key.indexOf(this._prefix) === 0;
 			}, this).forEach(function (key) {
 				localStorage.removeItem(key);
 			});
 		} else {
-			var usedKeys = Object.keys(this._localStorageData);
+			const usedKeys = Object.keys(this._localStorageData);
 			usedKeys.filter(function (key) {
 				return key.indexOf(this._prefix) === 0;
 			}, this).forEach(function (key) {

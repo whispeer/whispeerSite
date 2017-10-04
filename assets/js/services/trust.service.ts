@@ -10,11 +10,9 @@ import sessionService from "./session.service";
 
 const initService = require("services/initService");
 
-const h = require("whispeerHelper").default;
+import h from "../helper/helper";
 const trustManager = require("crypto/trustManager");
 const signatureCache = require("crypto/signatureCache");
-
-const userService = require("user/userService");
 
 const debug = require("debug");
 
@@ -35,6 +33,11 @@ function timeEnd(name: string) {
 	}
 }
 
+let resolveOwnKeys, resolveOwnUser
+
+const ownKeysPromise = new Bluebird((resolve) => resolveOwnKeys = resolve)
+const ownUserPromise = new Bluebird<any>((resolve) => resolveOwnUser = resolve)
+
 class TrustService {
 	private signatureCacheObject: CacheServiceType;
 	private trustManagerCache: CacheServiceType;
@@ -49,7 +52,6 @@ class TrustService {
 
 		this.delay = h.aggregateOnce(THROTTLE, this.uploadDatabase);
 		window.setInterval(this.storeSignatureCache, STORESIGNATURECACHEINTERVAL);
-		userService.listen(this.addNewUsers, "loadedUser");
 
 		initService.get("trustManager.get", this.onInit, {
 			cacheCallback: this.loadFromCache,
@@ -63,6 +65,14 @@ class TrustService {
 		this.waitForLogin();
 	}
 
+	ownKeysLoaded() {
+		resolveOwnKeys()
+	}
+
+	ownUserLoaded(user) {
+		resolveOwnUser(user)
+	}
+
 	private waitForLogin() {
 		sessionService.awaitLogin().then(() => {
 			time("getSignatureCache");
@@ -71,15 +81,11 @@ class TrustService {
 			});
 		}).then((signatureCacheData: any) => {
 			timeEnd("getSignatureCache");
-			return Bluebird.race([
-				userService.verifyOwnKeysCacheDone(),
-				userService.verifyOwnKeysDone()
-			]).thenReturn(signatureCacheData);
-		}).then((signatureCacheData: any) => {
+
 			if (signatureCacheData) {
-				signatureCache.load(signatureCacheData.data, userService.getown().getSignKey());
+				signatureCache.load(signatureCacheData.data);
 			} else {
-				signatureCache.initialize(userService.getown().getSignKey());
+				signatureCache.initialize();
 			}
 		});
 	}
@@ -89,9 +95,7 @@ class TrustService {
 		return this.loadCachePromise.catch(function (e: any) {
 			trustServiceDebug("Could not load trust service from cache!");
 			console.error(e);
-		}).then(() => {
-			return userService.verifyOwnKeysDone();
-		}).then(() => {
+		}).then(() => ownKeysPromise).then(() => {
 			if (data.unChanged) {
 				if (!trustManager.isLoaded()) {
 					throw new Error("cache loading seems to have failed but server is unchanged!");
@@ -152,9 +156,9 @@ class TrustService {
 		}
 	}
 
-	private addNewUsers = (user: any) => {
-		if (trustManager.isLoaded() && !trustManager.hasKeyData(user.getSignKey())) {
-			trustManager.addUser(user);
+	addNewUsers = (userInfo) => {
+		if (trustManager.isLoaded() && !trustManager.hasKeyData(userInfo.key)) {
+			trustManager.addUser(userInfo);
 			this.delay();
 		}
 	}
@@ -163,22 +167,23 @@ class TrustService {
 		return trustManager.loadDatabase(database).thenReturn(database).nodeify(cb);
 	}
 
-	private createTrustDatabase = (cb?: Function) => {
-		Bluebird.try(() => {
-			trustManager.createDatabase(userService.getown());
+	private createTrustDatabase = () => {
+		ownUserPromise.then((ownUser) => {
+			const key = ownUser.getSignKey()
+			const userid = ownUser.getID()
+			const nickname = ownUser.getNickname()
+
+			trustManager.createDatabase({ key, userid, nickname });
 
 			this.uploadDatabase().catch(errorServiceInstance.criticalError);
 
 			return null;
-		}).nodeify(cb);
+		})
 	}
 
 	private loadFromCache = (cacheEntry: any) => {
 		trustServiceDebug("trustManager cache get done");
-		this.loadCachePromise = Bluebird.race([
-			userService.verifyOwnKeysDone(),
-			userService.verifyOwnKeysCacheDone()
-		]).then(() => {
+		this.loadCachePromise = ownKeysPromise.then(() => {
 			trustServiceDebug("trustManager cache loading");
 			return this.loadDatabase(cacheEntry.data);
 		});
@@ -201,10 +206,6 @@ class TrustService {
 			return this.uploadDatabase();
 		}).nodeify(cb);
 	};
-
-	addUser = (user: any) => {
-		return trustManager.addUser(user);
-	}
 }
 
 export default new TrustService();

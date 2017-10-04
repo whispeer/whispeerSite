@@ -22,8 +22,8 @@ export const ServerError = h.createErrorType("serverError");
 const SOCKET_TIMEOUT = 60000;
 
 interface Interceptor {
-	transformRequest: Function
-	transformResponse: Function
+	transformRequest?: (request: any) => void
+	transformResponse?: (request: any, response: any) => void
 }
 
 const log = {
@@ -50,8 +50,6 @@ class SocketService extends Observer {
 	_autoConnect: boolean = config.socket.autoConnect;
 
 	_socket: SocketIOClient.Socket;
-	_blockedWithToken = false;
-	_token: number;
 
 	_lastRequestTime = 0;
 	_loading = 0;
@@ -89,7 +87,7 @@ class SocketService extends Observer {
 		}
 	}
 
-	_connect () {
+	private _connect () {
 		this._socket = connect(this._domain, config.socket.options);
 
 		this._socket.on("disconnect", () => {
@@ -100,11 +98,15 @@ class SocketService extends Observer {
 
 		this._socket.on("connect", () => {
 			socketDebug("socket connected");
-			this.emit("whispeerPing", { blockageToken: this._token });
+			this.emit("whispeerPing", {});
+
+			(<any>this._socket.io).engine.on("heartbeat", () => {
+				this.notify(null, "heartbeat")
+			})
 		});
 	}
 
-	_emit (channel: string, request: Object) {
+	private _emit (channel: string, request: Object) {
 		return new Bluebird<any>((resolve, reject) => {
 			var onDisconnect = function () {
 				reject(new DisconnectError("Disconnected while sending"));
@@ -162,23 +164,7 @@ class SocketService extends Observer {
 		return this._socket.connected;
 	}
 
-	blockEmitWithToken () {
-		this._blockedWithToken = true;
-		this._token = Math.random();
-		return this._token;
-	}
-
-	allowEmit (accessToken: number) {
-		if (this._blockedWithToken && accessToken === this._token) {
-			this._blockedWithToken = false;
-		}
-	}
-
 	emit (channel: string, request: any, cb?: Function) {
-		if (this._blockedWithToken && request.blockageToken !== this._token) {
-			throw new DisconnectError("request blocked by token (channel: " + channel + ")");
-		}
-
 		if (!this.isConnected()) {
 			throw new DisconnectError("no connection");
 		}
@@ -188,8 +174,7 @@ class SocketService extends Observer {
 		request.version = APIVERSION;
 		request.clientInfo = CLIENT_INFO;
 
-		socketDebug("Request on " + channel);
-		socketDebug(request);
+		socketDebug("Request on " + channel, request);
 
 		this._interceptors.forEach(function (interceptor) {
 			if (interceptor.transformRequest) {
@@ -200,8 +185,8 @@ class SocketService extends Observer {
 		this._loading++;
 		this.notify(null, "request");
 
-		var resultPromise = this._emit(channel, request).timeout(SOCKET_TIMEOUT).then((response) => {
-			socketDebug("Answer on " + channel);
+		return this._emit(channel, request).timeout(SOCKET_TIMEOUT).then((response) => {
+			socketDebug("Answer on " + channel, response);
 			log.timerEnd(timer);
 
 			if (response.alert) {
@@ -209,6 +194,12 @@ class SocketService extends Observer {
 			}
 
 			this._lastRequestTime = response.serverTime;
+
+			this._interceptors.forEach((interceptor) => {
+				if (interceptor.transformResponse) {
+					response = interceptor.transformResponse(response, request);
+				}
+			});
 
 			if (response.error) {
 				socketError(response);
@@ -227,21 +218,11 @@ class SocketService extends Observer {
 				}
 			}
 
-			socketDebug(response);
-
-			this._interceptors.forEach((interceptor) => {
-				if (interceptor.transformResponse) {
-					response = interceptor.transformResponse(response);
-				}
-			});
-
 			return response;
 		}).finally(() => {
 			this._loading--;
 			this.notify(null, "response");
-		});
-
-		return resultPromise.nodeify(cb);
+		}).nodeify(cb)
 	}
 
 	awaitNoRequests() {
@@ -277,7 +258,7 @@ class SocketService extends Observer {
 	}
 
 	/** definitly emits the request. might emit it multiple times! **/
-	definitlyEmit (channel: string, request: any, callback?: Function) : Bluebird<any> {
+	definitlyEmit (channel: string, request: any) : Bluebird<any> {
 		var SOCKET_TIMEOUT = 10000;
 
 		return this.awaitConnection().then(() => {
@@ -285,9 +266,9 @@ class SocketService extends Observer {
 		}).catch((e) => {
 			console.error(e);
 			return Bluebird.delay(500).then(() => {
-				return this.definitlyEmit(channel, request, callback);
+				return this.definitlyEmit(channel, request);
 			});
-		}).nodeify(callback);
+		})
 	}
 
 	channel (channel: string, callback: Function) {

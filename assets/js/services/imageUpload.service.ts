@@ -1,13 +1,11 @@
 import * as Bluebird from "bluebird"
-import $ from "jquery"
 import h from "../helper/helper"
 import screenSizeService from "./screenSize.service"
 import FileUpload from "./fileUpload.service"
+import blobService from "./blobService"
 
 var Queue = require("asset/Queue");
-var imageLib = require("imageLib");
-
-import blobService from "./blobService"
+var imageLib = require("blueimp-load-image/js/load-image");
 
 var canvasToBlob : any = Bluebird.promisify(h.canvasToBlob.bind(h));
 
@@ -24,7 +22,8 @@ type size = {
 	name: string,
 	restrictions?: {
 		maxWidth: number,
-		maxHeight: number
+		maxHeight: number,
+		square?: boolean
 	}
 }
 
@@ -34,6 +33,7 @@ type options = {
 	gifSizes: size[],
 	gif: boolean,
 	encrypt: boolean,
+	extraInfo: Object
 }
 
 var defaultOptions: options = {
@@ -74,7 +74,8 @@ var defaultOptions: options = {
 		}
 	],
 	gif: true,
-	encrypt: true
+	encrypt: true,
+	extraInfo: {}
 };
 
 /* TODO:
@@ -182,6 +183,11 @@ class ImageUpload extends FileUpload {
 		var diff = canvas.width - canvas.height;
 
 		var newCtx = canvas.getContext("2d");
+
+		if (newCtx === null) {
+			throw new Error("could not initialize canvas context")
+		}
+
 		newCtx.translate(canvas.width/2, canvas.height/2);
 		newCtx.rotate(angle);
 		newCtx.translate(-canvas.width/2, -canvas.height/2);
@@ -271,9 +277,13 @@ class ImageUpload extends FileUpload {
 		return this.url;
 	};
 
-	upload = (encryptionKey) => {
+	upload = (encryptionKey?) => {
 		if (!this.blobs) {
 			throw new Error("usage error: prepare was not called!");
+		}
+
+		if (this.options.encrypt && !encryptionKey) {
+			throw new Error("No encryption key given")
 		}
 
 		return uploadQueue.enqueue(1, () => {
@@ -291,18 +301,21 @@ class ImageUpload extends FileUpload {
 	private _createSizeData = (size: size) => {
 		return resizeQueue.enqueue(1, () => {
 			return this._resizeFile(size).then((resizedImage) => {
-				return FileUpload.blobToDataSet(blobService.createBlob(resizedImage.blob)).then((data: any) => {
+				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage.blob)).then((data: any) => {
 					data.content.gif = this.isGif;
 					data.content.width = resizedImage.width
 					data.content.height = resizedImage.height
 
-					return $.extend({}, data, { size: size });
+					return {
+						...data,
+						size,
+					}
 				})
 			})
 		});
 	};
 
-	prepare = h.cacheResult(() => {
+	prepare = h.cacheResult<Bluebird<any>>(() => {
 		this.isGif = !!this.file.type.match(/image.gif/i);
 
 		var sizes = this.isGif ? this.options.gifSizes : this.options.sizes;
@@ -339,7 +352,10 @@ class ImageUpload extends FileUpload {
 			return Bluebird.resolve(this.file);
 		}
 
-		var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
+		var options: any = {
+			...sizeOptions.restrictions || {},
+			canvas: true
+		}
 
 		return this._getImage().then((img) => {
 			if (options.square) {

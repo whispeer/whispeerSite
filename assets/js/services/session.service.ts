@@ -1,10 +1,11 @@
-import Storage from "./Storage";
-import { withPrefix } from "./storage.service";
-import keyStore from "./keyStore.service";
-
-import { landingPage } from "./location.manager";
-
 import * as Bluebird from "bluebird"
+
+import Storage from "./Storage";
+import blobCache from "../asset/blobCache"
+import Cache from "../services/Cache"
+import keyStore from "./keyStore.service";
+import { landingPage } from "./location.manager";
+import { withPrefix } from "./storage.service";
 
 export class SessionService {
 	sid: string = "";
@@ -27,7 +28,7 @@ export class SessionService {
 
 	setLoginData = (_sid: string, _userid: any) => {
 		this.sid = _sid;
-		this.userid = _userid;
+		this.userid = parseInt(_userid, 10)
 		this.loggedin = true;
 
 		this.loginResolve()
@@ -44,10 +45,9 @@ export class SessionService {
 
 	loadLogin = () => {
 		return this.sessionStorage.awaitLoading().then(() => {
-			return this.sessionStorage.get("loggedin") === "true" && this.sessionStorage.get("password");
-		}).then((loggedin: boolean) => {
+			const loggedin = this.sessionStorage.get("loggedin") === "true" && this.sessionStorage.get("password");
 			if (!loggedin) {
-				return this.sessionStorage.clear().thenReturn(false);
+				return this.clear().thenReturn(false);
 			}
 
 			this.setPassword(this.sessionStorage.get("password"));
@@ -61,21 +61,20 @@ export class SessionService {
 		return this.sid;
 	}
 
-	getUserID = () => {
-		// parseFloat is slightly faster than parseInt
-		return parseFloat(this.userid);
+	getUserID = () => this.userid
+
+	isOwnUserID = (id) => parseInt(id, 10) === this.userid
+
+	clear = () => {
+		return Bluebird.all([
+			blobCache.clear(),
+			this.sessionStorage.clear(),
+			Bluebird.resolve(Cache.deleteDatabase()),
+		].map(p => p.reflect()))
 	}
 
 	logout = () => {
-		if (this.loggedin) {
-			this.sessionStorage.clear().then(() => {
-				landingPage();
-
-				if (window.indexedDB) {
-					window.indexedDB.deleteDatabase("whispeerCache");
-				}
-			});
-		}
+		this.clear().finally(landingPage)
 	}
 
 	isLoggedin = () => {

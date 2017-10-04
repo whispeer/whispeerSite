@@ -3,7 +3,7 @@ var errorService = require("services/error.service").errorServiceInstance;
 var keyStore = require("services/keyStore.service").default;
 var sessionService = require("services/session.service").default;
 var socketService = require("services/socket.service").default;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 
@@ -61,7 +61,7 @@ function recoveryController($scope) {
 		}
 
 		var savePromise = Bluebird.try(function () {
-			return userService.getown().changePassword($scope.changePassword.password);
+			return userService.getOwn().changePassword($scope.changePassword.password);
 		}).then(function () {
 			if (window.indexedDB) {
 				window.indexedDB.deleteDatabase("whispeerCache");

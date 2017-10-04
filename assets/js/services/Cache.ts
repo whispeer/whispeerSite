@@ -1,63 +1,70 @@
 import { errorServiceInstance } from "./error.service";
 import * as Bluebird from "bluebird";
-import Dexie from "dexie";
 import h from "../helper/helper"
+import idb, { Cursor, DB } from "idb" // tslint:disable-line:no-unused-variable
 
-var db: Dexie;
+const REINIT_CACHE_TIMEOUT = 2000
+let dbPromise: Promise<DB>, cachesDisabled
+
+const initCache = () => {
+	cachesDisabled = false
+
+	dbPromise = idb.open("whispeerCache", 10, upgradeDB => {
+		const objectStore = upgradeDB.createObjectStore('cache', { keyPath: "id" });
+
+		objectStore.createIndex("created", "created", { unique: false });
+		objectStore.createIndex("used", "used", { unique: false });
+		objectStore.createIndex("type", "type", { unique: false });
+		objectStore.createIndex("size", "size", { unique: false });
+	})
+
+	dbPromise.catch((e) => {
+		console.warn("Disabling indexedDB caching due to error", e)
+
+		cachesDisabled = true
+	})
+}
+
+initCache()
 
 try {
 	indexedDB.deleteDatabase("whispeer");
 } catch (e) {}
 
-try {
-	db = new Dexie("whispeerCache");
+const followCursorUntilDone = (cursorPromise: Promise<Cursor>, action) => {
+	return Bluebird.try(async () => {
+		let cursor = await cursorPromise
 
-	db.version(1).stores({
-		cache: "id,created,used,type,size"
-	});
+		while (cursor) {
+			action(cursor)
 
-	db.open();
-} catch (e) {
-	console.error(e);
-	console.error("Dexie failed to initialize...");
+			cursor = await cursor.continue()
+		}
+	})
 }
 
 export default class Cache {
-	private _name: string;
-	private _options: any;
+	private options: any
+	private cacheDisabled: boolean = false
 
-	private _db: any; // Once open the db has attributes for tables which are not defined in the class.
-	private _cacheDisabled: boolean = false;
+	static deleteDatabase() {
+		cachesDisabled = true
 
-	constructor(name : string, options?: any) {
-		this._name = name;
-		this._options = options || {};
-		this._options.maxEntries = this._options.maxEntries || 100;
-		this._options.maxBlobSize = this._options.maxBlobSize || 1*1024*1024;
-
-		this._db = db;
-
-		if (this._db) {
-			this._db.on("blocked", errorServiceInstance.logError);
-		} else {
-			this.disable();
-		}
+		return dbPromise.then((db) =>
+			db.close()
+		).then(() =>
+			idb.delete("whispeerCache")
+		).then(() => {
+			setTimeout(() => {
+				initCache()
+			}, REINIT_CACHE_TIMEOUT)
+		})
 	}
 
-	entries() {
-		if (this._cacheDisabled) {
-			return Bluebird.resolve();
-		}
-
-		return this._db.cache.where("type").equals(this._name);
-	}
-
-	entryCount() : Bluebird<any> {
-		if (this._cacheDisabled) {
-			return Bluebird.reject("");
-		}
-
-		return Bluebird.resolve(this._db.cache.where("type").equals(this._name).count());
+	constructor(private name : string, options?: any) {
+		this.options = options || {};
+		this.options.maxEntries = this.options.maxEntries || 100;
+		this.options.maxBlobSize = this.options.maxBlobSize || 1*1024*1024;
 	}
 
 	static sumSize (arr: any[]) {
@@ -66,19 +73,8 @@ export default class Cache {
 		}, 0);
 	}
 
-	_fixBlobStorage(cacheEntry: any) {
-		var blobToDataURI = Bluebird.promisify(h.blobToDataURI.bind(h));
-
-		return Bluebird.resolve(cacheEntry.blobs)
-			.map(blobToDataURI)
-			.then((blobsAsUri) => {
-				cacheEntry.blobs = blobsAsUri;
-				return this._db.cache.add(cacheEntry);
-			});
-	}
-
 	store(id: string, data: any, blobs?: any): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (this.isDisabled()) {
 			return Bluebird.resolve();
 		}
 
@@ -86,20 +82,16 @@ export default class Cache {
 			blobs = [blobs];
 		}
 
-		if (blobs && this._options.maxBlobSize !== -1 && Cache.sumSize(blobs) > this._options.maxBlobSize) {
+		if (blobs && this.options.maxBlobSize !== -1 && Cache.sumSize(blobs) > this.options.maxBlobSize) {
 			return Bluebird.resolve();
 		}
-
-		Bluebird.delay(0).bind(this).then(function () {
-			return this.cleanUp();
-		}).catch(errorServiceInstance.criticalError);
 
 		var cacheEntry = {
 			data: JSON.stringify(data),
 			created: new Date().getTime(),
 			used: new Date().getTime(),
-			id: this._name + "/" + id,
-			type: this._name,
+			id: this.getID(id),
+			type: this.name,
 			size: 0,
 			blobs: <any>[]
 		};
@@ -109,64 +101,88 @@ export default class Cache {
 			cacheEntry.size = Cache.sumSize(blobs);
 		}
 
-		return Bluebird.resolve(
-			this._db.cache.put(cacheEntry)
-			.catch((e: any) => {
-				console.warn(e);
-				if (e.code && e.code === e.DATA_CLONE_ERR) {
-					return this._fixBlobStorage(cacheEntry);
-				} else {
-					return Bluebird.reject(e);
-				}
-			})
-		).catch(errorServiceInstance.criticalError);
+		return Bluebird.try(async () => {
+			const db = await dbPromise
+
+			console.info(`Storing in indexeddb ${this.getID(id)}`)
+
+			const tx = db.transaction('cache', 'readwrite')
+			tx.objectStore('cache').put(cacheEntry)
+
+			await tx.complete
+		}).catch(errorServiceInstance.criticalError);
+	}
+
+	contains(id: string): Bluebird<boolean> {
+		if (this.isDisabled()) {
+			return Bluebird.reject(new Error(`Cache is disabled ${this.name}`));
+		}
+
+		return Bluebird.try(async () => {
+			const db = await dbPromise
+			const tx = db.transaction("cache", "readonly")
+			const count = await tx.objectStore("cache").count(`${this.name}/${id}`)
+
+			return count > 0
+		})
 	}
 
 	get(id: string): Bluebird<any> {
-		if (this._cacheDisabled) {
-			return Bluebird.reject(new Error("Cache is disabled"));
+		if (this.isDisabled()) {
+			return Bluebird.reject(new Error(`Cache is disabled ${this.name}`));
 		}
 
-		var theCache = this;
-		var cacheResult = this._db.cache.where("id").equals(this._name + "/" + id);
+		/*
+		var cacheResult = this._db.cache.where("id").equals(this.name + "/" + id);
 
-		this._db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
+		this._db.cache.where("id").equals(this.name + "/" + id).modify({ used: new Date().getTime() });
+		*/
 
-		return Bluebird.resolve(cacheResult.first().then((data: any) => {
-			if (typeof data !== "undefined") {
-				data.data = JSON.parse(data.data);
+		return Bluebird.try(async () => {
+			const db = await dbPromise
+			const tx = db.transaction("cache", "readonly")
+			const data = await tx.objectStore("cache").get(`${this.name}/${id}`)
 
-				data.blobs = data.blobs || [];
-
-				data.blobs = data.blobs.map((blob: any) => {
-					if (typeof blob === "string") {
-						return h.dataURItoBlob(blob);
-					}
-
-					return blob;
-				});
-
-				if (data.blobs.length === 1) {
-					data.blob = data.blobs[0];
-				}
-
-				return data;
+			if (typeof data === "undefined") {
+				throw new Error(`cache miss for ${this.getID(id)}`);
 			}
 
-			throw new Error("cache miss for " + theCache._name + "/" + id);
-		}));
+			data.data = JSON.parse(data.data);
+
+			data.blobs = data.blobs || [];
+
+			data.blobs = data.blobs.map((blob: any) => {
+				if (typeof blob === "string") {
+					return h.dataURItoBlob(blob);
+				}
+
+				return blob;
+			});
+
+			if (data.blobs.length === 1) {
+				data.blob = data.blobs[0];
+			}
+
+			return data;
+		})
 	}
 
 	/**
 	 * get all cache entries as a dexie collection.<
 	 * @return {Bluebird<any>} Promise containing all cache entries as a dexie collection.
 	 */
-	all(): any {
-		if (this._cacheDisabled) {
+	all(): Bluebird<any> {
+		if (this.isDisabled()) {
 			return Bluebird.resolve([]);
 		}
 
-		return this._db.cache.where("id").startsWith(this._name + "/");
+		const entries = []
+
+		return this.cursorEach((cursor) => entries.push(cursor.value), "readonly").then(() => entries)
+	}
+
+	getID(id) {
+		return `${this.name}/${id}`
 	}
 
 	/**
@@ -175,35 +191,45 @@ export default class Cache {
 	 * @return {Bluebird<any>}    [description]
 	 */
 	delete(id: string): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (this.isDisabled()) {
 			return Bluebird.resolve();
 		}
 
-		return this._db.cache.where("id").equals(this._name + "/" + id).delete();
+		return Bluebird.try(async () => {
+			const db = await dbPromise
+
+			const tx = db.transaction("cache", "readwrite")
+
+			await tx.objectStore("cache").delete(this.getID(id))
+		})
 	}
 
-	cleanUp() {
-		if (this._cacheDisabled) {
+	deleteAll(): Bluebird<any> {
+		if (this.isDisabled()) {
 			return Bluebird.resolve();
 		}
 
-		if (this._options.maxEntries === -1) {
-			return;
-		}
+		const deleteRequests = []
 
-		//remove data which hasn't been used in a long time
-		return Bluebird.resolve(
-			this.entryCount().bind(this).then((count) => {
-				console.log("Contains: " + count + " Entries (" + this._name + ")");
-				if (count > this._options.maxEntries) {
-					console.warn("cleaning up cache " + this._name);
-					this._db.cache.orderBy("used").limit(count - this._options.maxEntries).delete();
-				}
-			})
-		);
-	};
+		return this.cursorEach((cursor) => deleteRequests.push(cursor.delete()), "readwrite").then(() => Bluebird.all(deleteRequests))
+	}
 
-	private disable() {
-		this._cacheDisabled = true;
+	private cursorEach(action, transactionType: "readonly" | "readwrite") {
+		return Bluebird.try(async () => {
+			const db = await dbPromise
+
+			const tx = db.transaction("cache", transactionType)
+			const cursorPromise = tx.objectStore("cache").index("type").openCursor(this.name)
+
+			await followCursorUntilDone(cursorPromise, action)
+		})
+	}
+
+	private isDisabled() {
+		return cachesDisabled || this.cacheDisabled
+	}
+
+	disable() {
+		this.cacheDisabled = true;
 	}
 }

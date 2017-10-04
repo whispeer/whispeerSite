@@ -2,7 +2,7 @@
 * friendsService
 **/
 
-var h = require("whispeerHelper").default;
+var h = require("../helper/helper").default;
 var Observer = require("asset/observer");
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");
@@ -103,18 +103,18 @@ function generateRemovalData(ownUser, otherUser) {
 }
 
 function addAsFriend(uid) {
-	var otherUser, friendShipKey, userService = require("user/userService");
+	var otherUser, friendShipKey, userService = require("users/userService").default;
 	return Bluebird.try(function () {
 		return friendsService.awaitLoading();
 	}).then(function () {
 		return userService.get(uid);
 	}).then(function (u) {
 		otherUser = u;
-		return createBasicData(userService.getown(), otherUser);
+		return createBasicData(userService.getOwn(), otherUser);
 	}).then(function (result) {
 		friendShipKey = result.key;
 
-		var friendsKey = userService.getown().getFriendsKey();
+		var friendsKey = userService.getOwn().getFriendsKey();
 		result.data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
 
 		return socket.emit("friends.add", result.data);
@@ -165,7 +165,7 @@ socket.channel("friendOnlineChange", function (e, requestData) {
 });
 
 function checkAndRemove(uid) {
-	var userService = require("user/userService");
+	var userService = require("users/userService").default;
 	return Bluebird.try(function () {
 		return Bluebird.all([
 			userService.get(uid),
@@ -175,7 +175,7 @@ function checkAndRemove(uid) {
 		]);
 	}).spread(function (user, data) {
 		var signedData = data.signedData;
-		if (h.parseDecimal(signedData.user) !== userService.getown().getID() || signedData.initial === "false") {
+		if (h.parseDecimal(signedData.user) !== userService.getOwn().getID() || signedData.initial === "false") {
 			throw new Error("invalid signed removal");
 		}
 
@@ -186,7 +186,7 @@ function checkAndRemove(uid) {
 }
 
 function removeUnfriendedPersons() {
-	var userService = require("user/userService");
+	var userService = require("users/userService").default;
 	return Bluebird.try(function () {
 		return userService.getMultiple(removed);
 	}).then(function (removedFriends) {
@@ -228,8 +228,8 @@ friendsService = {
 			throw new Error("not a friend!");
 		}
 
-		var userService = require("user/userService"), circleService = require("circles/circleService");
-		var otherUser, ownUser = userService.getown(), userCircles = circleService.inWhichCircles(uid);
+		var userService = require("users/userService").default, circleService = require("circles/circleService");
+		var otherUser, ownUser = userService.getOwn(), userCircles = circleService.inWhichCircles(uid);
 
 		return Bluebird.try(function () {
 			return userService.get(uid);
@@ -375,7 +375,7 @@ friendsService = {
 		return keys;
 	},
 	load: function () {
-		var userService = require("user/userService");
+		var userService = require("users/userService").default;
 
 		return socket.definitlyEmit("friends.all", {}).then(function (data) {
 			friends = data.friends.map(h.parseDecimal);
@@ -394,10 +394,10 @@ friendsService = {
 				throw new Error("unmatching arrays");
 			}
 
-			return userService.verifyOwnKeysDone().thenReturn(data);
+			return userService.getOwnAsync().thenReturn(data);
 		}).then(function (data) {
 			if (data.signedList) {
-				return signedList.verify(userService.getown().getSignKey(), "user");
+				return signedList.verify(userService.getOwn().getSignKey(), "user");
 			}
 		}).then(function () {
 			friendsServiceLoaded = true;
@@ -440,11 +440,11 @@ initService.awaitLoading().then(function () {
 
 socket.channel("notify.signedList", function (e, data) {
 	if (signedList.metaAttr("_signature") !== data._signature) {
-		var userService = require("user/userService");
+		var userService = require("users/userService").default;
 		var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });
 
 		Bluebird.try(function () {
-			return updatedSignedList.verify(userService.getown().getSignKey(), null, "user");
+			return updatedSignedList.verify(userService.getOwn().getSignKey(), null, "user");
 		}).then(function () {
 			signedList = updatedSignedList;
 		});

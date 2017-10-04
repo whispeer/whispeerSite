@@ -2,7 +2,7 @@ import * as Bluebird from 'bluebird';
 
 import socketService from "../services/socket.service"
 
-import ObjectLoader from "../services/objectLoader"
+import ObjectLoader from "../services/mutableObjectLoader"
 
 import ChunkLoader, { Chunk } from "./chatChunk"
 import MessageLoader, { Message } from "./message"
@@ -12,6 +12,8 @@ import h from "../helper/helper"
 import Cache from "../services/Cache";
 import keyStore from "../services/keyStore.service"
 import Observer from "../asset/observer"
+import settings from "../services/settings.service"
+import sessionService from "../services/session.service"
 
 const initService = require("services/initService");
 
@@ -61,37 +63,85 @@ window.addEventListener("beforeunload", function (e) {
 	return
 });
 
+const verifyMessageAssociations = (message: Message, latestChunkID: number) => {
+	return Bluebird.all([
+		ChunkLoader.get(message.getChunkID()),
+		ChunkLoader.get(latestChunkID),
+	]).then(([messageChunk, latestChunk]) => {
+		message.verifyParent(messageChunk)
+
+		return Chunk.loadChunkChain(latestChunk, messageChunk).thenReturn([latestChunk, messageChunk])
+	}).then(([latestChunk, messageChunk]) => {
+		latestChunk.ensureChunkChain(messageChunk)
+	})
+}
+
 export class Chat extends Observer {
 	//Sorted IDs
 	private messages:timeArray = []
 	private chatUpdates:timeArray = []
-	private messagesAndUpdates:timeArray = []
 
 	private chunkIDs: number[] = []
+
+	private loadMissingMessagesPromise = Bluebird.resolve()
+	private waitingMissingMessages = false
+
+	private lastStoredInfo: {
+		id: any,
+		unreadMessageIDs: any[],
+		latestMessageID: any,
+		latestChunkID: any
+	}
 
 	// Unsorted IDs
 	private unreadMessageIDs: number[] = []
 
 	private id: number
 
-	private loadingInfo: {
-		latestMessageID: number,
-		latestChunkID: number
-	}
-
 	public newMessage = ""
 
-	constructor({ id, latestMessageID, latestChunkID, unreadMessageIDs }) {
+	constructor({ id, latestMessage, latestChunk, unreadMessageIDs }) {
 		super()
 
 		this.id = id
 
-		this.loadingInfo = {
-			latestMessageID: latestMessageID,
-			latestChunkID: latestChunkID,
+		this.update({ latestChunk, latestMessage, unreadMessageIDs })
+	}
+
+	private store = () => {
+		const storeInfo = {
+			id: this.id,
+			unreadMessageIDs: this.unreadMessageIDs,
+			latestMessageID: this.getLatestMessage(),
+			latestChunkID: this.getLatestChunk()
 		}
 
+		if (h.deepEqual(this.lastStoredInfo, storeInfo)) {
+			return
+		}
+
+		this.lastStoredInfo = storeInfo
+
+		ChatLoader.updateCache(this.id, storeInfo)
+	}
+
+	isBlocked = () => {
+		if (this.getReceiverIDs.length > 2) {
+			return false
+		}
+
+		const otherReceiver = this.getReceiverIDs().find((id) => id !== sessionService.getUserID())
+		return settings.isBlocked(otherReceiver)
+	}
+
+	update = ({ latestChunk, latestMessage, unreadMessageIDs }) => {
 		this.unreadMessageIDs = unreadMessageIDs
+
+		this.addChunkID(latestChunk.getID(), false)
+
+		if (latestMessage) {
+			this.addMessage(latestMessage, false)
+		}
 	}
 
 	getID = () => {
@@ -102,12 +152,20 @@ export class Chat extends Observer {
 		return unreadChatIDs.indexOf(this.id) > -1
 	}
 
-	removeMessageID = (removeID) => {
+	isMessageUnread = (message: Message) =>
+			this.unreadMessageIDs.indexOf(message.getClientID()) > -1
+
+	private removeMessageID = (removeID) => {
 		this.messages = this.messages.filter(({ id }) => removeID !== id)
-		this.messagesAndUpdates = this.messagesAndUpdates.filter(({ id: { id } }) => removeID !== id)
 	}
 
-	addMessageID = (id, time) => {
+	addMessage = (message: Message, updateCache = true) => {
+		this.addMessageID(message.getClientID(), message.getTime(), updateCache)
+
+		this.scheduleLoadMissingMessages()
+	}
+
+	private addMessageID = (id, time, updateCache = true) => {
 		const alreadyAdded = this.messages.find((message) => message.id === id)
 
 		if (alreadyAdded) {
@@ -115,94 +173,172 @@ export class Chat extends Observer {
 		}
 
 		this.messages = addAfterTime(this.messages, id, time)
-		this.messagesAndUpdates = addAfterTime(this.messagesAndUpdates, { type: "message", id }, time)
-	}
 
-	addChatUpdateID = (id, time) => {
-		const alreadyAdded = this.chatUpdates.find((chatUpdate) => chatUpdate.id === id)
-
-		if (alreadyAdded) {
-			return
+		if (updateCache) {
+			this.store()
 		}
-
-		this.chatUpdates = addAfterTime(this.chatUpdates, id, time)
-		this.messagesAndUpdates = addAfterTime(this.messagesAndUpdates, { type: "chatUpdate", id }, time)
 	}
 
-	verifyMessageAssociations = (message: Message) => {
-		return Bluebird.all([
-			ChunkLoader.get(message.getChunkID()),
-			ChunkLoader.get(h.array.last(this.chunkIDs)),
-		]).then(([messageChunk, latestChunk]) => {
-			message.verifyParent(messageChunk)
+	verifyMessageAssociations = (message: Message) =>
+		verifyMessageAssociations(message, h.array.last(this.chunkIDs))
 
-			return Chunk.loadChunkChain(latestChunk, messageChunk).thenReturn([latestChunk, messageChunk])
-		}).then(([latestChunk, messageChunk]) => {
-			latestChunk.ensureChunkChain(messageChunk)
-		})
-	}
-
-	addChunkID = (chunkID) => {
+	addChunkID = (chunkID, updateCache = true) => {
 		if (this.chunkIDs.indexOf(chunkID) > -1) {
 			return
 		}
 
 		this.chunkIDs = [...this.chunkIDs, chunkID].sort((a, b) => a - b)
+
+		if (updateCache) {
+			this.store()
+		}
 	}
 
-	load = h.cacheResult<Bluebird<any>>(() => {
+	private hasMessage = (id) =>
+		this.messages.find((message) => message.id === id)
+
+	private loadPreviousMessagesFromCache = (message: Message, limit = 20) => {
+		const messagesLoaded = []
+
 		return Bluebird.try(async () => {
-			const { latestChunkID, latestMessageID } = this.loadingInfo
+			let currentMessage = message
 
-			const latestChunk = await ChunkLoader.get(latestChunkID)
+			for (let i = 0; i < limit; i += 1) {
+				if (!currentMessage.getPreviousID()) {
+					return messagesLoaded
+				}
 
-			this.chunkIDs = [latestChunk.getID()]
+				const previousMessage = await MessageLoader.getFromCache(currentMessage.getPreviousID())
 
-			if (!latestMessageID) {
-				return
+				await this.verifyMessageAssociations(previousMessage)
+
+				if (this.hasMessage(previousMessage.getClientID())) {
+					return messagesLoaded
+				}
+
+				messagesLoaded.push(previousMessage)
+
+				currentMessage = previousMessage
 			}
 
-			const latestMessage = await MessageLoader.get(latestMessageID)
-
-			await this.verifyMessageAssociations(latestMessage)
-
-			this.addMessageID(latestMessage.getClientID(), latestMessage.getTime())
+			return messagesLoaded
+		}).catch(() => messagesLoaded).then((messages) => {
+			messages.forEach((m) => this.addMessage(m))
+			return messages
 		})
-	})
+	}
 
-	loadMoreMessages() {
-		const oldestKnownMessage = this.messages.length === 0 ? 0 : MessageLoader.getLoaded(this.messages[0].id).getServerID()
-
+	private loadMissingMessages = () => {
 		return Bluebird.try(async () => {
-			const { messages, chunks = [], remainingMessagesCount } = await socketService.emit("chat.getMessages", {
+			const batchSizes = [1, 3, 10, 20]
+			let iteration = 0, batchSize
+
+			while(batchSize = batchSizes[iteration++]) {
+				const knownMessages = this.messages
+					.map(({ id }) => MessageLoader.getLoaded(id))
+					.filter((m) => m.hasBeenSent())
+
+				if (knownMessages.length < 2) {
+					return
+				}
+
+				const ids = knownMessages.map((m) => m.getClientID())
+
+				const messagesWithoutPredecessor = knownMessages.filter((m) =>
+					ids.indexOf(m.getPreviousID()) === -1
+				).sort((a, b) => a.getTime() - b.getTime())
+
+				if (knownMessages.filter((m) => !m.getPreviousID()).length > 1) {
+					console.warn("Got more than one last message in chat. Aborting!")
+					return
+				}
+
+				if (messagesWithoutPredecessor.length === 1) {
+					console.warn("No more missing messages")
+					return
+				}
+
+				console.warn(`Loading batch size ${batchSize} messages. Missing ${messagesWithoutPredecessor.length}`)
+
+				await Bluebird.all(messagesWithoutPredecessor.map((m) => {
+					return this.loadOlderMessages(m, batchSize)
+				}))
+			}
+
+			//TODO we were unable to finish in 34 messages :(
+			//TODO remove everything except first block
+		})
+	}
+
+	// TODO: Check if this leaks memory
+	scheduleLoadMissingMessages = () => {
+		if (this.messages.length < 2) {
+			return
+		}
+
+		if (this.waitingMissingMessages) {
+			return
+		}
+
+		this.waitingMissingMessages = true
+
+		console.warn("Scheduling missing message check")
+
+		this.loadMissingMessagesPromise = this.loadMissingMessagesPromise
+			.delay(50)
+			.finally(() => {
+				this.waitingMissingMessages = false
+				return this.loadMissingMessages()
+			})
+
+		return this.loadMissingMessagesPromise
+	}
+
+	loadOlderMessages(message: Message, limit = 20) {
+		return Bluebird.try(async () => {
+			if (message) {
+				const messagesFromCache = await this.loadPreviousMessagesFromCache(message, limit)
+
+				limit -= messagesFromCache.length
+
+				if (limit < 1) {
+					return
+				}
+
+				if (messagesFromCache.length > 0) {
+					message = h.array.last(messagesFromCache)
+				}
+			}
+
+			const { messages, chunks = [], remainingMessagesCount } = await socketService.definitlyEmit("chat.getMessages", {
 				id: this.getID(),
-				oldestKnownMessage
+				oldestKnownMessage: message ? message.getServerID() : 0,
+				limit
 			})
 
 			await Bluebird.all<Chunk>(chunks.map((chunk) => ChunkLoader.load(chunk)))
 
 			const messagesObjects = await Bluebird.all<Message>(messages.map((message) => MessageLoader.load(message)))
-
 			await Bluebird.all(messagesObjects.map((message) => this.verifyMessageAssociations(message)))
 
 			messagesObjects.forEach((message) =>
-				this.addMessageID(message.getClientID(), message.getTime())
+				this.addMessage(message)
 			)
 
-			return { remaining: remainingMessagesCount }
+			return remainingMessagesCount
 		})
 	}
 
-	loadInitialMessages = h.cacheResult<Bluebird<any>>(() => {
-		return this.loadMoreMessages()
-	})
+	loadMoreMessages() {
+		const oldestKnownMessage = this.messages.length === 0 ? null : MessageLoader.getLoaded(this.messages[0].id)
+
+		return this.loadOlderMessages(oldestKnownMessage)
+	}
+
+	loadInitialMessages = h.cacheResult<Bluebird<any>>(() => this.loadMoreMessages())
 
 	getMessages() {
 		return this.messages
-	}
-
-	getMessagesAndUpdates() {
-		return this.messagesAndUpdates
 	}
 
 	getChatUpdates() {
@@ -234,6 +370,7 @@ export class Chat extends Observer {
 		unreadChatIDs = unreadChatIDs.filter((id) => id !== this.id)
 
 		this.notify(this.getID(), "read")
+		this.store()
 	}
 
 	markRead() {
@@ -254,6 +391,8 @@ export class Chat extends Observer {
 		if (unreadChatIDs.indexOf(this.id) === -1) {
 			unreadChatIDs.push(this.id)
 		}
+
+		this.store()
 	}
 
 	isAdmin = (user) => {
@@ -395,7 +534,7 @@ export class Chat extends Observer {
 			const content = { title }
 			const meta = { admins }
 
-			const newKey = addedReceiver.length > 0 && removedReceiver.length > 0
+			const newKey = addedReceiver.length > 0 || removedReceiver.length > 0
 
 			return Chunk.createRawData(receiver, {
 				content,
@@ -439,12 +578,12 @@ export class Chat extends Observer {
 		return this.sendMessage(messageData.message, { images: [], files: [] }, messageData.id);
 	};
 
-	private storeMessage = (messageObject, message, attachments, id) => {
+	private storeMessage = (messageObject, message, id) => {
 		if (!id) {
 			return Bluebird.resolve()
 		}
 
-		if (attachments.images.length > 0 && attachments.files.length > 0) {
+		if (message.hasAttachments()) {
 			return Bluebird.resolve()
 		}
 
@@ -463,12 +602,12 @@ export class Chat extends Observer {
 	sendMessage = (message, attachments, id?) => {
 		var messageObject = new Message(message, this, attachments, id)
 
-		this.storeMessage(messageObject, message, attachments, id).finally(() => {
+		this.storeMessage(messageObject, message, id).finally(() => {
 			var sendMessagePromise = messageObject.sendContinously();
 
 			sendMessagePromise.then(() => {
 				this.removeMessageID(messageObject.getClientID())
-				this.addMessageID(messageObject.getClientID(), messageObject.getTime())
+				this.addMessage(messageObject)
 
 				return messageSendCache.delete(messageObject.getClientID());
 			});
@@ -490,42 +629,68 @@ export class Chat extends Observer {
 	}
 }
 
-const loadHook = (chatResponse) => {
-	const loadChunks = Bluebird.all(chatResponse.chunks.map((chunkData) =>
-		ChunkLoader.load(chunkData)
-	))
-
-	const loadMessages = Bluebird.all(chatResponse.messages.map((messageData) =>
-		MessageLoader.load(messageData)
-	))
-
-	const chat = new Chat(chatResponse.chat)
-
-	return Bluebird.all([
-		loadChunks,
-		loadMessages,
-	]).then(() => chat.load()).thenReturn(chat)
+type ChatCache = {
+	id: number,
+	latestMessageID: any,
+	latestChunkID: any,
+	unreadMessageIDs: any
 }
 
-const downloadHook = (id) => {
-	return socketService.emit("chat.get", { id }).then((response) => response.chat)
-}
+export default class ChatLoader extends ObjectLoader<Chat, ChatCache>({
+	download: (id) =>
+		socketService.definitlyEmit("chat.get", { id }).then((response) => response.chat),
+	load: (chatResponse) => {
+		const loadChunks = Bluebird.all(chatResponse.chunks.map((chunkData) =>
+			ChunkLoader.load(chunkData)
+		))
 
-const idHook = (response) => response.chat.id
+		const loadMessages = Bluebird.all(chatResponse.messages.map((messageData) =>
+			MessageLoader.load(messageData)
+		))
 
-const hooks = {
-	downloadHook, loadHook, idHook
-}
+		const { id, latestMessageID, latestChunkID, unreadMessageIDs } = chatResponse.chat
 
-export default class ChatLoader extends ObjectLoader(hooks) {}
+		return Bluebird.all([
+			loadChunks,
+			loadMessages,
+		]).thenReturn({ id, latestMessageID, latestChunkID, unreadMessageIDs })
+	},
+	getID: (response) => response.chat.id,
+	restore: (chatInfo, previousInstance) => {
+		return Bluebird.try(async function () {
+			const { id, latestMessageID, latestChunkID, unreadMessageIDs } = chatInfo
+
+			const latestMessage = latestMessageID ? await MessageLoader.get(latestMessageID) : null
+			const latestChunk = await ChunkLoader.get(latestChunkID)
+
+			if (latestMessage) {
+				await verifyMessageAssociations(latestMessage, latestChunk.getID())
+			}
+
+			if (previousInstance) {
+				previousInstance.update({ unreadMessageIDs, latestMessage, latestChunk })
+				return previousInstance
+			}
+
+			return new Chat({
+				id,
+				latestMessage,
+				latestChunk,
+				unreadMessageIDs
+			})
+		})
+	},
+	shouldUpdate: () => Bluebird.resolve(true),
+	cacheName: "chat"
+}) {}
 
 let lastLoaded = 0
 
-const localMarkChatsRead = (unreadIDs) => {
+const setUnreadChatIDs = (unreadIDs) => {
 	const chats = ChatLoader.getAll()
 
 	Object.keys(chats).forEach((id) => {
-		const chat = chats[id]
+		const chat = chats[id].instance
 
 		if (unreadIDs.indexOf(chat.getID()) !== -1) {
 			return
@@ -547,7 +712,7 @@ socketService.channel("unreadChats", (e, data) => {
 		return
 	}
 
-	localMarkChatsRead(data.unreadChatIDs)
+	setUnreadChatIDs(data.unreadChatIDs)
 })
 
 const loadUnreadChatIDs = () => {
@@ -567,7 +732,7 @@ const loadUnreadChatIDs = () => {
 			return
 		}
 
-		localMarkChatsRead(data.chatIDs);
+		setUnreadChatIDs(data.chatIDs);
 	});
 }
 

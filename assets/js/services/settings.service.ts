@@ -11,6 +11,11 @@ interface IVisibility {
 	visibility: string[]
 }
 
+interface blockedUserInfo {
+	id: number,
+	since: number
+}
+
 interface ISettings {
 	privacy: {
 		basic: {
@@ -38,6 +43,9 @@ interface ISettings {
 	messages: {
 		sendShortCut: string
 	},
+	safety: {
+		blockedUsers: blockedUserInfo[]
+	},
 	uiLanguage: string
 }
 
@@ -47,7 +55,7 @@ interface IPrivacyAPI {
 	removeCircle: Function
 }
 
-const h = require("whispeerHelper").default;
+import h from "../helper/helper";
 const EncryptedData = require("crypto/encryptedData");
 const SecuredData = require("asset/securedDataWithMetaData");
 
@@ -99,10 +107,13 @@ class SettingsService extends Observer {
 		messages: {
 			sendShortCut: "enter"
 		},
+		safety: {
+			blockedUsers: []
+		},
 		uiLanguage: "en"
 	};
 
-	publicBranches = ["uiLanguage", "sound", "donate"];
+	publicBranches = ["uiLanguage", "sound", "donate", "safety"];
 	serverBranches = ["mailsEnabled"];
 
 	loadCachePromise = Bluebird.resolve();
@@ -132,7 +143,7 @@ class SettingsService extends Observer {
 		return result;
 	}
 
-	migrateToFormat2 = (givenOldSettings: any, blockageToken: any, cb?: Function) => {
+	migrateToFormat2 = (givenOldSettings: any) => {
 		console.warn("migrating settings to format 2");
 
 		return Bluebird.try(() => {
@@ -144,7 +155,7 @@ class SettingsService extends Observer {
 
 			data.meta.initialLanguage = h.getLanguageFromPath();
 
-			var ownUser = require("user/userService").getown();
+			var ownUser = require("users/userService").default.getOwn();
 
 			return SecuredData.createAsync(data.content,
 				data.meta,
@@ -162,17 +173,16 @@ class SettingsService extends Observer {
 
 			return socketService.emit("settings.setSettings", {
 				settings: signedAndEncryptedSettings,
-				blockageToken: blockageToken
 			}).thenReturn(this.settings);
-		}).nodeify(cb);
+		})
 	}
 
-	loadSettings = (givenSettings: any, blockageToken?: any) => {
+	loadSettings = (givenSettings: any) => {
 		this.serverSettings = givenSettings.server || {};
 
 		return Bluebird.try(() => {
 			if (givenSettings.ct) {
-				return this.migrateToFormat2(givenSettings, blockageToken);
+				return this.migrateToFormat2(givenSettings);
 			} else {
 				return SecuredData.load(givenSettings.content, givenSettings.meta, this.options);
 			}
@@ -187,20 +197,17 @@ class SettingsService extends Observer {
 		});
 	}
 
-	loadFromCache = (cacheEntry: any, blockageToken: any) => {
-		var userService = require("user/userService");
+	loadFromCache = (cacheEntry: any) => {
+		var userService = require("users/userService").default;
 
-		this.loadCachePromise = Bluebird.race([
-			userService.ownLoadedCache(),
-			userService.ownLoaded()
-		]).then(() => {
-			return this.loadSettings(cacheEntry.data, blockageToken);
+		this.loadCachePromise = userService.getOwnAsync().then(() => {
+			return this.loadSettings(cacheEntry.data);
 		});
 
 		return this.loadCachePromise;
 	}
 
-	loadFromServer = (data: any, blockageToken: any) => {
+	loadFromServer = (data: any) => {
 		return this.loadCachePromise.then(() => {
 			if (data.unChanged) {
 				return Bluebird.resolve();
@@ -209,9 +216,9 @@ class SettingsService extends Observer {
 			var givenSettings = data.content;
 			var toCache = h.deepCopyObj(givenSettings);
 
-			var userService = require("user/userService");
-			return userService.ownLoaded().then(() => {
-				return this.loadSettings(givenSettings, blockageToken);
+			var userService = require("users/userService").default;
+			return userService.getOwnAsync().then(() => {
+				return this.loadSettings(givenSettings);
 			}).thenReturn(toCache);
 		});
 	}
@@ -239,7 +246,7 @@ class SettingsService extends Observer {
 
 	decrypt = (cb: Function) => {
 		return Bluebird.try(() => {
-			var ownUser = require("user/userService").getown();
+			var ownUser = require("users/userService").default.getOwn();
 
 			return Bluebird.all([
 				this.settings.decrypt(),
@@ -248,16 +255,24 @@ class SettingsService extends Observer {
 		}).nodeify(cb);
 	};
 
-	getBranch = (branchName: any) => {
-		var branchContent: any;
-
+	getBranchContent = (branchName: string) => {
 		if (this.isBranchServer(branchName)) {
-			branchContent = this.serverSettings[branchName];
-		} else if (this.isBranchPublic(branchName)) {
-			branchContent = this.settings.metaAttr(branchName);
-		} else {
-			branchContent = this.settings.contentGet()[branchName];
+			return this.serverSettings[branchName];
 		}
+
+		if (this.isBranchPublic(branchName)) {
+			return this.settings.metaAttr(branchName);
+		}
+
+		return this.settings.contentGet()[branchName];
+	}
+
+	getBranch = (branchName: string) => {
+		if (!this.settings) {
+			return this.defaultSettings[branchName];
+		}
+
+		const branchContent = this.getBranchContent(branchName)
 
 		if (typeof branchContent === "undefined") {
 			return this.defaultSettings[branchName];
@@ -274,6 +289,8 @@ class SettingsService extends Observer {
 		} else {
 			this.settings.contentSetAttr(branchName, value);
 		}
+
+		this.notify("", "updated");
 	};
 
 	privacy: IPrivacyAPI = {
@@ -289,8 +306,8 @@ class SettingsService extends Observer {
 					return;
 				}
 
-				var userService = require("user/userService");
-				return userService.getown().uploadChangedProfile();
+				var userService = require("users/userService").default;
+				return userService.getOwn().uploadChangedProfile();
 			}).nodeify(cb);
 		},
 
@@ -310,15 +327,15 @@ class SettingsService extends Observer {
 		}
 	};
 
-	uploadChangedData = (cb?: Function) => {
+	uploadChangedData = () => {
 		if (!this.settings.isChanged()) {
-			return Bluebird.resolve(true).nodeify(cb);
+			return Bluebird.resolve(true)
 		}
 
-		var userService = require("user/userService");
+		var userService = require("users/userService").default;
 
 		return this.settings.getUpdatedData(
-				userService.getown().getSignKey()
+				userService.getOwn().getSignKey()
 			).then((newEncryptedSettings: any) => {
 				newEncryptedSettings.server = this.serverSettings;
 
@@ -327,8 +344,27 @@ class SettingsService extends Observer {
 				});
 			}).then((result: any) => {
 				return result.success;
-			}).nodeify(cb);
+			})
 	};
+
+	getBlockedUsers = (): blockedUserInfo[] => this.getBranch("safety").blockedUsers
+
+	setBlockedUsers = (blockedUsers: blockedUserInfo[]): Bluebird<any> => {
+		const safety = this.getBranch("safety")
+
+		this.updateBranch("safety", {
+			...safety,
+			blockedUsers
+		})
+
+		return this.uploadChangedData()
+	}
+
+	isBlockedSince = (userID: number, time: number) =>
+		!!this.getBlockedUsers().find(({ id, since }) => userID === id && since < time )
+
+	isBlocked = (userID: number) =>
+		!!this.getBlockedUsers().find(({ id }) => userID === id)
 
 	getPrivacyAttribute = (attr: any) => {
 		var b = this.getBranch("privacy"),

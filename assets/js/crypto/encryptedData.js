@@ -1,4 +1,3 @@
-
 "use strict";
 
 const Bluebird = require("bluebird");

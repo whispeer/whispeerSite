@@ -1,5 +1,5 @@
 var Bluebird = require("bluebird");
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";

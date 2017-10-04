@@ -11,17 +11,17 @@ import { ServerError } from "./socket.service";
 import h from "../helper/helper"
 import Progress from "../asset/Progress"
 
-export default class BlobDownloader extends Observer {
-	static MAXIMUMPARTSIZE = 1000 * 1000
-	static STARTPARTSIZE = 5 * 1000
-	static MINIMUMPARTSIZE = 1 * 1000
-	static MAXIMUMTIME = 2 * 1000
+const MAXIMUMPARTSIZE = 1000 * 1000
+const STARTPARTSIZE = 5 * 1000
+const MINIMUMPARTSIZE = 1 * 1000
+const MAXIMUMTIME = 2 * 1000
 
+export default class BlobDownloader extends Observer {
 	private blobParts: ArrayBuffer[] = []
 	private blobid: string
-	private downloadPromise: Bluebird<void>
+	private downloadPromise: Bluebird<{ blob: Blob, meta: any }>
 	private socket: SocketService
-	private partSize: number = BlobDownloader.STARTPARTSIZE
+	private partSize: number = STARTPARTSIZE
 	private doneBytes: number = 0
 	private done: boolean = false
 	private meta: any
@@ -44,11 +44,11 @@ export default class BlobDownloader extends Observer {
 	};
 
 	private halfSize () {
-		this.partSize = Math.max(this.partSize / 2, BlobDownloader.MINIMUMPARTSIZE);
+		this.partSize = Math.max(this.partSize / 2, MINIMUMPARTSIZE);
 	};
 
 	private doubleSize () {
-		this.partSize = Math.min(this.partSize * 2, BlobDownloader.MAXIMUMPARTSIZE);
+		this.partSize = Math.min(this.partSize * 2, MAXIMUMPARTSIZE);
 	};
 
 	private concatParts() {
@@ -88,7 +88,7 @@ export default class BlobDownloader extends Observer {
 
 			this.progress.progress(this.doneBytes)
 
-			if (uploadTook > BlobDownloader.MAXIMUMTIME) {
+			if (uploadTook > MAXIMUMTIME) {
 				this.halfSize();
 			} else {
 				this.doubleSize();
