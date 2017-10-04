@@ -23,6 +23,29 @@ const initService = require("services/initService");
 
 const messagesModule = require("messages/messagesModule");
 
+interface myScope {
+	activeChat: Chat
+	topicLoadingState: any,
+	canSend: boolean,
+	topicLoaded: boolean,
+	hideOverlay: boolean,
+	doHideOverlay: Function,
+	downloadFile: Function,
+	$apply: Function,
+	$on: Function,
+	attachments: any
+	markRead: Function,
+	loadMoreMessages: Function,
+	remainingMessagesCount: number,
+	loadingMessages: boolean
+	newMessage: any
+	sendMessage: Function,
+	sendMessageState: any
+	showMessageOptions: boolean,
+	messageBursts: Function,
+	toggleMessageOptions: Function,
+}
+
 namespace BurstHelper {
 	export const getNewElements = (messagesAndUpdates, bursts) => {
 		return messagesAndUpdates.filter((message) => {
@@ -104,7 +127,7 @@ namespace BurstHelper {
 	}
 }
 
-function messagesController($scope, $element, $stateParams, $timeout) {
+function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 	var topicLoadingState = new State.default();
 	$scope.topicLoadingState = topicLoadingState.data;
 
@@ -150,12 +173,12 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	};
 
 	$scope.markRead = function() {
-		$scope.activeChat.markRead(errorService.criticalError);
+		$scope.activeChat.markRead().catch(errorService.criticalError)
 	};
 
 	$scope.loadMoreMessages = function() {
 		$scope.loadingMessages = true;
-		return $scope.activeChat.loadMoreMessages().then(function({ remaining }) {
+		return $scope.activeChat.loadMoreMessages().then(function(remaining) {
 			$scope.remainingMessagesCount = remaining
 			$scope.loadingMessages = false;
 		});
@@ -231,7 +254,7 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 
 		$scope.canSend = false;
 
-		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, { images, files }).then(function() {
+		var sendMessagePromise = messageService.sendMessage($scope.activeChat.getID(), text, { images, files, voicemails: [] }).then(function() {
 			$scope.activeChat.newMessage = "";
 			$scope.attachments.imageUploads = []
 			$scope.attachments.fileUploads = []
