@@ -13,9 +13,7 @@ const uriToBlob = (blob) => {
 }
 
 const blobCache = {
-	store: (blob) => {
-		return cache.store(blob.getBlobID(), blob.getMeta(), blob.getBlobData());
-	},
+	store: (blob) => cache.store(blob.getBlobID(), blob.getMeta(), blob.getBlobData()).thenReturn(blob.toURL()),
 	readFileAsArrayBuffer: (dir, name) => Bluebird.reject(`We are not on a device. Can't read file ${dir} ${name}`),
 	moveFileToBlob: (dir, name, blobID) => Bluebird.reject(`We are not on a device. Can't move file ${dir} ${name} (blobID: ${blobID})`),
 	getBlobUrl: (blobID) => {
