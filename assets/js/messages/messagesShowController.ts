@@ -142,14 +142,18 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 		$scope.hideOverlay = true;
 	};
 
+	const getBlobFromURL = (blobURL: string) =>
+		fetch(blobURL)
+			.then((response) => response.blob())
+
 	$scope.downloadFile = (file) => {
 		const loadProgress = new Progress()
 
 		file.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(file.blobID, loadProgress, file.size).then((blobUrl) => {
-			saveAs(blobUrl, file.name)
-		})
+		blobService.getBlobUrl(file.blobID, loadProgress, file.size)
+			.then((blobURL) => getBlobFromURL(blobURL))
+			.then((blob) => saveAs(blob, file.name))
 	}
 
 	$scope.attachments = {
