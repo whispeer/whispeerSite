@@ -93,7 +93,7 @@ messageService = {
 	isActiveChat: (chatID) => {
 		return chatID === activeChat
 	},
-	loadMoreChats: h.cacheUntilSettled((count) => {
+	loadMoreChats: h.cacheUntilSettled((count = 20) => {
 		return initService.awaitLoading().then(function () {
 			return ChatListLoader.get(sessionService.getUserID())
 		}).then(function () {

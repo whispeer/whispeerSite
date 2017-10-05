@@ -74,7 +74,7 @@ export class Message {
 		this.setImagesInfo()
 	}
 
-	private initializePending = (chat: Chat, message, attachments, id) => {
+	private initializePending = (chat: Chat, message, attachments: attachments, id) => {
 		this.wasSent = false
 
 		this.chat = chat

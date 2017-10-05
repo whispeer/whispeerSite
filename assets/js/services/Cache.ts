@@ -115,7 +115,7 @@ export default class Cache {
 
 	contains(id: string): Bluebird<boolean> {
 		if (this.isDisabled()) {
-			return Bluebird.reject(new Error(`Cache is disabled ${this.name}`));
+			return Bluebird.resolve(false)
 		}
 
 		return Bluebird.try(async () => {
