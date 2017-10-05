@@ -42,3 +42,19 @@ export default class Memoizer {
 		return this.cachedValue
 	}
 }
+
+export class SameArray {
+	private arr: any[] = []
+	private previousInput: any[]
+
+	setValue = (newValues: any[]) => {
+		if (this.previousInput === newValues) {
+			return
+		}
+
+		this.arr.splice(0, this.arr.length)
+		this.arr.push.apply(this.arr, newValues)
+		this.previousInput = newValues
+	}
+	getValue = () => this.arr
+}
