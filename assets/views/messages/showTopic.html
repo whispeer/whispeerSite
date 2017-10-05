@@ -84,6 +84,11 @@
 									<div class="messageContent">
 										<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
 										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
+										<div ng-repeat="voicemail in message.voicemails">
+											Voicemail: {{ voicemail.duration }}
+											<audio data-ng-src="{{ voicemail.url }}" data-ng-if="voicemail.loaded" controls></audio>
+										</div>
+										<button ng-if="message.voicemails.length > 0" ng-click="loadVoicemails(message)">DL</button>
 										<div class="message-files">
 											<display-file data-file="file" data-ng-repeat="file in message.files">
 												<button class="radial-progress" data-ng-click="downloadFile(file)">

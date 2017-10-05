@@ -46,6 +46,7 @@ interface myScope {
 	showMessageOptions: boolean,
 	messageBursts: Function,
 	toggleMessageOptions: Function,
+	loadVoicemails: Function,
 }
 
 namespace BurstHelper {
@@ -185,6 +186,21 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 	$scope.markRead = function() {
 		$scope.activeChat.markRead().catch(errorService.criticalError)
 	};
+
+	const loadVoicemail = (voicemail) => {
+		const loadProgress = new Progress()
+
+		voicemail.getProgress = () => loadProgress.getProgress()
+
+		blobService.getBlobUrl(voicemail.blobID, loadProgress, voicemail.size).then((url) => {
+			voicemail.url = url
+			voicemail.loaded = true
+		})
+	}
+
+	$scope.loadVoicemails = (message) => {
+		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail))
+	}
 
 	$scope.loadMoreMessages = function() {
 		$scope.loadingMessages = true;
