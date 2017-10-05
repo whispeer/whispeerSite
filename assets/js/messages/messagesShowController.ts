@@ -154,7 +154,7 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 
 		file.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(file.blobID, loadProgress, file.size)
+		blobService.getBlobUrl(file.blobID, file.type, loadProgress, file.size)
 			.then((blobURL) => getBlobFromURL(blobURL))
 			.then((blob) => saveAs(blob, file.name))
 	}
@@ -192,7 +192,7 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 
 		voicemail.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(voicemail.blobID, loadProgress, voicemail.size).then((url) => {
+		blobService.getBlobUrl(voicemail.blobID, voicemail.type, loadProgress, voicemail.size).then((url) => {
 			voicemail.url = url
 			voicemail.loaded = true
 		})

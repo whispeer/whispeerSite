@@ -584,7 +584,7 @@ class User implements UserInterface {
 			return
 		}
 
-		return blobService.getBlobUrl(blob.blobid).then(url =>
+		return blobService.getBlobUrl(blob.blobid, blob.type || "image/png").then(url =>
 			isIOS() ?
 				url.replace("file://", "") : url
 		).then((imageUrl) => {

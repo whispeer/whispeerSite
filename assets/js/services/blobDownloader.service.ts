@@ -18,20 +18,16 @@ const MAXIMUMTIME = 2 * 1000
 
 export default class BlobDownloader extends Observer {
 	private blobParts: ArrayBuffer[] = []
-	private blobid: string
 	private downloadPromise: Bluebird<{ blob: Blob, meta: any }>
-	private socket: SocketService
 	private partSize: number = STARTPARTSIZE
 	private doneBytes: number = 0
 	private done: boolean = false
 	private meta: any
 	private progress: Progress
 
-	constructor(socket: SocketService, blobid: string, progress?: Progress) {
+	constructor(private socket: SocketService, private blobid: string, private type: string, progress?: Progress) {
 		super();
 
-		this.blobid = blobid;
-		this.socket = socket;
 		this.progress = progress || new Progress()
 	}
 
@@ -53,7 +49,7 @@ export default class BlobDownloader extends Observer {
 
 	private concatParts() {
 		return Bluebird.resolve({
-			blob: new Blob(this.blobParts, { type: "image/png" }),
+			blob: new Blob(this.blobParts, { type: this.type }),
 			meta: this.meta
 		})
 	}
