@@ -14,6 +14,8 @@ import Progress from "../asset/Progress"
 
 import blobService from "../services/blobService"
 
+import FeatureToggles from "../services/featureToggles"
+
 const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
@@ -167,9 +169,12 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 		},
 		addFiles: ImageUpload.fileCallback((files) => {
 			$scope.$apply(() => {
-				const fileUploadEnabled = false
-				const imageUploads = files.filter((file) => ImageUpload.isImage(file)).map((file) => new ImageUpload(file))
-				const fileUploads = files.filter((file) => !ImageUpload.isImage(file) && fileUploadEnabled).map((file) => new FileUpload(file))
+				const imageUploads = files
+					.filter((file) => ImageUpload.isImage(file))
+					.map((file) => new ImageUpload(file))
+				const fileUploads = files
+					.filter((file) => !ImageUpload.isImage(file) && FeatureToggles.isFeatureEnabled("chat.fileTransfer"))
+					.map((file) => new FileUpload(file))
 
 				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
 				$scope.attachments.imageUploads = $scope.attachments.imageUploads.concat(imageUploads)
