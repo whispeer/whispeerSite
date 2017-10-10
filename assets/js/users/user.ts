@@ -668,7 +668,7 @@ class User implements UserInterface {
 			searchNames.push(basic.lastname)
 		}
 
-		return searchNames.join(" ")
+		return searchNames.join(" ").toLowerCase()
 	}
 
 	private getLongName = () => {
