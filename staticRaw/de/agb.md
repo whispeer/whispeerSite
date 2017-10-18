@@ -4,7 +4,6 @@ lang: de
 title: Allgemeine Geschäftsbedingungen
 ---
 
-# Allgemeine Geschäftsbedingungen
 ## gültig für Registrierungen ab dem 18.10.2017 (ältere Version darunter)
 
 1.	Vertragspartner und Geltungsbereich dieser AGB

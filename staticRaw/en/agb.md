@@ -4,7 +4,6 @@ lang: en
 title: Terms And Conditions
 ---
 
-# Terms And Conditions
 ## Convenience translation
 ## Valid for registrations from the 18/10/2017 (outdated version below)
 
