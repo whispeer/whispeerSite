@@ -53,8 +53,7 @@
 		}, {
 			"heading1": "Your account.<br>For a stable future.",
 			"text1": "Prepare your company for the digital age.<br>Create your first account in seconds and speak with us!",
-			"createAccountText": "Create Account *",
-			"text2": "30 days free, then 5€/month"
+			"createAccountText": "Create Account"
 		}
 	]
 }
