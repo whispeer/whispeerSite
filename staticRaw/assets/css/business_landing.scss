@@ -49,6 +49,13 @@ $iconLineHeightLarge: 10em;
 @import "caret-elements";
 @import "polygon";
 
+.button--business {
+  height: auto;
+  line-height: 32px;
+  padding: 18px 25px;
+  text-align: center;
+}
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
