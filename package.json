@@ -1,6 +1,6 @@
 {
   "name": "Whispeer",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "main": "app://beta.whispeer.de/index.html#!/main",
   "nodejs": false,
   "toolbar": true,
