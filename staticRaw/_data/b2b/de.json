@@ -53,7 +53,8 @@
 		}, {
 			"heading1": "Ihr Account.<br> Für eine sichere Zukunft.",
 			"text1": "Machen Sie Ihr Unternehmen fit für das digitale Zeitalter.<br> Erstellen Sie in Sekunden den ersten Account. Um alles Weitere kümmern wir uns!",
-			"createAccountText": "Jetzt Account anlegen"
+			"createAccountText": "Jetzt Account anlegen *",
+			"text2": "30 Tage kostenfrei, dann 5€/Monat"
 		}
 	]
 }
