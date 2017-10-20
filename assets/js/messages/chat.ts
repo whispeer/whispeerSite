@@ -511,7 +511,7 @@ export class Chat extends Observer {
 
 		const {
 			canReadOldMessages = false,
-			title = latestChunk.getTitle(),
+			title = latestChunk.getTitle() || "",
 			admins = latestChunk.getAdmins(),
 		} = options
 
