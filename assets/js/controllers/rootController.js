@@ -10,6 +10,7 @@ var userService = require("users/userService").default;
 var cssService = require("services/css.service").default;
 var messageService = require("messages/messageService");
 var friendsService = require("services/friendsService");
+const Chat = require("messages/chat").Chat
 
 "use strict";
 
@@ -39,6 +40,7 @@ function rootController($scope, $http, $interval) {
 	$scope.user = nullUser;
 	$scope.friends = friendsService.data;
 	$scope.messages = messageService.data;
+	$scope.getUnreadCount = () => Chat.getUnreadChatIDs().length
 
 	$scope.noBusiness = !WHISPEER_BUSINESS
 
