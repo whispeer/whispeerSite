@@ -4,12 +4,19 @@ import jQuery from "jquery"
 import * as Bluebird from "bluebird"
 
 import Burst from "./burst"
-import ChatLoader from "./chat"
+import ChatLoader, { Chat } from "./chat"
 import MessageLoader from "./message"
 
-import ImageUploadService from "../services/imageUpload.service"
+import ImageUpload from "../services/imageUpload.service"
+import FileUpload from "../services/fileUpload.service"
 import h from "../helper/helper";
+import Progress from "../asset/Progress"
 
+import blobService from "../services/blobService"
+
+import FeatureToggles from "../services/featureToggles"
+
+const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
 const State = require("asset/state");
@@ -17,6 +24,29 @@ const State = require("asset/state");
 const initService = require("services/initService");
 
 const messagesModule = require("messages/messagesModule");
+
+interface myScope {
+	activeChat: Chat
+	topicLoadingState: any,
+	canSend: boolean,
+	topicLoaded: boolean,
+	hideOverlay: boolean,
+	doHideOverlay: Function,
+	downloadFile: Function,
+	$apply: Function,
+	$on: Function,
+	attachments: any
+	markRead: Function,
+	loadMoreMessages: Function,
+	remainingMessagesCount: number,
+	loadingMessages: boolean
+	newMessage: any
+	sendMessage: Function,
+	sendMessageState: any
+	showMessageOptions: boolean,
+	messageBursts: Function,
+	toggleMessageOptions: Function,
+}
 
 namespace BurstHelper {
 	export const getNewElements = (messagesAndUpdates, bursts) => {
@@ -99,7 +129,7 @@ namespace BurstHelper {
 	}
 }
 
-function messagesController($scope, $element, $stateParams, $timeout) {
+function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 	var topicLoadingState = new State.default();
 	$scope.topicLoadingState = topicLoadingState.data;
 
@@ -114,25 +144,51 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		$scope.hideOverlay = true;
 	};
 
-	$scope.images = {
-		images: [],
-		removeImage: function(index) {
-			$scope.images.images.splice(index, 1);
+	const getBlobFromURL = (blobURL: string) =>
+		fetch(blobURL)
+			.then((response) => response.blob())
+
+	$scope.downloadFile = (file) => {
+		const loadProgress = new Progress()
+
+		file.getProgress = () => loadProgress.getProgress()
+
+		blobService.getBlobUrl(file.blobID, loadProgress, file.size)
+			.then((blobURL) => getBlobFromURL(blobURL))
+			.then((blob) => saveAs(blob, file.name))
+	}
+
+	$scope.attachments = {
+		imageUploads: [],
+		fileUploads: [],
+		removeImage: (index) => {
+			$scope.attachments.imageUploads.splice(index, 1);
 		},
-		addImages: ImageUploadService.fileCallback(function(newImages) {
-			$scope.$apply(function() {
-				$scope.images.images = $scope.images.images.concat(newImages);
+		removeFile: (index) => {
+			$scope.attachments.fileUploads.splice(index, 1);
+		},
+		addFiles: ImageUpload.fileCallback((files) => {
+			$scope.$apply(() => {
+				const imageUploads = files
+					.filter((file) => ImageUpload.isImage(file))
+					.map((file) => new ImageUpload(file))
+				const fileUploads = files
+					.filter((file) => !ImageUpload.isImage(file) && FeatureToggles.isFeatureEnabled("chat.fileTransfer"))
+					.map((file) => new FileUpload(file))
+
+				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
+				$scope.attachments.imageUploads = $scope.attachments.imageUploads.concat(imageUploads)
 			});
 		})
 	};
 
 	$scope.markRead = function() {
-		$scope.activeChat.markRead(errorService.criticalError);
+		$scope.activeChat.markRead().catch(errorService.criticalError)
 	};
 
 	$scope.loadMoreMessages = function() {
 		$scope.loadingMessages = true;
-		return $scope.activeChat.loadMoreMessages().then(function({ remaining }) {
+		return $scope.activeChat.loadMoreMessages().then(function(remaining) {
 			$scope.remainingMessagesCount = remaining
 			$scope.loadingMessages = false;
 		});
@@ -170,18 +226,18 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 
 	var loadTopicsPromise = initService.awaitLoading().then(() =>
 		ChatLoader.get(chatID)
-	).then(function(chat) {
+	).then(function(chat: Chat) {
 		messageService.setActiveChat(chatID);
 		$scope.activeChat = chat;
 
 		$scope.canSend = true;
 		$scope.newMessage = false;
 		return chat.loadInitialMessages().thenReturn(chat);
-	}).then(function(chat) {
+	}).then(function(chat: Chat) {
 		$scope.topicLoaded = true;
 
-		if (chat.getMessagesAndUpdates().length > 0) {
-			chat.markRead(errorService.criticalError);
+		if (chat.getMessages().length > 0) {
+			chat.markRead().catch(errorService.criticalError);
 		}
 
 		loadMoreUntilFull();
@@ -197,19 +253,21 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	$scope.sendMessage = function() {
 		sendMessageState.pending();
 
-		var images = $scope.images.images;
-		var text = $scope.activeChat.newMessage;
+		const images = $scope.attachments.imageUploads;
+		const files = $scope.attachments.fileUploads;
+		const text = $scope.activeChat.newMessage;
 
-		if (text === "" && images.length === 0) {
+		if (text === "" && images.length === 0 && files.length === 0) {
 			sendMessageState.failed();
 			return;
 		}
 
 		$scope.canSend = false;
 
-		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, images).then(function() {
+		var sendMessagePromise = messageService.sendMessage($scope.activeChat.getID(), text, { images, files, voicemails: [] }).then(function() {
 			$scope.activeChat.newMessage = "";
-			$scope.images.images = [];
+			$scope.attachments.imageUploads = []
+			$scope.attachments.fileUploads = []
 			$scope.markRead(errorService.criticalError);
 			$timeout(function() {
 				sendMessageState.reset();
@@ -226,21 +284,11 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	let bursts = [], burstTopic;
 
 	function getBursts() {
-		if (!$scope.activeChat || $scope.activeChat.getMessagesAndUpdates().length === 0) {
+		if (!$scope.activeChat || $scope.activeChat.getMessages().length === 0) {
 			return { changed: false, bursts: [] };
 		}
 
-		const messagesAndUpdates = $scope.activeChat.getMessagesAndUpdates().map(({ id: { id, type }}) => {
-			if (type === "message") {
-				return MessageLoader.getLoaded(id)
-			}
-
-			if (type === "topicUpdate") {
-				throw new Error("not yet implemented")
-			}
-
-			throw new Error("invalid type for message or update")
-		})
+		const messagesAndUpdates = $scope.activeChat.getMessages().map(({ id }) => MessageLoader.getLoaded(id))
 
 		if (burstTopic !== $scope.activeChat.getID()) {
 			bursts = BurstHelper.calculateBursts(messagesAndUpdates);

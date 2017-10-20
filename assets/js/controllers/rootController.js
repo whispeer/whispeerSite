@@ -6,7 +6,7 @@ var localize = require("i18n/localizationConfig");
 var initService = require("services/initService");
 var socketService = require("services/socket.service").default;
 var sessionHelper = require("services/session.helper").default;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var cssService = require("services/css.service").default;
 var messageService = require("messages/messageService");
 var friendsService = require("services/friendsService");
@@ -45,10 +45,9 @@ function rootController($scope, $http, $interval) {
 	var afterInitPromise = Bluebird.resolve();
 
 	function loadUser() {
-		var user = userService.getown();
-		var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
+		var user = userService.getOwn();
 
-		return loadBasicDataAsync().then(function () {
+		return user.loadBasicData().then(function () {
 			$scope.user = user.data;
 			$scope.loading = false;
 

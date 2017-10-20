@@ -1,5 +1,20 @@
 <div id="newsfeedView-wall" data-scroll data-scroll-window data-custom="distancePercentage < 0.5" data-at-custom="loadMorePosts()">
 	<header id="newsfeedView-wall-header">
+		<div class="newsfeedView__info" data-ng-class="{'newsfeedView__info--extend': showFullText, 'newsfeedView__info--hide': infoHidden}">
+			<div class="newsfeedView__info__icon-wrap">
+				<img src="/assets/img/icon.svg" class="newsfeedView__info__icon">
+				<span class="newsfeedView__info__icon-text" ng-bind-html="testAndroidBetaTranslation"></span>
+			</div>
+			<a class="newsfeedView__info__close" data-ng-click="hideInfo()">
+				<i class="fa fa-times"></i>
+			</a>
+			<div class="newsfeedView__info__content" ng-bind-html="wallInformTranslation">
+			</div>
+			<a data-ng-click="toggleText()" class="newsfeedView__info__continue">
+				<span data-ng-if="!showFullText" data-i18n="wall.inform.more"></span>
+				<span data-ng-if="showFullText" data-i18n="wall.inform.less"></span>
+			</a>
+		</div>
 		<h1 id="newsfeedView-wall-header-title" data-i18n="menu.newsfeed"></h1>
 		<newpost data-input-i18n-attr="wall.postit.text|placeholder"></newpost>
 		<div class="post" id="newsfeedView-filterAndSort">

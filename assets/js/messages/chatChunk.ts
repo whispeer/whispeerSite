@@ -5,9 +5,9 @@ const SecuredData = require("asset/securedDataWithMetaData");
 import * as Bluebird from "bluebird"
 const debug = require("debug");
 
-const userService = require("user/userService");
+const userService = require("users/userService").default;
 import socket from "../services/socket.service"
-import ObjectLoader from "../services/objectLoader"
+import ObjectLoader from "../services/cachedObjectLoader"
 const keyStore = require("services/keyStore.service").default;
 const sessionService = require("services/session.service").default;
 
@@ -17,7 +17,10 @@ import ChatTitleUpdate from "./chatTitleUpdate"
 const debugName = "whispeer:chunk";
 const chunkDebug = debug(debugName);
 
-declare const startup: number
+const CHUNK_SECURED_DATA_OPTIONS = {
+	type: "topic", // Keep topic for now until lots of clients have picked up the change
+	alternativeType: "chatChunk" // Allow for chatChunk already
+}
 
 export class Chunk extends Observer {
 	private securedData
@@ -32,25 +35,22 @@ export class Chunk extends Observer {
 	private admins: number[]
 	private titleUpdate: ChatTitleUpdate
 
-	constructor(data) {
+	constructor({ content, server, meta, receiverObjects }) {
 		super()
 
-		var err = validator.validate("topic", data.meta);
+		var err = validator.validate("topic", meta);
 		if (err) {
 			throw err;
 		}
 
-		data.meta.receiver.sort();
+		meta.receiver.sort();
 
-		this.securedData = SecuredData.load(data.content, data.meta, {
-			type: "topic", // Keep topic for now until lots of clients have picked up the change
-			alternativeType: "chatChunk" // Allow for chatChunk already
-		});
+		this.securedData = SecuredData.createRaw(content, meta, CHUNK_SECURED_DATA_OPTIONS);
 
-		this.id = data.server.id
-		this.chatID = data.server.chatID
-		this.predecessorID = data.server.predecessorID
-		this.createTime = data.server.createTime
+		this.id = server.id
+		this.chatID = server.chatID
+		this.predecessorID = server.predecessorID
+		this.createTime = server.createTime
 
 		this.receiver = this.securedData.metaAttr("receiver").map(h.parseDecimal);
 
@@ -58,22 +58,20 @@ export class Chunk extends Observer {
 		const creator = this.securedData.metaAttr("creator")
 
 		this.admins = (metaAdmins ? metaAdmins : [creator]).map(h.parseDecimal)
-	}
 
-	awaitEarlierSend = (time) => {
-		console.log(time)
-
-		/*
-		var previousMessages = this.getNotSentMessages().filter((message) => {
-			return message.getTime() < time;
-		});
-
-		if (previousMessages.length === 0) {
-			return Bluebird.resolve();
+		if (this.securedData.hasContent()) {
+			this.title = this.securedData.contentGet().title
+		} else {
+			this.title = ""
 		}
 
-		return previousMessages[previousMessages.length - 1].sendContinously();
-		*/
+		this.receiverObjects = receiverObjects
+
+		var predecessorID = this.getPredecessorID()
+
+		if (predecessorID && ChunkLoader.isLoaded(predecessorID)) {
+			ChunkLoader.getLoaded(predecessorID).setSuccessor(this.getID())
+		}
 	}
 
 	getChatID = () => this.chatID
@@ -128,31 +126,6 @@ export class Chunk extends Observer {
 		chunk.getSecuredData().checkParent(this.getSecuredData())
 	}
 
-	verify = () => {
-		return Bluebird.try(() => {
-			return userService.get(this.securedData.metaAttr("creator"));
-		}).then((creator) => {
-			if (creator.isNotExistingUser()) {
-				// TODO this.data.disabled = true;
-				return false;
-			}
-
-			return this.securedData.verify(creator.getSignKey()).thenReturn(true);
-		}).then((addEncryptionIdentifier) => {
-			if (addEncryptionIdentifier) {
-				keyStore.security.addEncryptionIdentifier(this.securedData.metaAttr("_key"));
-			}
-		})
-	};
-
-	loadReceiverNames = h.cacheResult<Bluebird<any>>(() => {
-		return Bluebird.try(() => {
-			return userService.getMultipleFormatted(this.receiver)
-		}).then((receiverObjects) => {
-			this.receiverObjects = receiverObjects
-		})
-	});
-
 	getReceivers = () => {
 		return this.receiverObjects
 	}
@@ -185,17 +158,6 @@ export class Chunk extends Observer {
 		return this.receiver
 	}
 
-	decryptContent = () => {
-		if (!this.securedData.hasContent()) {
-			this.title = ""
-			return
-		}
-
-		return this.securedData.decrypt().then((content) => {
-			this.title = content.title
-		})
-	}
-
 	getTitle = () => {
 		if (this.titleUpdate) {
 			return this.titleUpdate.state.title
@@ -204,28 +166,12 @@ export class Chunk extends Observer {
 		return this.title
 	}
 
-	load = () => {
-		return Bluebird.all([
-			this.verify(),
-			this.loadReceiverNames(),
-			this.decryptContent(),
-		]).then(() => {
-			var predecessorID = this.getPredecessorID()
-
-			if (predecessorID && ChunkLoader.isLoaded(predecessorID)) {
-				ChunkLoader.getLoaded(predecessorID).setSuccessor(this.getID())
-			}
-		}).finally(() => {
-			chunkDebug(`Chunk loaded (${this.getID()}):${new Date().getTime() - startup}`);
-		})
-	};
-
 	isAdmin = (user) => {
 		return this.getAdmins().indexOf(user.getID()) > -1
 	}
 
 	amIAdmin = () => {
-		return this.isAdmin(userService.getown())
+		return this.isAdmin(userService.getOwn())
 	}
 
 	getCreator = () => {
@@ -258,7 +204,7 @@ export class Chunk extends Observer {
 	setSuccessor = (successorID) => {
 		this.successorID = successorID
 
-		console.warn("Set successor of chunk " , this.getID(), " succ: ", successorID)
+		chunkDebug("Set successor of chunk " , this.getID(), " succ: ", successorID)
 
 		this.notify({ successorID: successorID }, "successor")
 	}
@@ -319,7 +265,7 @@ export class Chunk extends Observer {
 
 	private static createChunkKey = () => {
 		return keyStore.sym.generateKey(null, "chunkMain").then((chunkKey) => {
-			return keyStore.sym.symEncryptKey(chunkKey, userService.getown().getMainKey()).thenReturn(chunkKey)
+			return keyStore.sym.symEncryptKey(chunkKey, userService.getOwn().getMainKey()).thenReturn(chunkKey)
 		})
 	}
 
@@ -350,13 +296,7 @@ export class Chunk extends Observer {
 	static createRawData(receiver, { content = {}, meta = {}, givenKey, predecessorChunk } : { content: any, givenKey?: any, meta?: any, predecessorChunk?: Chunk}) {
 		return Bluebird.try(async () => {
 
-			const receiverIDs = receiver.map((val) => {
-				if (typeof val === "object") {
-					return val.getID();
-				} else {
-					return h.parseDecimal(val);
-				}
-			})
+			const receiverIDs = receiver.map((val) => h.parseDecimal(val))
 
 			if (receiverIDs.indexOf(sessionService.getUserID()) === -1) {
 				receiverIDs.push(sessionService.getUserID())
@@ -366,7 +306,7 @@ export class Chunk extends Observer {
 
 			const receiverObjectsExceptOwn = receiverObjects.filter((receiver) => !receiver.isOwn())
 
-			const givenInfo = { cryptInfo: { receiverKeys: {} }, chunkKey: givenKey}
+			const givenInfo = { cryptInfo: { receiverKeys: {}, keys: [] }, chunkKey: givenKey}
 
 			const { cryptInfo, chunkKey } = givenKey ? givenInfo : await Chunk.cryptInfo(receiverObjectsExceptOwn)
 
@@ -376,7 +316,7 @@ export class Chunk extends Observer {
 				...meta,
 				createTime: new Date().getTime(),
 				receiver: receiverIDs,
-				creator: userService.getown().getID(),
+				creator: userService.getOwn().getID(),
 			}
 
 			const secured = SecuredData.createRaw(content, chunkMeta, { type: "topic" })
@@ -385,7 +325,7 @@ export class Chunk extends Observer {
 				secured.setParent(predecessorChunk.getSecuredData())
 			}
 
-			const cData = await secured.signAndEncrypt(userService.getown().getSignKey(), chunkKey)
+			const cData = await secured.signAndEncrypt(userService.getOwn().getSignKey(), chunkKey)
 
 			return Object.assign({
 				chunk: cData,
@@ -394,9 +334,7 @@ export class Chunk extends Observer {
 	};
 
 	static createData(receiver, message, images) {
-		var imagePreparation = Bluebird.resolve(images).map((image: any) => {
-			return image.prepare()
-		})
+		Message.prepare(images)
 
 		const uploadImages = (chunkKey) => {
 			return Bluebird.all(images.map((image) => {
@@ -404,65 +342,130 @@ export class Chunk extends Observer {
 			}))
 		}
 
-		return Bluebird.all([Chunk.createRawData(receiver, { content: {} }), imagePreparation]).spread((chunkData: any, imagesMeta) => {
-			var chunk = new Chunk({
+		return Bluebird.try(async function () {
+			const chunkData = await Chunk.createRawData(receiver, { content: {} })
+			const chunkStub = new Chunk({
 				meta: chunkData.chunk.meta,
-				content: chunkData.chunk.content,
+				content: {},
 				server: {},
-				unread: []
+				receiverObjects: []
 			});
 
-			var messageMeta = {
-				createTime: new Date().getTime(),
-				images: imagesMeta
+			const messageMeta = {
+				createTime: new Date().getTime()
+			}
+
+			const secured = Message.createRawSecuredData(message, messageMeta, chunkStub)
+
+			await Message.setAttachmentsInfo(secured, { images, files: [], voicemails: [] })
+
+			const messageData = await secured._signAndEncrypt(userService.getOwn().getSignKey(), chunkStub.getKey())
+
+			const imageKeys = await uploadImages(chunkStub.getKey())
+
+			return {
+				...chunkData,
+				message: {
+					...messageData,
+					imageKeys: h.array.flatten(imageKeys).map(keyStore.upload.getKey)
+				}
 			};
-
-			return Bluebird.all([
-				chunkData,
-				Message.createRawData(message, messageMeta, chunk),
-				uploadImages(chunk.getKey())
-			]);
-		}).spread((chunkData, messageData, imageKeys: any) => {
-			imageKeys = h.array.flatten(imageKeys);
-			messageData.imageKeys = imageKeys.map(keyStore.upload.getKey);
-
-			chunkData.message = messageData;
-
-			return chunkData;
 		})
-	};
+	}
 }
 
 Observer.extend(Chunk);
 
-const loadLegacyTitle = (latestTitleUpdateResponse) => {
-	if (!latestTitleUpdateResponse) {
-		return Bluebird.resolve()
+const decryptAndVerifyTitleUpdate = (titleUpdate) => {
+	return Bluebird.try(async () => {
+		if (!titleUpdate) {
+			return
+		}
+
+		const { content, meta, server } = titleUpdate
+
+		const securedData = SecuredData.load(content, meta, { type: "topicUpdate" });
+
+		const sender = await userService.get(meta.userID);
+
+		await Bluebird.all([
+			securedData.decrypt(),
+			securedData.verify(sender.getSignKey())
+		])
+
+		return {
+			content: securedData.contentGet(),
+			meta: securedData.metaGet(),
+			server
+		}
+	})
+}
+
+type ChunkCache = {
+	content: any,
+	meta: any,
+	server: any,
+	titleUpdate: {
+		server: any
+		content: any
+		meta: any
 	}
-
-	const latestTitleUpdate = new ChatTitleUpdate(latestTitleUpdateResponse)
-	return latestTitleUpdate.getTitle().thenReturn(latestTitleUpdate)
 }
 
-const loadHook = (chunkResponse) : Bluebird<Chunk> => {
-	const chunk = new Chunk(chunkResponse)
+export default class ChunkLoader extends ObjectLoader<Chunk, ChunkCache>({
+	cacheName: "chunk",
+	download: id => socket.emit("chat.chunk.get", { id }),
+	restore: ({ meta, content, server, titleUpdate }: ChunkCache) => {
+		return Bluebird.try(async function () {
+			const loadReceiverPromise = userService.getMultipleFormatted(meta.receiver.sort().map(h.parseDecimal))
 
-	return Bluebird.all<any>([
-		loadLegacyTitle(chunkResponse.latestTitleUpdate),
-		chunk.load()
-	]).then(([latestTitleUpdate]) => {
-		chunk.setLatestTitleUpdate(latestTitleUpdate)
-	}).thenReturn(chunk)
-}
+			const creator = await userService.get(meta.creator)
 
-const downloadHook = (id) => {
-	return socket.emit("chat.chunk.get", { id })
-}
+			if (!creator.isNotExistingUser()) {
+				keyStore.security.addEncryptionIdentifier(meta._key)
+			} else {
+				// TODO data.disabled = true;
+			}
 
-const idHook = (response) => response.server.id
+			const chunk = new Chunk({
+				meta: meta,
+				content: content,
+				server: server,
+				receiverObjects: await loadReceiverPromise
+			})
 
-const hooks = {
-	downloadHook, loadHook, idHook
-}
+			if (titleUpdate) {
+				const chatTitleUpdate = new ChatTitleUpdate({
+					content: titleUpdate.content,
+					meta: titleUpdate.meta,
+					server: titleUpdate.server,
+					sender: await userService.get(titleUpdate.meta.userID)
+				})
 
-export default class ChunkLoader extends ObjectLoader(hooks) {}
+				chunk.setLatestTitleUpdate(chatTitleUpdate)
+			}
+
+			return chunk
+		})
+	},
+	load: ({ content, meta, server, latestTitleUpdate }) : Bluebird<ChunkCache> => {
+		return Bluebird.try(async function () {
+			const securedData = SecuredData.load(content, meta, CHUNK_SECURED_DATA_OPTIONS)
+
+			const creator = await userService.get(securedData.metaAttr("creator"))
+
+			const titleUpdate = await decryptAndVerifyTitleUpdate(latestTitleUpdate)
+
+			await securedData.verify(creator.getSignKey())
+			await securedData.decrypt()
+
+			return {
+				content: securedData.contentGet(),
+				meta: securedData.metaGet(),
+				server,
+				titleUpdate
+			}
+		})
+	},
+	getID: response => response.server.id
+}) {}

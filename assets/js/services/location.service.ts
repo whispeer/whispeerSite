@@ -4,12 +4,9 @@ import Storage from "./Storage";
 import { isBlockedReturnUrl } from "./location.manager";
 
 export default class LocationService {
-	location: any;
 	loginStorage: Storage = StorageService.withPrefix("whispeer.login");
 
-	constructor(location: any) {
-		this.location = location;
-	}
+	constructor(public location: any) {}
 
 	loadInitialURL() {
 		var returnURL: string = this.loginStorage.get("returnUrl");

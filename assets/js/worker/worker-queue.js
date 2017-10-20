@@ -1,11 +1,12 @@
 "use strict";
 
-const PromiseWorker = require("PromiseWorker");
+const PromiseWorker = require("worker/worker-loader");
 
 /** constructor for promiseQueue
 *   @param Promise a promise implementation
 *   @param numberOfWorkers the number of workers you want to run in parallel
 *   @param optional setupMethod a function to call after the worker is created.
+*   @param requireOverRide the path to require, if it can not be determined automatically.
 */
 var PromiseQueue = function (Promise, numberOfWorkers, options) {
 	this._Promise = Promise;

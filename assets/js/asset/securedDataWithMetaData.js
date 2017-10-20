@@ -127,7 +127,7 @@ SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
 		@param signKey key to use for signing
 		@param cb callback(cryptedData, metaData),
 */
-SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
+SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey) {
 	if (!this._hasContent) {
 		throw new Error("can only sign and not encrypt");
 	}
@@ -152,7 +152,7 @@ SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey,
 			content: cryptedData,
 			meta: meta
 		};
-	}).nodeify(cb);
+	})
 };
 
 SecuredDataWithMetaData.prototype.signAndEncrypt = function (signKey, cryptKey) {
@@ -189,7 +189,7 @@ SecuredDataWithMetaData.prototype.verifyAsync = function (signKey, id) {
 		});
 
 		if (!this.hasType(metaCopy._type)) {
-						// eslint-disable-next-line no-debugger
+			// eslint-disable-next-line no-debugger
 			debugger
 			throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + this._type);
 		}

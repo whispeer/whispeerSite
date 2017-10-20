@@ -54,7 +54,7 @@
 
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="{{activeTopic.type}}">
 		<div id="messageWrap">
-			<ul class="scroll-pane" id="messageList" data-ng-class="{'messageList--reduce': images.images.length > 0}" data-scroll data-keepBottom data-bottom-relative data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-onbottom="markRead()">
+			<ul class="scroll-pane" id="messageList" data-ng-class="{'messageList--reduce': attachments.imageUploads.length > 0 || attachments.fileUploads.length > 0}" data-scroll data-keepBottom data-bottom-relative data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-onbottom="markRead()">
 				<li class="messageView-loadingText" data-ng-if="remainingMessagesCount > 0">
 					<i class="fa fa-fw fa-circle-o-notch fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
 					<span data-i18n="messages.remaining|count={{remainingMessagesCount}}"></span>
@@ -67,14 +67,7 @@
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
 					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
 
-					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
-						<span class="burst-date-text">
-							{{ burst.firstItem().state.sender.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert -
-							<span data-smart-date="::burst.firstItem().state.timestamp" data-smart-date-no-day>
-						</span>
-					</div>
-
-					<span data-ng-if="burst.isMessageBurst()">
+					<span>
 						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})" class="username">{{burst.sender().name}}</a>
 						<div class="userimg">
 							<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})">
@@ -91,6 +84,16 @@
 									<div class="messageContent">
 										<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
 										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
+										<div class="message-files">
+											<display-file data-file="file" data-ng-repeat="file in message.files">
+												<button class="radial-progress" data-ng-click="downloadFile(file)">
+													<div class="circle circle-with-icon">
+														<i class="fa fa-fw fa-download"></i>
+													</div>
+												</button>
+												<loading-progress data-get-progress="file.getProgress"></loading-progress>
+											</display-file>
+										</div>
 										<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 									</div>
 							</li>
@@ -102,18 +105,21 @@
 				<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
 					<div class="uploadForm annotatedInput-button">
 						<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
-						<input class="uploadForm-theForm" type="file" multiple data-file="images.addImages" width="4000">
+						<input class="uploadForm-theForm" type="file" multiple data-file="attachments.addFiles" width="4000">
 					</div>
 					<textarea focus-me="canSend" id="messageView-messageInput" class="annotatedInput-input" data-advancedsend="sendMessage(activeChat.newMessage)" type="text" data-ng-model="activeChat.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 				</div>
 				<savebutton id="sendmessage" data-ng-click="sendMessage(activeChat.newMessage)" data-state="sendMessageState" data-noiniticon>
 					<span data-i18n="messages.sendMessage.send"></span>
 				</savebutton>
-				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': images.images.length > 0}">
-					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in images.images">
-						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='images.removeImage($index)'></button>
+				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': attachments.imageUploads.length > 0 || attachments.fileUploads.length > 0}">
+					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in attachments.imageUploads">
+						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click="attachments.removeImage($index)"></button>
 						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getPreviewUrl()}}">
 					</div>
+					<display-file data-file="file.file" class="newsfeed-newPostImagePreview" data-ng-repeat="file in attachments.fileUploads">
+						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click="attachments.removeFile($index)"></button>
+					</display-file>
 				</div>
 			</form>
 		</div>

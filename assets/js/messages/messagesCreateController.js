@@ -1,9 +1,9 @@
 "use strict";
 
-const ImageUploadService = require("services/imageUpload.service").default
+const ImageUpload = require("services/imageUpload.service").default
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default
-const userService = require("user/userService");
+const userService = require("users/userService").default;
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
@@ -25,10 +25,10 @@ function messagesController($scope, $state, $stateParams) {
 		removeImage: function (index) {
 			$scope.create.images.splice(index, 1);
 		},
-		addImages: ImageUploadService.fileCallback(function (newImages) {
-			$scope.$apply(function () {
-				$scope.create.images = $scope.create.images.concat(newImages);
-			});
+		addImages: ImageUpload.fileCallback((files) => {
+			$scope.$apply(() => {
+				$scope.create.images = $scope.create.images.concat(files.map((file) => new ImageUpload(file)))
+			})
 		}),
 		send: function (receiver, text, images) {
 			images = images || [];
@@ -52,12 +52,8 @@ function messagesController($scope, $state, $stateParams) {
 	};
 
 	function getUser(userid) {
-		var findUser = Bluebird.promisify(userService.get.bind(userService));
-
-		return findUser(userid).then(function (user) {
-			var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-
-			return loadBasicData().then(function () {
+		return userService.get(userid).then(function (user) {
+			return user.loadBasicData().then(function () {
 				return [user.data];
 			});
 		});

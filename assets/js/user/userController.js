@@ -2,11 +2,11 @@
 * userController
 **/
 
-var blobService = require("services/blobService");
+var blobService = require("services/blobService").default
 var circleService = require("circles/circleService");
 var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 

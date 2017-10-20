@@ -10,7 +10,10 @@ const ChatLoader = require("messages/chat").default
 const ChunkLoader = require("messages/chatChunk").default
 const MessageLoader = require("messages/message").default
 
+const Chat = require("messages/chat").Chat
+
 const Memoizer = require("asset/memoizer").default
+const SameArray = require("asset/memoizer").SameArray
 
 const getMessageInfo = (latestMessageID) => {
 	if (!MessageLoader.isLoaded(latestMessageID)) {
@@ -30,6 +33,7 @@ const getMessageInfo = (latestMessageID) => {
 const memoizer = new Memoizer([
 	() => messageService.getChatIDs(),
 	() => ChatLoader.getAll(),
+	() => Chat.getUnreadChatIDs()
 ], (chatIDs) => {
 	let loaded = true
 
@@ -65,12 +69,15 @@ const memoizer = new Memoizer([
 	)
 })
 
+const chatList = new SameArray()
+
 function messagesController($scope, $state, $stateParams, $element) {
 	const chatsLoadingState = new State.default();
 	$scope.chatsLoadingState = chatsLoadingState.data;
 
 	$scope.getChats = () => {
-		return memoizer.getValue()
+		chatList.setValue(memoizer.getValue())
+		return chatList.getValue()
 	}
 
 	function loadChats() {

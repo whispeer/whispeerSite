@@ -24,7 +24,7 @@
 }
 */
 
-var h = require("whispeerHelper").default;
+var h = require("helper/helper").default;
 var chelper = require("crypto/helper");
 var sjcl = require("sjcl");
 var waitForReady = require("crypto/waitForReady");
@@ -76,6 +76,24 @@ try {
 	}
 } catch (e) {
 	keyStoreDebug(e);
+}
+
+function bufferToHex(buffer) {
+	var hexCodes = [];
+	var view = new DataView(buffer);
+	for (var i = 0; i < view.byteLength; i += 4) {
+		// Using getUint32 reduces the number of iterations needed (we process 4 bytes each time)
+		var value = view.getUint32(i)
+		// toString(16) will give the hex representation of the number without padding
+		var stringValue = value.toString(16)
+		// We use concatenation and slice for padding
+		var padding = "00000000"
+		var paddedValue = (padding + stringValue).slice(-padding.length)
+		hexCodes.push(paddedValue);
+	}
+
+	// Join all the hex strings into one
+	return hexCodes.join("");
 }
 
 function fingerPrintData(data) {
@@ -721,7 +739,7 @@ SymKey = function (keyData) {
 	* @param callback called with results
 	* @param optional iv initialization vector
 	*/
-	this.decrypt = function (ctext, iv) {
+	this.decrypt = function (ctext, iv, progressCallback) {
 		return intKey.decryptKey().then(function () {
 			if (typeof ctext !== "object") {
 				if (h.isHex(ctext)) {
@@ -749,7 +767,7 @@ SymKey = function (keyData) {
 			if (ctext.ct.length < 500) {
 				return sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1});
 			} else {
-				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
+				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext, progressCallback);
 			}
 		});
 	};
@@ -780,7 +798,7 @@ function symKeyGenerate(comment) {
 		return new SymKey();
 	}).then(function (key) {
 		if (symKeys[key.getRealID()]) {
-			return symKeyGenerate();
+			return symKeyGenerate(comment);
 		}
 
 		symKeys[key.getRealID()] = key;
@@ -804,7 +822,7 @@ SymKey.get = function (realKeyID) {
 			return symKeys[realKeyID];
 		}
 
-		throw new errors.InvalidDataError("keychain not found (sym)");
+		throw new errors.InvalidDataError("keychain not found (sym) " + realKeyID);
 	});
 };
 
@@ -1135,7 +1153,7 @@ SignKey = function (keyData) {
 			}).then(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					keyStoreDebug("key not in key database");
-					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
+					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to feedback@whispeer.de!");
 					throw new errors.SecurityError("key not in key database");
 				}
 
@@ -1234,6 +1252,11 @@ SignKey = function (keyData) {
 	this.verify = function (signature, text, type, id) {
 		var trustManager = require("./trustManager");
 		var signatureCache = require("./signatureCache");
+		var name = chelper.bits2hex(signature).substr(0, 10);
+
+		if (debug.enabled("whispeer:keyStore")) {
+			console.time(`verify-${name}-${type}`);
+		}
 
 		return hash(text).then(function (hash) {
 			hash = chelper.hex2bits(hash);
@@ -1248,17 +1271,8 @@ SignKey = function (keyData) {
 			}
 
 			keyStoreDebug("Slow verify of type: " + type);
-			var name = chelper.bits2hex(signature).substr(0, 10);
-
-			if (debug.enabled("whispeer:keyStore")) {
-				console.time("verify-" + name);
-			}
 
 			return verify(signature, text, hash).then(function (valid) {
-				if (debug.enabled("whispeer:keyStore")) {
-					console.timeEnd("verify-" + name);
-				}
-
 				if (valid) {
 					signatureCache.addValidSignature(signature, hash, realid, type, id);
 				}
@@ -1268,7 +1282,11 @@ SignKey = function (keyData) {
 				console.error(e);
 				return false;
 			});
-		});
+		}).finally(() => {
+			if (debug.enabled("whispeer:keyStore")) {
+				console.timeEnd(`verify-${name}-${type}`);
+			}
+		})
 	};
 };
 
@@ -1449,7 +1467,7 @@ ObjectPadder.prototype._unpadString = function (val) {
 	var unpadded = val.substr(paddingIndex + 2);
 
 	if (isNumber) {
-		return h.parseDecimal(unpadded);
+		return parseFloat(unpadded);
 	}
 
 	return unpadded;
@@ -1692,8 +1710,14 @@ keyStore = {
 			return chelper.hash(text);
 		},
 
-		hashBigBase64CodedData: function (text) {
-			return sjclWorkerInclude.hash(text);
+		hashArrayBuffer: function (buf) {
+			return Bluebird.try(() => {
+				return getSubtle().digest("SHA-256", buf)
+			}).then((bufHash) => {
+				return bufferToHex(bufHash)
+			}).catch(() => {
+				return sjclWorkerInclude.hash(buf);
+			})
 		},
 
 		hashPW: function (pw, salt) {
@@ -2004,7 +2028,7 @@ keyStore = {
 			});
 		},
 
-		decryptArrayBuffer: function (buf, realKeyID) {
+		decryptArrayBuffer: function (buf, realKeyID, progressCallback) {
 			return SymKey.get(realKeyID).then(function (key) {
 				var buf32 = new Uint32Array(buf);
 
@@ -2014,7 +2038,7 @@ keyStore = {
 					tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
 				};
 
-				return key.decrypt(decr);
+				return key.decrypt(decr, null, progressCallback);
 			}).then(function (decryptedData) {
 				return removeExpectedPrefix(decryptedData, "buf::");
 			});

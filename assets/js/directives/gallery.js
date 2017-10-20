@@ -1,5 +1,5 @@
 var templateUrl = require("../../views/directives/gallery.html");
-var blobService = require("services/blobService");
+var blobService = require("services/blobService").default
 var errorService = require("services/error.service").errorServiceInstance;
 var screenSizeService = require("services/screenSize.service.ts").default;
 
@@ -18,23 +18,11 @@ function imageGallery() {
 		}
 
 		data.loading = true;
-		data.decrypting = false;
-		data.downloading = false;
 
-		var blob;
 		Bluebird.try(function () {
-			data.downloading = true;
-			return blobService.getBlob(blobid);
-		}).then(function (_blob) {
-			data.downloading = false;
-			data.decrypting = true;
-			blob = _blob;
-			return blob.decrypt();
-		}).then(function () {
-			return blob.toURL();
+			return blobService.getBlobUrl(blobid);
 		}).then(function (url) {
 			data.loading = false;
-			data.decrypting = false;
 			data.loaded = true;
 			data.url = url;
 		}).catch(errorService.criticalError);
@@ -44,6 +32,15 @@ function imageGallery() {
 		images.forEach(function (image) {
 			if (image.upload) {
 				return;
+			}
+
+			if (image.lowest.width && image.lowest.height && !image.lowest.loaded) {
+				const canvas = document.createElement("canvas");
+
+				canvas.width = image.lowest.width
+				canvas.height = image.lowest.height
+
+				image.lowest.url = canvas.toDataURL()
 			}
 
 			loadImage(image.lowest);

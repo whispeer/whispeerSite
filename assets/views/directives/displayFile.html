@@ -1,0 +1,10 @@
+<div class="displayFile">
+	<ng-transclude></ng-transclude>
+	<span class="displayFile__icon" data-ng-switch="file.type">
+		<i class="fa fa-file-pdf-o fa-5x" data-ng-switch-when="application/pdf"></i>
+		<i class="fa fa-file-o fa-5x" data-ng-switch-default></i>
+	</span>
+	<p class="displayFile__name">
+		{{file.name}}
+	</p>
+</div>

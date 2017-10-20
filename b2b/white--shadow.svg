@@ -1,0 +1,297 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="513" height="161" viewBox="0 0 513 161">
+  <defs>
+    <polygon id="business-b" points="57.73 98.32 68.38 52.76 79.75 52.76 62.54 116.7 53.38 116.7 39.68 71 26.3 116.7 17.08 116.7 0 52.76 11.3 52.76 22.21 97.2 35.26 52.76 44.35 52.76"/>
+    <filter id="business-a" width="131.3%" height="139.1%" x="-15.7%" y="-11.7%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-d" d="M101.93,59.32 C106.020113,54.2938842 112.201531,51.4375157 118.68,51.58 C131.106667,51.58 137.406667,59.1233333 137.58,74.21 L137.58,116.7 L126.15,116.7 L126.15,74.7 C126.15,69.7 125.23,66.1433333 123.39,64.03 C121.55,61.9166667 118.79,60.8633333 115.11,60.87 C112.323635,60.8439303 109.610211,61.7601513 107.41,63.47 C105.076471,65.2792758 103.196749,67.6075298 101.92,70.27 L101.92,116.7 L90.43,116.7 L90.43,25.93 L101.92,25.93 L101.93,59.32 Z"/>
+    <filter id="business-c" width="153%" height="127.5%" x="-26.5%" y="-8.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-f" d="M166.64,35.8 C166.733663,38.192086 165.510897,40.443661 163.453492,41.6675631 C161.396088,42.8914653 158.833912,42.8914653 156.776508,41.6675631 C154.719103,40.443661 153.496337,38.192086 153.59,35.8 C153.544032,34.1525249 154.12273,32.5486009 155.21,31.31 C158.002196,28.8502224 162.187804,28.8502224 164.98,31.31 C166.085255,32.5404632 166.679019,34.1464865 166.64,35.8 Z M165.73,116.7 L154.24,116.7 L154.24,52.76 L165.73,52.76 L165.73,116.7 Z"/>
+    <filter id="business-e" width="291.4%" height="128.7%" x="-95.7%" y="-8.6%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-h" d="M216.62,100.33 C216.616042,98.0767949 215.589823,95.9471147 213.83,94.54 C211.943333,92.9266667 208.333333,91.0366667 203,88.87 C196.806667,86.5433333 192.443333,84.5433333 189.91,82.87 C187.610168,81.4492363 185.666981,79.5197342 184.23,77.23 C182.927905,74.9385967 182.277754,72.3345323 182.35,69.7 C182.276557,64.6211591 184.599715,59.8044043 188.62,56.7 C192.8,53.2533333 198.133333,51.53 204.62,51.53 C211.46,51.53 216.96,53.3433333 221.12,56.97 C225.244382,60.4434913 227.55702,65.6101009 227.4,71 L216,71 C216.036688,68.2057157 214.879918,65.5284138 212.82,63.64 C210.620617,61.5989325 207.698107,60.5191875 204.7,60.64 C201.32,60.64 198.653333,61.4366667 196.7,63.03 C194.787137,64.5883505 193.717016,66.9544668 193.81,69.42 C193.73118,71.355948 194.501886,73.22975 195.92,74.55 C197.326667,75.8433333 200.713333,77.55 206.08,79.67 C214.606667,82.71 220.406667,85.68 223.48,88.58 C226.521176,91.4171923 228.199685,95.4223108 228.09,99.58 C228.260609,104.784514 225.915904,109.753054 221.79,112.93 C217.59,116.263333 211.963333,117.93 204.91,117.93 C197.576667,117.93 191.646667,116.02 187.12,112.2 C182.711874,108.675562 180.191789,103.30283 180.3,97.66 L191.86,97.66 C191.820774,100.816122 193.11748,103.84177 195.43,105.99 C197.683333,107.99 200.843333,108.99 204.91,108.99 C208.716667,108.99 211.616667,108.213333 213.61,106.66 C215.588583,105.169571 216.712782,102.805391 216.62,100.33 L216.62,100.33 Z"/>
+    <filter id="business-g" width="152.3%" height="137.7%" x="-26.1%" y="-11.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-j" d="M238,143.65 L248.2,149.53 L248.2,108.53 L268.96,120.53 L299.96,102.66 L299.96,66.85 L269,49 L238,66.85 L238,143.65 Z M289.1,96.17 L268.68,108 L248.23,96.17 L248.23,72.56 L268.68,60.75 L289.13,72.56 L289.1,96.17 Z"/>
+    <filter id="business-i" width="140.3%" height="124.9%" x="-20.2%" y="-7.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <polygon id="business-l" points="276.26 74.35 268.98 70.15 261.71 74.35 261.71 82.75 265.48 84.93 265.48 96.71 268.98 98.75 272.48 96.71 272.48 84.93 276.26 82.75"/>
+    <filter id="business-k" width="271.8%" height="187.4%" x="-85.9%" y="-26.2%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-n" d="M337.47,117.88 C328.723333,117.88 322.013333,115.506667 317.34,110.76 C312.666667,106.013333 310.286667,99.05 310.2,89.87 L310.2,82.13 C310.2,72.5966667 312.483333,65.12 317.05,59.7 C321.616667,54.28 327.993333,51.57 336.18,51.57 C344.406667,51.57 350.553333,53.9533333 354.62,58.72 C358.686667,63.4866667 360.763333,70.9133333 360.85,81 L360.85,87.85 L321.62,87.85 L321.62,89.33 C321.62,96.1833333 323.036667,101.183333 325.87,104.33 C328.703333,107.476667 332.786667,109.033333 338.12,109 C341.186681,109.063345 344.231444,108.470077 347.05,107.26 C349.82524,105.946108 352.292239,104.061784 354.29,101.73 L360.29,108.35 C355.29,114.703333 347.683333,117.88 337.47,117.88 Z M336.17,60.56 C331.41,60.56 327.883333,62.0466667 325.59,65.02 C323.296667,67.9933333 321.996667,72.6133333 321.69,78.88 L349.36,78.88 L349.36,77.46 C349.053333,71.3933333 347.853333,67.06 345.76,64.46 C343.666667,61.86 340.47,60.56 336.17,60.56 L336.17,60.56 Z"/>
+    <filter id="business-m" width="149.4%" height="137.7%" x="-24.7%" y="-11.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-p" d="M398.42,117.88 C389.673333,117.88 382.963333,115.506667 378.29,110.76 C373.616667,106.013333 371.236667,99.05 371.15,89.87 L371.15,82.13 C371.15,72.5966667 373.433333,65.12 378,59.7 C382.566667,54.28 388.943333,51.57 397.13,51.57 C405.356667,51.57 411.503333,53.9533333 415.57,58.72 C419.636667,63.4866667 421.713333,70.9133333 421.8,81 L421.8,87.85 L382.57,87.85 L382.57,89.33 C382.57,96.1833333 383.986667,101.183333 386.82,104.33 C389.653333,107.476667 393.736667,109.033333 399.07,109 C402.136707,109.063654 405.181535,108.470373 408,107.26 C410.775554,105.946624 413.242653,104.062223 415.24,101.73 L421.24,108.35 C416.24,114.703333 408.633333,117.88 398.42,117.88 Z M397.12,60.56 C392.353333,60.56 388.823333,62.0466667 386.53,65.02 C384.236667,67.9933333 382.936667,72.6133333 382.63,78.88 L410.3,78.88 L410.3,77.46 C410,71.3933333 408.8,67.06 406.7,64.46 C404.6,61.86 401.406667,60.56 397.12,60.56 L397.12,60.56 Z"/>
+    <filter id="business-o" width="149.4%" height="137.7%" x="-24.7%" y="-11.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-r" d="M463.26,62.57 C461.541419,62.2862057 459.801821,62.149045 458.06,62.16 C452.173333,62.16 448.06,65.0966667 445.72,70.97 L445.72,116.7 L434.23,116.7 L434.23,52.76 L445.4,52.76 L445.59,59.26 C448.663333,54.14 453.013333,51.58 458.64,51.58 C460.195,51.5325088 461.742387,51.8154012 463.18,52.41 L463.26,62.57 Z"/>
+    <filter id="business-q" width="186.1%" height="138.4%" x="-43.1%" y="-11.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-t" d="M19.13,0 L0.27,10.89 L0.27,32.68 L19.14,43.57 L38,32.68 L38,10.89 L19.13,0 Z M29,27.49 L19.11,33.2 L9.22,27.49 L9.22,16.08 L19.11,10.37 L29,16.08 L29,27.49 Z"/>
+    <filter id="business-s" width="166.3%" height="157.4%" x="-33.1%" y="-17.2%" filterUnits="objectBoundingBox">
+      <feOffset dy="3" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.118942482 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-v" d="M0.52,21.25 L0.52,1.25 L6.23,1.25 C7.01434931,1.23903273 7.7960472,1.34348374 8.55,1.56 C9.1960151,1.7555813 9.78808816,2.09782007 10.28,2.56 C10.7674733,3.01908462 11.1378171,3.58831682 11.36,4.22 C11.6233693,4.99550245 11.748602,5.81120734 11.73,6.63 C11.717811,7.47347471 11.4645066,8.29584674 11,9 C10.53041,9.71917124 9.8734831,10.2965754 9.1,10.67 C9.56997335,10.806085 10.008387,11.0337883 10.39,11.34 C10.7635374,11.6428218 11.0816034,12.0082594 11.33,12.42 C11.5891619,12.8554269 11.7813139,13.3273793 11.9,13.82 C12.0293702,14.3501934 12.0931805,14.8942605 12.09,15.44 C12.1040682,16.2837947 11.9686453,17.1234172 11.69,17.92 C11.4463084,18.6020761 11.0573375,19.2230647 10.55,19.74 C10.0476537,20.2391047 9.43923197,20.6185138 8.77,20.85 C8.02028536,21.1059855 7.23213413,21.2311426 6.44,21.22 L0.52,21.25 Z M3,9.75 L6.23,9.75 C6.63066486,9.75423171 7.02823717,9.67947453 7.4,9.53 C7.74876969,9.38928589 8.06271071,9.17430454 8.32,8.9 C8.58706616,8.60998678 8.79435006,8.27017711 8.93,7.9 C9.08325028,7.46326113 9.15773966,7.00278136 9.15,6.54 C9.22668536,5.67564761 8.96498448,4.81526115 8.42,4.14 C7.80979445,3.59679102 7.00444604,3.32593394 6.19,3.39 L3,3.39 L3,9.75 Z M3,11.87 L3,19.08 L6.44,19.08 C6.89260962,19.0895111 7.34221419,19.0043587 7.76,18.83 C8.14384919,18.6693474 8.48589471,18.4230747 8.76,18.11 C9.03997432,17.7800376 9.24776508,17.3951137 9.37,16.98 C9.51476183,16.4967704 9.5855634,15.9944164 9.58,15.49 C9.58597106,14.984874 9.52886286,14.4809781 9.41,13.99 C9.31085095,13.576718 9.12696994,13.1885248 8.87,12.85 C8.62141683,12.5355645 8.29833267,12.2880958 7.93,12.13 C7.49588766,11.9516186 7.02913719,11.8664452 6.56,11.88 L3,11.87 Z"/>
+    <filter id="business-u" width="255.6%" height="190%" x="-77.8%" y="-30%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-x" d="M27.84,1.21 L27.84,15.33 C27.8668962,16.3113911 27.69336,17.2879576 27.33,18.2 C27.0268505,18.9341462 26.5619762,19.5904394 25.97,20.12 C25.3900055,20.6192202 24.7071581,20.9845435 23.97,21.19 C23.2100548,21.4125445 22.4218517,21.5237013 21.63,21.52 C20.8116711,21.5267929 19.996632,21.4156512 19.21,21.19 C18.487906,20.9842691 17.8214165,20.6185544 17.26,20.12 C16.6849972,19.5883027 16.2401683,18.9313247 15.96,18.2 C15.6219768,17.281998 15.4624505,16.3078693 15.49,15.33 L15.49,1.21 L18,1.21 L18,15.33 C17.9821632,15.989704 18.0699381,16.6480159 18.26,17.28 C18.4041854,17.7493941 18.6578147,18.1778219 19,18.53 C19.3181276,18.8427923 19.7103365,19.0698606 20.14,19.19 C20.6253385,19.3226961 21.1268922,19.3866526 21.63,19.38 C22.1363993,19.3866683 22.6412565,19.3227197 23.13,19.19 C23.5632382,19.071414 23.9590555,18.8442493 24.28,18.53 C24.6221853,18.1778219 24.8758146,17.7493941 25.02,17.28 C25.2100619,16.6480159 25.2978368,15.989704 25.28,15.33 L25.28,1.21 L27.84,1.21 Z"/>
+    <filter id="business-w" width="245.7%" height="188.6%" x="-72.8%" y="-29.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-z" d="M40.48,16.18 C40.4861003,15.76115 40.4322207,15.3435828 40.32,14.94 C40.2110334,14.564388 40.0119243,14.2210965 39.74,13.94 C39.3996681,13.6010281 39.0082375,13.3175784 38.58,13.1 C37.9707067,12.7840367 37.3390033,12.5133066 36.69,12.29 C35.9171501,12.0187176 35.1679518,11.6842541 34.45,11.29 C33.8225615,10.9582021 33.2465654,10.5371523 32.74,10.04 C32.2751338,9.57572522 31.9049365,9.02552373 31.65,8.42 C31.3809628,7.76009054 31.2482986,7.05254793 31.26,6.34 C31.2538968,5.59685514 31.3931771,4.85968877 31.67,4.17 C31.9332809,3.5195377 32.3282153,2.93054068 32.83,2.44 C33.3510702,1.93551377 33.9706635,1.54401254 34.65,1.29 C35.4077989,1.00776639 36.2114283,0.86874191 37.02,0.88 C37.9066303,0.862923376 38.7865518,1.03686133 39.6,1.39 C40.3161196,1.7052645 40.9595218,2.16483749 41.49,2.74 C42.0009274,3.30198845 42.3921937,3.96203772 42.64,4.68 C42.8930108,5.42675717 43.0148098,6.21168445 43,7 L40.47,7 C40.474848,6.4733089 40.4075563,5.94843414 40.27,5.44 C40.148784,4.9872505 39.934187,4.5648691 39.64,4.2 C39.3497947,3.84768606 38.9794789,3.56994919 38.56,3.39 C37.5916372,3.03426304 36.5283628,3.03426304 35.56,3.39 C34.7950919,3.68183669 34.2105724,4.31444957 33.98,5.1 C33.85146,5.51784164 33.7873902,5.95284172 33.79,6.39 C33.773273,7.19485886 34.1050176,7.96771451 34.7,8.51 C35.5250124,9.20265521 36.4805017,9.72290386 37.51,10.04 C38.378627,10.3164735 39.2190603,10.6747459 40.02,11.11 C40.6592637,11.4562762 41.2370212,11.9056432 41.73,12.44 C42.1757431,12.9211412 42.5163175,13.4899004 42.73,14.11 C42.9455838,14.7853399 43.0502748,15.4911595 43.04,16.2 C43.0524387,16.9599116 42.9130481,17.7146603 42.63,18.42 C42.3651062,19.062912 41.9622902,19.6398263 41.45,20.11 C40.914284,20.5935541 40.2844583,20.9612361 39.6,21.19 C38.8104247,21.453175 37.9821988,21.5816345 37.15,21.57 C36.3572949,21.5675458 35.5702968,21.4358165 34.82,21.18 C34.0693885,20.9313445 33.37347,20.5409512 32.77,20.03 C32.1550606,19.5024942 31.6576737,18.8518032 31.31,18.12 C30.9252799,17.2939428 30.7337693,16.3911074 30.75,15.48 L33.28,15.48 C33.2638209,16.0839039 33.3657279,16.6851556 33.58,17.25 C33.9368464,18.1735262 34.695204,18.8840263 35.64,19.18 C36.124834,19.3348996 36.6310289,19.4125161 37.14,19.41 C38.0576361,19.4813163 38.9645131,19.1742065 39.65,18.56 C40.243735,17.9154897 40.5441867,17.0539535 40.48,16.18 L40.48,16.18 Z"/>
+    <filter id="business-y" width="246.4%" height="187%" x="-73.2%" y="-29%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <polygon id="business-B" points="49 21.25 46.48 21.25 46.48 1.25 49 1.25"/>
+    <filter id="business-A" width="814.3%" height="190%" x="-357.1%" y="-30%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <polygon id="business-D" points="66.46 21.25 63.93 21.25 55.93 5.81 55.93 21.25 53.4 21.25 53.4 1.25 55.93 1.25 64 16.72 64 1.21 66.51 1.21"/>
+    <filter id="business-C" width="237.3%" height="189.8%" x="-68.6%" y="-29.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <polygon id="business-F" points="80.43 12 73.34 12 73.34 19.1 81.6 19.1 81.6 21.26 70.83 21.26 70.83 1.26 81.47 1.26 81.47 3.43 73.35 3.43 73.35 9.87 80.44 9.87"/>
+    <filter id="business-E" width="267.1%" height="190%" x="-83.6%" y="-30%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-H" d="M93.58,16.18 C93.5861003,15.76115 93.5322207,15.3435828 93.42,14.94 C93.3110334,14.564388 93.1119243,14.2210965 92.84,13.94 C92.4996681,13.6010281 92.1082375,13.3175784 91.68,13.1 C91.0707067,12.7840367 90.4390033,12.5133066 89.79,12.29 C89.0171501,12.0187176 88.2679518,11.6842541 87.55,11.29 C86.9225615,10.9582021 86.3465654,10.5371523 85.84,10.04 C85.3751338,9.57572522 85.0049365,9.02552373 84.75,8.42 C84.4809628,7.76009054 84.3482986,7.05254793 84.36,6.34 C84.3538968,5.59685514 84.4931771,4.85968877 84.77,4.17 C85.0332809,3.5195377 85.4282153,2.93054068 85.93,2.44 C86.4510702,1.93551377 87.0706635,1.54401254 87.75,1.29 C88.5077989,1.00776639 89.3114283,0.86874191 90.12,0.88 C91.0066303,0.862923376 91.8865518,1.03686133 92.7,1.39 C93.4161196,1.7052645 94.0595218,2.16483749 94.59,2.74 C95.1009274,3.30198845 95.4921937,3.96203772 95.74,4.68 C95.9975667,5.40913294 96.1294414,6.17671148 96.13,6.95 L93.6,6.95 C93.604848,6.4233089 93.5375563,5.89843414 93.4,5.39 C93.278784,4.9372505 93.064187,4.5148691 92.77,4.15 C92.4797947,3.79768606 92.1094789,3.51994919 91.69,3.34 C90.7216372,2.98426304 89.6583628,2.98426304 88.69,3.34 C87.9250919,3.63183669 87.3405724,4.26444957 87.11,5.05 C86.98146,5.46784164 86.9173902,5.90284172 86.92,6.34 C86.903273,7.14485886 87.2350176,7.91771451 87.83,8.46 C88.6550124,9.15265521 89.6105017,9.67290386 90.64,9.99 C91.508627,10.2664735 92.3490603,10.6247459 93.15,11.06 C93.7892637,11.4062762 94.3670212,11.8556432 94.86,12.39 C95.3057431,12.8711412 95.6463175,13.4399004 95.86,14.06 C96.0755838,14.7353399 96.1802748,15.4411595 96.17,16.15 C96.1824387,16.9099116 96.0430481,17.6646603 95.76,18.37 C95.4951062,19.012912 95.0922902,19.5898263 94.58,20.06 C94.044284,20.5435541 93.4144583,20.9112361 92.73,21.14 C91.9404247,21.403175 91.1121988,21.5316345 90.28,21.52 C89.4872949,21.5175458 88.7002968,21.3858165 87.95,21.13 C87.1993885,20.8813445 86.50347,20.4909512 85.9,19.98 C85.2850606,19.4524942 84.7876737,18.8018032 84.44,18.07 C84.0552799,17.2439428 83.8637693,16.3411074 83.88,15.43 L86.41,15.43 C86.3938209,16.0339039 86.4957279,16.6351556 86.71,17.2 C87.0668464,18.1235262 87.825204,18.8340263 88.77,19.13 C89.254834,19.2848996 89.7610289,19.3625161 90.27,19.36 C91.1876361,19.4313163 92.0945131,19.1242065 92.78,18.51 C93.3498899,17.8729517 93.638368,17.0327591 93.58,16.18 L93.58,16.18 Z"/>
+    <filter id="business-G" width="246.4%" height="187.2%" x="-73.2%" y="-29.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <path id="business-J" d="M108.18,16.18 C108.1861,15.76115 108.132221,15.3435828 108.02,14.94 C107.911033,14.564388 107.711924,14.2210965 107.44,13.94 C107.099668,13.6010281 106.708238,13.3175784 106.28,13.1 C105.670707,12.7840367 105.039003,12.5133066 104.39,12.29 C103.61715,12.0187176 102.867952,11.6842541 102.15,11.29 C101.522561,10.9582021 100.946565,10.5371523 100.44,10.04 C99.9751338,9.57572522 99.6049365,9.02552373 99.35,8.42 C99.0809628,7.76009054 98.9482986,7.05254793 98.96,6.34 C98.9538968,5.59685514 99.0931771,4.85968877 99.37,4.17 C99.6332809,3.5195377 100.028215,2.93054068 100.53,2.44 C101.05107,1.93551377 101.670663,1.54401254 102.35,1.29 C103.107799,1.00776639 103.911428,0.86874191 104.72,0.88 C105.60663,0.862923376 106.486552,1.03686133 107.3,1.39 C108.01612,1.7052645 108.659522,2.16483749 109.19,2.74 C109.700927,3.30198845 110.092194,3.96203772 110.34,4.68 C110.597567,5.40913294 110.729441,6.17671148 110.73,6.95 L108.2,6.95 C108.204848,6.4233089 108.137556,5.89843414 108,5.39 C107.878784,4.9372505 107.664187,4.5148691 107.37,4.15 C107.079795,3.79768606 106.709479,3.51994919 106.29,3.34 C105.321637,2.98426304 104.258363,2.98426304 103.29,3.34 C102.525092,3.63183669 101.940572,4.26444957 101.71,5.05 C101.58146,5.46784164 101.51739,5.90284172 101.52,6.34 C101.503273,7.14485886 101.835018,7.91771451 102.43,8.46 C103.255012,9.15265521 104.210502,9.67290386 105.24,9.99 C106.108627,10.2664735 106.94906,10.6247459 107.75,11.06 C108.389264,11.4062762 108.967021,11.8556432 109.46,12.39 C109.905743,12.8711412 110.246318,13.4399004 110.46,14.06 C110.675584,14.7353399 110.780275,15.4411595 110.77,16.15 C110.782439,16.9099116 110.643048,17.6646603 110.36,18.37 C110.095106,19.012912 109.69229,19.5898263 109.18,20.06 C108.644284,20.5435541 108.014458,20.9112361 107.33,21.14 C106.540425,21.403175 105.712199,21.5316345 104.88,21.52 C104.087295,21.5175458 103.300297,21.3858165 102.55,21.13 C101.799389,20.8813445 101.10347,20.4909512 100.5,19.98 C99.8850606,19.4524942 99.3876737,18.8018032 99.04,18.07 C98.6552799,17.2439428 98.4637693,16.3411074 98.48,15.43 L101,15.43 C100.983821,16.0339039 101.085728,16.6351556 101.3,17.2 C101.656846,18.1235262 102.415204,18.8340263 103.36,19.13 C103.844834,19.2848996 104.351029,19.3625161 104.86,19.36 C105.777636,19.4313163 106.684513,19.1242065 107.37,18.51 C107.943507,17.8745485 108.235655,17.034173 108.18,16.18 Z"/>
+    <filter id="business-I" width="246.4%" height="187.2%" x="-73.2%" y="-29.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.142549819 0"/>
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.085229846 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g fill="none" transform="translate(6 3)">
+    <use fill="#000" filter="url(#business-a)" xlink:href="#business-b"/>
+    <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-b"/>
+    <use fill="#000" filter="url(#business-c)" xlink:href="#business-d"/>
+    <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-d"/>
+    <use fill="#000" filter="url(#business-e)" xlink:href="#business-f"/>
+    <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-f"/>
+    <use fill="#000" filter="url(#business-g)" xlink:href="#business-h"/>
+    <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-h"/>
+    <use fill="#000" filter="url(#business-i)" xlink:href="#business-j"/>
+    <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-j"/>
+    <use fill="#000" filter="url(#business-k)" xlink:href="#business-l"/>
+    <use fill="#5AB70D" fill-rule="evenodd" xlink:href="#business-l"/>
+    <g>
+      <use fill="#000" filter="url(#business-m)" xlink:href="#business-n"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-n"/>
+    </g>
+    <g>
+      <use fill="#000" filter="url(#business-o)" xlink:href="#business-p"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-p"/>
+    </g>
+    <g>
+      <use fill="#000" filter="url(#business-q)" xlink:href="#business-r"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-r"/>
+    </g>
+    <g transform="translate(463)">
+      <use fill="#000" filter="url(#business-s)" xlink:href="#business-t"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-t"/>
+    </g>
+    <g fill="#5AB70D" transform="translate(471 9)">
+      <polygon points="22.01 19.07 22.01 6.51 11.13 .23 .26 6.51 .26 19.07 11.13 25.35"/>
+    </g>
+    <g transform="translate(335 128)">
+      <use fill="#000" filter="url(#business-u)" xlink:href="#business-v"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-v"/>
+      <use fill="#000" filter="url(#business-w)" xlink:href="#business-x"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-x"/>
+      <use fill="#000" filter="url(#business-y)" xlink:href="#business-z"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-z"/>
+      <use fill="#000" filter="url(#business-A)" xlink:href="#business-B"/>
+      <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-B"/>
+      <g>
+        <use fill="#000" filter="url(#business-C)" xlink:href="#business-D"/>
+        <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-D"/>
+      </g>
+      <g>
+        <use fill="#000" filter="url(#business-E)" xlink:href="#business-F"/>
+        <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-F"/>
+      </g>
+      <g>
+        <use fill="#000" filter="url(#business-G)" xlink:href="#business-H"/>
+        <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-H"/>
+      </g>
+      <g>
+        <use fill="#000" filter="url(#business-I)" xlink:href="#business-J"/>
+        <use fill="#FFF" fill-rule="evenodd" xlink:href="#business-J"/>
+      </g>
+    </g>
+  </g>
+</svg>

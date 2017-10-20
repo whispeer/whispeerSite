@@ -82,8 +82,6 @@ var config = {
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
-			workerQueue: "worker/worker-queue",
-			PromiseWorker: "worker/worker-loader",
 			debug: "debug"
 		}
 	},
@@ -106,7 +104,8 @@ var config = {
 		register: "./register/registerMain.js",
 		main: "./main.js",
 		recovery: "./recovery/recoveryMain.js",
-		verifyMail: "./verifyMail/verifyMailMain.js"
+		verifyMail: "./verifyMail/verifyMailMain.js",
+		sales: "./sales/salesMain.ts"
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),

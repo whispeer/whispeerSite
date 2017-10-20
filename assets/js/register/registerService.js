@@ -1,11 +1,12 @@
 var keyStoreService = require("services/keyStore.service").default;
 var socketService = require("services/socket.service").default;
-var ProfileService = require("services/profile.service").default;
-var Storage = require("services/storage.service.ts");
+var Profile = require("users/profile").default;
+var Storage = require("services/storage.service");
 var errorService = require("services/error.service").errorServiceInstance;
 
 var Bluebird = require("bluebird");
-var h = require("whispeerHelper").default;
+var h = require("../helper/helper").default;
+
 var trustManager = require("crypto/trustManager");
 var SecuredData = require("asset/securedDataWithMetaData");
 
@@ -28,16 +29,16 @@ var registerService = {
 					throw new Error("need nickname");
 				}
 
-				var privateProfile = new ProfileService({
+				var privateProfile = new Profile({
 					content: profile.priv
-				}, { isDecrypted: true });
+				});
 
-				var privateProfileMe = new ProfileService({
+				var privateProfileMe = new Profile({
 					content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
 					meta: { myProfile: true }
-				}, { isDecrypted: true });
+				});
 
-				var publicProfile = new ProfileService({
+				var publicProfile = new Profile({
 					content: profile.pub || {}
 				}, { isPublicProfile: true });
 

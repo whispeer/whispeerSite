@@ -9,6 +9,6 @@
 	"workerScript": "/assets/js/build/worker.js",
 
 	"serviceWorker": {
-		"enabled": true
+		"enabled": false
 	}
 }

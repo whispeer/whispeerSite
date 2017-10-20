@@ -1,26 +1,7 @@
 ---
 ---
 
-$kellygreen: #5AB70D;
-$napiergreen: #3A8100;
-$kellygreenhighlight: #6CC117;
-
-$prussianblue: #013C4C;
-$midnightblue: #124958;
-$darkcerulean: #1B5C6D;
-
-$red: #FE3824;
-$seashell: #FFEDEC;
-$deepcoffee: #673C41;
-$mediumchampagne: #FFEDA5;
-$white: #FFFFFF;
-
-$davysgrey: #545B5E;
-$grey: #788286;
-$darkgrey: #A0A7AA;
-$gainsboro: #D5D8DA;
-$isabelline: #EBECED;
-$ghostwhite: #F9F9FA;
+@import "variables";
 
 @text-color-dark: @davysgrey;
 @text-color-light: @darkgrey;
@@ -62,10 +43,18 @@ $iconSizeLarge: 15em;
 $iconLineHeightLarge: 10em;
 
 @import "misc";
+@import "buttons";
 @import "mixins";
 @import "normalize";
 @import "caret-elements";
 @import "polygon";
+
+.button--business {
+  height: auto;
+  line-height: 32px;
+  padding: 18px 25px;
+  text-align: center;
+}
 
 @font-face {
   font-family: 'Roboto Condensed';
@@ -142,6 +131,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 100;
 }
 
+.landing-section--first {
+	text-shadow: 0px 1px 5px #545B5E;
+}
+
 .landing-section--full {
 	padding: 0;
 }
@@ -154,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
 
 	@media (max-width: 500px) {
 		background-position: top right;
-		background-size: 500px 377px;
+		background-size: auto 377px;
 		background-color: $primary_light;
 	}
 
@@ -192,10 +185,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .landing-section--wrap {
 	flex-wrap: wrap;
-}
-
-.landing-section--first {
-	font-weight: 300;
 }
 
 .landing-section__heading {

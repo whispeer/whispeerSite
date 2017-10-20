@@ -13,5 +13,5 @@ Schmargendorfer Straße 34<br>
 12159 Berlin, Germany
 
 ### Contact
-Mail: support@whispeer.de<br>
+Mail: feedback@whispeer.de<br>
 Phone: +49 - 30 - 55597624

@@ -1,7 +1,7 @@
 var Bluebird = require("bluebird");
 var SecuredData = require("asset/securedDataWithMetaData");
 
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var socket = require("services/socket.service").default;
 
 var CommentModel = function (data, parentPost) {
@@ -71,8 +71,8 @@ CommentModel.create = function (text, parentPost, cb) {
 		}, {
 			postID: parentPost.getID(),
 			createTime: new Date().getTime(),
-			sender: userService.getown().getID()
-		}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey());
+			sender: userService.getOwn().getID()
+		}, { type: "comment" }, userService.getOwn().getSignKey(), parentPost.getKey());
 
 		s.data.setParent(parentPost.getSecured());
 

@@ -11,6 +11,8 @@ const reportService = require("services/report.service").default
 
 const ChatLoader = require("messages/chat").default
 
+const featureToggles = require("services/featureToggles").default
+
 function messagesDetailController($scope, $element, $state, $stateParams, localize) {
 	var chatLoadingState = new State.default();
 	$scope.topicLoadingState = chatLoadingState.data;
@@ -25,6 +27,14 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.saveTitle = function() {
 		chatDetailsSavingState.pending();
 
+		if ($scope.chatTitle === $scope.activeChat.getTitle()) {
+			$state.go("app.messages.show", {
+				topicid: chatID
+			});
+
+			return
+		}
+
 		var savePromise = $scope.activeChat.setTitle($scope.chatTitle).then(function() {
 			$state.go("app.messages.show", {
 				topicid: chatID
@@ -35,6 +45,9 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
 	};
+
+	$scope.amIAdmin = () => $scope.activeChat.amIAdmin()
+	$scope.featureEnabled = (featureName) => featureToggles.isFeatureEnabled(featureName)
 
 	$scope.chatTitle = "";
 

@@ -23,7 +23,7 @@ export default class Memoizer {
 		})
 
 		if (index > -1) {
-			console.warn(`Memoizer recalculated at ${index}`, this.values, newValues)
+			// console.warn(`Memoizer recalculated at ${index}`, this.values, newValues)
 		}
 
 		return index > -1
@@ -37,8 +37,24 @@ export default class Memoizer {
 		}
 
 		this.values = newValues
-		this.cachedValue = this.reduce(...this.values)
+		this.cachedValue = this.reduce(...this.values, this.cachedValue)
 
 		return this.cachedValue
 	}
+}
+
+export class SameArray {
+	private arr: any[] = []
+	private previousInput: any[]
+
+	setValue = (newValues: any[]) => {
+		if (this.previousInput === newValues) {
+			return
+		}
+
+		this.arr.splice(0, this.arr.length)
+		this.arr.push.apply(this.arr, newValues)
+		this.previousInput = newValues
+	}
+	getValue = () => this.arr
 }

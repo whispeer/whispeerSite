@@ -16,14 +16,14 @@
 			<header class="header">
 				<div class="header-inner">
 					<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
-						<img src="/assets/img/logo/white_business.svg" class="header-brand__logo">
+						<img src="/assets/img/logo/white.svg" class="header-brand__logo">
 					</a>
 					<!--<a href="/logout/" target="_self" class="header-toggle header-toggle-login">Logout</a>-->
 				</div>
 			</header>
 			<section class="landing-section landing-section--background-image landing-section--first">
 				<div class="landing-section__inner">
-					<img src="/assets/img/logo/white_business.svg" id="landing-section__logo">
+					<img src="/assets/img/logo/white.svg" id="landing-section__logo">
 
 					<h2 class="landing-section__heading landing-section__heading--low-profile">Seien Sie Vorreiter.</h2>
 					<h2 class="landing-section__heading landing-section__heading--low-profile">Entdecken Sie whispeer für Ihr Unternehmen.</h2>
@@ -36,18 +36,23 @@
 					<p class="landing-section__paragraph landing-section__paragraph--large">
 						Kontaktieren Sie uns einfach: <a class="link--grey" href="tel:+493055597624">+49 - 30 - 55597624</a> oder <a class="link--grey" href="mailto:business@whispeer.de">business@whispeer.de</a>.
 					</p>
-					<!-- <a href="#" class="landing-section__link landing-secition__link--shadow landing-section__link--accent">Entdecken Sie die Services von whispeer ></a> -->
-<!--
-					<form name="quickRegister" class="landing-section__form caret-wrapped-overlapping">
-						<div class="caret-wrapped">
-							<input type="text" placeholder="Name Ihres Unternehmens" class="caret-wrapped__input landing-section__input--primary">
-						</div>
-						<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
-							<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">weiter</button>
-						</div>
-					</form> -->
+					<p>
+						<a href="/private" class="button button--business">
+							whispeer für den persönlichen Gebrauch
+						</a>
+					</p>
+					<p>
+						<button id="trial" class="button button--business">
+							whispeer Business testen - 30 Tage kostenfrei, dann 5€/Monat *
+						</button>
+					</p>
+					<p>
+						* Kein Zahlungsmittel für Testphase erforderlich. Jederzeit kündbar.
+					</p>
 				</div>
 			</section>
 		</main>
+
+		<script src="/assets/js/build/sales.bundle.js"></script>
 	</body>
 </html>

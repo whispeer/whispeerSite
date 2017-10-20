@@ -5,7 +5,7 @@
 var cssService = require("services/css.service").default;
 var friendsService = require("services/friendsService");
 var localize = require("i18n/localizationConfig");
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 
@@ -40,9 +40,7 @@ function friendsController($scope)  {
 	function loadRequestsUsers() {
 		return Bluebird.try(function () {
 			var requests = friendsService.getRequests();
-
-			var getMultipleFormatted = Bluebird.promisify(userService.getMultipleFormatted);
-			return getMultipleFormatted(requests);
+			return userService.getMultipleFormatted(requests);
 		}).then(function (result) {
 			$scope.requests = result;
 		});

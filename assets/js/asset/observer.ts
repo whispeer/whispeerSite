@@ -16,7 +16,7 @@ export default class Observer {
 		this._listenersOnce = {};
 	};
 
-	listenOnce(fn: any, type: string) {
+	listenOnce(fn: Function, type: string) {
 		type = type || "any";
 
 		if (typeof this._listenersOnce[type] === "undefined") {
@@ -32,7 +32,7 @@ export default class Observer {
 			});
 	}
 
-	listen(fn: any, type: string) {
+	listen(fn: Function, type: string) {
 			type = type || "any";
 			if (typeof this._listeners[type] === "undefined") {
 					this._listeners[type] = [];
@@ -40,7 +40,7 @@ export default class Observer {
 			this._listeners[type].push(fn);
 	}
 
-	notify(data: any, type?: string, returnF?: any) {
+	notify(data: any, type?: string, returnF?: Function) {
 			type = type || "any";
 
 			if (!returnF) {

@@ -1,10 +1,12 @@
-var errorService = require("./error.service.ts").errorServiceInstance;
-var keyStore = require("crypto/keyStore");
-var socketService = require("services/socket.service.ts").default;
-var requestKeyService = require("services/requestKey.service.ts").default;
-var CacheService = require("./Cache.ts").default;
+console.warn(`Whispeer startup at ${Date.now()}`)
+console.time("Spinner on Home")
 
-var h = require("whispeerHelper").default;
+var errorService = require("./error.service").errorServiceInstance;
+var keyStore = require("crypto/keyStore");
+var socketService = require("services/socket.service").default;
+var CacheService = require("./Cache").default;
+
+var h = require("../helper/helper").default;
 var debug = require("debug");
 var Observer = require("asset/observer");
 var Bluebird = require("bluebird");
@@ -26,7 +28,7 @@ function timeEnd(name) {
 	}
 }
 
-var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService, blockageToken;
+var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService;
 
 function getCache(initRequest) {
 	return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
@@ -78,8 +80,6 @@ function getServerData(initRequests) {
 			}
 		}
 
-		requestObject.blockageToken = blockageToken;
-
 		return socketService.definitlyEmit(request.domain, requestObject).then(function (response) {
 			request.data = response;
 
@@ -94,7 +94,7 @@ function runCacheCallbacks(initRequests) {
 			return !request.options.cache;
 		}
 
-		return request.options.cacheCallback(request.cache, blockageToken).thenReturn(true);
+		return request.options.cacheCallback(request.cache).thenReturn(true);
 	});
 }
 
@@ -103,7 +103,7 @@ function runCallbacks(initResponses) {
 		var callback = response.callback;
 
 		if (response.options.cache) {
-			return callback(response.data.content, blockageToken).then(function (transformedData) {
+			return callback(response.data.content).then(function (transformedData) {
 				initServiceDebug("Callback done:" + response.domain);
 				if (!transformedData) {
 					return;
@@ -118,7 +118,7 @@ function runCallbacks(initResponses) {
 }
 
 function runFunction(func) {
-	return func(blockageToken);
+	return func();
 }
 
 function runInitCacheCallbacks() {
@@ -127,9 +127,6 @@ function runInitCacheCallbacks() {
 
 function loadData() {
 	keyStore.security.blockPrivateActions();
-	blockageToken = socketService.blockEmitWithToken();
-
-	requestKeyService.setBlockageToken(blockageToken);
 
 	var runningInitCallbacks;
 	var promise = Bluebird.resolve().then(function () {
@@ -174,7 +171,6 @@ function loadData() {
 	}).then(function () {
 		timeEnd("runMainCallbacks");
 		keyStore.security.allowPrivateActions();
-		socketService.allowEmit(blockageToken);
 
 		var migrationService = require("services/migrationService");
 		migrationService();
@@ -195,8 +191,8 @@ initService = {
 	/** get via api, also check cache in before!
 	* @param domain: domain to get from
 	*/
-	awaitLoading: function (cb) {
-		return loadingPromise.nodeify(cb);
+	awaitLoading: function () {
+		return loadingPromise
 	},
 	get: function (domain, cb, options) {
 		initRequestsList.push({
