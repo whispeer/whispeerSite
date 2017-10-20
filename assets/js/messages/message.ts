@@ -175,6 +175,8 @@ export class Message {
 		}
 	}
 
+	getChatID = () => ChunkLoader.getLoaded(this.getChunkID()).getChatID()
+
 	getChunkID = () => {
 		return this.chunkID || this.chat.getLatestChunk()
 	}
@@ -290,10 +292,6 @@ export class Message {
 
 	getClientID = () => {
 		return this.clientID
-	}
-
-	getTopicID = () => {
-		return this.chunkID
 	}
 
 	getTime = () => {

@@ -43,7 +43,7 @@ function service(localize, $state, $rootScope) {
 						"icon":	obj.sender.basic.image
 					},
                     "app.messages.show",
-                    {topicid: obj.obj.getTopicID()});
+                    {topicid: obj.obj.getChatID()});
 			}
 		}
 	};
