@@ -409,7 +409,8 @@
 			"promote": "Rechte erteilen",
 			"demote": "Rechte zurückziehen",
 			"remove": "Aus Chat entfernen"
-		}
+		},
+		"addUsers": "Nutzer hinzufügen"
 	},
 	"profile": {
 		"notFound": "Dieser Nutzer existiert nicht!",

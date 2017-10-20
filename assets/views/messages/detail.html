@@ -35,7 +35,9 @@
 		<h2 data-i18n="messages.chatPersons"></h2>
 		<div class="messages__details__search-wrap">
 			<search data-ng-if="amIAdmin()" class="circleView-addUsers-search messages__details__search" data-supplier="userSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
-			<button class="btn btn--primary messages__details__search-button">Nutzer hinzufügen</button>
+			<savebutton class="btn btn--primary messages__details__search-button" data-noiniticon data-state="addUsersToTopic" data-ng-click="addReceivers()">
+				<span data-i18n="messages.addUsers"></span>
+			</savebutton>
 		</div>
 		<ul>
 			<li class="messages__details__partner" data-ng-repeat="partner in activeChat.getReceivers()">

@@ -411,7 +411,8 @@
 			"promote": "Promote admin",
 			"demote": "Demote admin",
 			"remove": "Remove from chat"
-		}
+		},
+		"addUsers": "Add users"
 	},
 	"profile": {
 		"notFound": "User not found!",

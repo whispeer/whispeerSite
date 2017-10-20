@@ -1,5 +1,7 @@
 "use strict";
 
+const Bluebird = require("bluebird")
+
 const h = require("whispeerHelper").default;
 const State = require("asset/state");
 const messagesModule = require("messages/messagesModule");
@@ -24,6 +26,9 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	var chatDetailsSavingState = new State.default();
 	$scope.chatDetailsSavingState = chatDetailsSavingState.data;
 
+	const addUsersToTopicState = new State.default()
+	$scope.addUsersToTopic = addUsersToTopicState.data
+
 	$scope.saveTitle = function() {
 		chatDetailsSavingState.pending();
 
@@ -46,14 +51,15 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
 	};
 
-	$scope.amIAdmin = () => $scope.activeChat.amIAdmin()
+	$scope.amIAdmin = () =>
+		$scope.activeChat && $scope.activeChat.amIAdmin()
+
 	$scope.featureEnabled = (featureName) => featureToggles.isFeatureEnabled(featureName)
 
 	$scope.chatTitle = "";
 
-	$scope.setUsersToAdd = function(selected) {
-		console.log(selected);
-	};
+	$scope.setUsersToAdd = selected =>
+		$scope.selectedUsers = selected;
 
 	$scope.promote = (user) => {
 		$scope.saving = true
@@ -73,8 +79,6 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 	$scope.isAdmin = (user) => $scope.activeChat.isAdmin(user)
 
-	$scope.amIAdmin = () => $scope.activeChat.amIAdmin()
-
 	$scope.report = () => {
 		if(confirm(localize.getLocalizedString("messages.reportConfirm"))) {
 			reportService.sendReport("chat", $scope.activeChat.getID());
@@ -89,6 +93,20 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 		$scope.chatTitle = chat.getTitle() || "";
 	});
+
+	$scope.addReceivers = () => {
+		addUsersToTopicState.pending();
+
+		const promise = Bluebird.resolve($scope.selectedUsers).then(data =>
+			{console.log(data)
+			return $scope.activeChat.addReceivers(data)}
+		).then(() => {
+			$scope.$broadcast("resetSearch")
+			alert("Added")
+		});
+
+		errorService.failOnErrorPromise(addUsersToTopicState, promise);
+	}
 
 	errorService.failOnErrorPromise(chatLoadingState, getChatPromise);
 }
