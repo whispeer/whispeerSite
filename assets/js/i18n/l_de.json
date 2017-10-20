@@ -405,6 +405,7 @@
 		"report": "Diesen Chat melden",
 		"reportConfirm": "Bitte bestätige, dass du diesen Chat melden möchtest. Wir setzen uns dann mit dir in Verbindung.",
 		"user": {
+			"admin": "Administrator",
 			"promote": "Rechte erteilen",
 			"demote": "Rechte zurückziehen",
 			"remove": "Aus Chat entfernen"

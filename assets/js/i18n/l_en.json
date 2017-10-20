@@ -407,6 +407,7 @@
 		"report": "Report this chat",
 		"reportConfirm": "Please confirm that you want to report this chat. We'll then get in touch with you.",
 		"user": {
+			"admin": "Administrator",
 			"promote": "Promote admin",
 			"demote": "Demote admin",
 			"remove": "Remove from chat"

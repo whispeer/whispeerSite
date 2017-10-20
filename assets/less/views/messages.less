@@ -600,3 +600,73 @@
 .other .username {
 	color: @davysgrey;
 }
+
+.messages__details__search-wrap {
+	display: flex;
+
+	flex-wrap: wrap;
+
+	margin-left: -1em;
+	margin-top: -0.5em;
+}
+
+.messages__details__search,
+.messages__details__search-button {
+	margin-left: 1em;
+	margin-top: 0.5em;
+}
+
+.messages__details__search {
+	width: 100%;
+
+	max-width: calc(100% - 1em);
+
+	flex-basis: 400px;
+
+	flex-shrink: 1;
+	flex-grow: 2;
+}
+
+.messages__details__search-button {
+	width: 200px;
+
+	flex-basis: 200px;
+	flex-shrink: 0;
+	flex-grow: 1;
+
+	margin-left: 1em;
+}
+
+.messages__details__partner {
+	position: relative;
+	display: flex;
+	width: auto;
+
+	flex-basis: 300px;
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	flex-wrap: wrap;
+
+	margin: 1em 0;
+
+	.person {
+		width: auto;
+	}
+}
+
+.messages__partner__admin-options {
+	position: relative;
+	top: 0;
+
+	flex-basis: 200px;
+
+	flex-shrink: 0;
+	flex-grow: 1;
+
+	max-width: 225px;
+
+	align-self: flex-end;
+	justify-self: flex-end;
+	margin: auto 0 auto auto !important;
+}

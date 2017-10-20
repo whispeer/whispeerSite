@@ -33,17 +33,25 @@
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
 		<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
 		<h2 data-i18n="messages.chatPersons"></h2>
+		<div class="messages__details__search-wrap">
+			<search data-ng-if="amIAdmin()" class="circleView-addUsers-search messages__details__search" data-supplier="userSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
+			<button class="btn btn--primary messages__details__search-button">Nutzer hinzufügen</button>
+		</div>
 		<ul>
-			<li class="friendsView-friend" data-ng-repeat="partner in activeChat.getReceivers()">
+			<li class="messages__details__partner" data-ng-repeat="partner in activeChat.getReceivers()">
 				<person data-user="partner" data-type="friend">
-					<div data-ng-if="amIAdmin() && !partner.user.isOwn()">
-						<button class="btn" data-ng-click="toggleAdmin(partner.user)" data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></button>
-						<button class="btn btn--danger" data-ng-click="remove(partner.user)" data-i18n="messages.user.remove"></button>
-					</div>
+					<span data-ng-if="isAdmin(partner.user)" data-i18n="messages.user.admin"></span>
 				</person>
+				<ul class="button-dropdown messages__partner__admin-options" data-ng-if="amIAdmin() && !partner.user.isOwn()">
+					<li class="button-dropdown-action">
+						<a class="button-dropdown-action-text" data-ng-click="toggleAdmin(partner.user) && toggleMessageOptions()" data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></a>
+					</li>
+					<li class="button-dropdown-action">
+						<a class="button-dropdown-action-text" data-ng-click="remove(partner.user)" data-i18n="messages.user.remove"></a>
+					</li>
+				</ul>
 			</li>
 		</ul>
-		<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-filter="activeChat.getReceiverIDs()" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user"></search>
 
 		<button class="btn btn--danger" id="message-details__report" data-ng-click="report()" data-i18n="messages.report"></button>
 	</div>
