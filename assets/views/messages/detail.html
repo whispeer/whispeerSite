@@ -33,7 +33,7 @@
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
 		<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
 		<h2 data-i18n="messages.chatPersons"></h2>
-		<div class="messages__details__search-wrap">
+		<div class="messages__details__search-wrap" data-ng-if="featureEnabled('chat.addReceiver')">
 			<search data-ng-if="amIAdmin()" class="circleView-addUsers-search messages__details__search" data-supplier="userSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
 			<savebutton class="btn btn--primary messages__details__search-button" data-noiniticon data-state="addUsersToTopic" data-ng-click="addReceivers()">
 				<span data-i18n="messages.addUsers"></span>
@@ -45,12 +45,12 @@
 					<span data-ng-if="isAdmin(partner.user)" data-i18n="messages.user.admin"></span>
 				</person>
 				<ul class="button-dropdown messages__partner__admin-options" data-ng-if="amIAdmin() && !partner.user.isOwn()">
-					<li class="button-dropdown-action">
+					<li class="button-dropdown-action" data-ng-if="featureEnabled('chat.promoteReceiver')">
 						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-state="changeUser" data-ng-click="toggleAdmin(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending">
 							<span data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></span>
 						</savebutton>
 					</li>
-					<li class="button-dropdown-action">
+					<li class="button-dropdown-action" data-ng-if="featureEnabled('chat.removeReceiver')">
 						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-state="removeUser" data-ng-click="remove(partner.user)" ng-disabled="changeUser.pending || addUsersToTopic.pending">
 							<span data-i18n="messages.user.remove"></span>
 						</savebutton>

@@ -60,7 +60,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.amIAdmin = () =>
 		$scope.activeChat && $scope.activeChat.amIAdmin()
 
-	$scope.featureEnabled = (featureName) => featureToggles.isFeatureEnabled(featureName)
+	$scope.featureEnabled = (featureName) =>
+		featureToggles.isFeatureEnabled(featureName)
 
 	$scope.chatTitle = "";
 
