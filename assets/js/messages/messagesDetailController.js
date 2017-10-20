@@ -98,8 +98,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 		addUsersToTopicState.pending();
 
 		const promise = Bluebird.resolve($scope.selectedUsers).then(data =>
-			{console.log(data)
-			return $scope.activeChat.addReceivers(data)}
+			$scope.activeChat.addReceivers(data)
 		).then(() => {
 			$scope.$broadcast("resetSearch")
 			alert("Added")
