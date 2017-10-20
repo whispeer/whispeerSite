@@ -29,6 +29,12 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	const addUsersToTopicState = new State.default()
 	$scope.addUsersToTopic = addUsersToTopicState.data
 
+	const changeUserState = new State.default()
+	$scope.changeUser = changeUserState.data
+
+	const removeUserState = new State.default()
+	$scope.removeUser = removeUserState.data
+
 	$scope.saveTitle = function() {
 		chatDetailsSavingState.pending();
 
@@ -60,6 +66,23 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 	$scope.setUsersToAdd = selected =>
 		$scope.selectedUsers = selected;
+
+	$scope.toggleAdmin = (user) => {
+		if(!$scope.amIAdmin()) {
+			return;
+		}
+
+		changeUserState.pending()
+		const promise = Bluebird.resolve(() => {
+			if($scope.isAdmin(user)) {
+				return $scope.activeChat.addAdmin(user)
+			}
+
+			return $scope.activeChat.removeAdmin(user)
+		})
+
+		errorService.failOnErrorPromise(changeUserState, promise);
+	}
 
 	$scope.promote = (user) => {
 		$scope.saving = true

@@ -451,6 +451,19 @@ export class Chat extends Observer {
 		return this.setAdmins([...adminIDs, receiver.getID()])
 	}
 
+	removeAdmin = (receiver) => {
+		const latestChunk = ChunkLoader.getLoaded(this.getLatestChunk())
+
+		const adminIDs = latestChunk.getAdmins()
+		const receiverID = receiver.getID()
+
+		return this.setAdmins(
+			adminIDs.filter(elem =>
+				elem != receiverID
+			)
+		)
+	}
+
 	getAdmins = () => {
 		const latestChunk = ChunkLoader.getLoaded(this.getLatestChunk())
 

@@ -46,10 +46,14 @@
 				</person>
 				<ul class="button-dropdown messages__partner__admin-options" data-ng-if="amIAdmin() && !partner.user.isOwn()">
 					<li class="button-dropdown-action">
-						<a class="button-dropdown-action-text" data-ng-click="toggleAdmin(partner.user) && toggleMessageOptions()" data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></a>
+						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-state="changeUser" data-ng-click="toggleAdmin(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending">
+							<span data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></span>
+						</savebutton>
 					</li>
 					<li class="button-dropdown-action">
-						<a class="button-dropdown-action-text" data-ng-click="remove(partner.user)" data-i18n="messages.user.remove"></a>
+						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-state="removeUser" data-ng-click="remove(partner.user)" ng-disabled="changeUser.pending || addUsersToTopic.pending">
+							<span data-i18n="messages.user.remove"></span>
+						</savebutton>
 					</li>
 				</ul>
 			</li>
