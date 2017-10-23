@@ -74,12 +74,12 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 		}
 
 		changeUserState.pending()
-		const promise = Bluebird.resolve(() => {
+		const promise = Bluebird.try(() => {
 			if($scope.isAdmin(user)) {
-				return $scope.activeChat.addAdmin(user)
+				return $scope.activeChat.removeAdmin(user)
 			}
 
-			return $scope.activeChat.removeAdmin(user)
+			return $scope.activeChat.addAdmin(user)
 		})
 
 		errorService.failOnErrorPromise(changeUserState, promise);
