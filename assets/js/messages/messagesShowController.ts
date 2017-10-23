@@ -46,7 +46,7 @@ interface myScope {
 	showMessageOptions: boolean,
 	messageBursts: Function,
 	toggleMessageOptions: Function,
-	loadVoicemails: Function,
+	playVoicemail: Function,
 }
 
 namespace BurstHelper {
@@ -192,14 +192,24 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 
 		voicemail.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(voicemail.blobID, voicemail.type, loadProgress, voicemail.size).then((url) => {
+		return blobService.getBlobUrl(voicemail.blobID, voicemail.type, loadProgress, voicemail.size).then((url) => {
 			voicemail.url = url
 			voicemail.loaded = true
 		})
 	}
 
-	$scope.loadVoicemails = (message) => {
-		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail))
+	const playFile = (voicemails, index) => {
+		const url = voicemails[index].url
+		const audio = new Audio(url)
+		audio.play()
+
+		if (voicemails[index + 1]) {
+			audio.addEventListener("ended", () =>  playFile(voicemails, index + 1))
+		}
+	}
+
+	$scope.playVoicemail = (message) => {
+		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail)).then(() => playFile(message.voicemails, 0))
 	}
 
 	$scope.loadMoreMessages = function() {
