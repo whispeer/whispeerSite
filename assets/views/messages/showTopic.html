@@ -88,6 +88,11 @@
 											<div ng-repeat="voicemail in message.voicemails">
 												Voicemail: {{ voicemail.duration }}
 											</div>
+											<div data-ng-if="player">
+												{{ player.isPlaying() }}
+												{{ player.getPosition() }}
+												{{ player.getDuration() }}
+											</div>
 											<button ng-click="playVoicemail(message)">Play</button>
 										</div>
 										<div class="message-files">

@@ -16,6 +16,8 @@ import blobService from "../services/blobService"
 
 import FeatureToggles from "../services/featureToggles"
 
+import VoicemailPlayer from "../asset/voicemailPlayer"
+
 const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
@@ -47,6 +49,7 @@ interface myScope {
 	messageBursts: Function,
 	toggleMessageOptions: Function,
 	playVoicemail: Function,
+	player: VoicemailPlayer
 }
 
 namespace BurstHelper {
@@ -198,18 +201,17 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 		})
 	}
 
-	const playFile = (voicemails, index) => {
-		const url = voicemails[index].url
-		const audio = new Audio(url)
-		audio.play()
+	const playFiles = (voicemails) => {
+		$scope.player = new VoicemailPlayer(voicemails.map(({ url, duration }) => ({
+			url,
+			estimatedDuration: duration
+		})))
 
-		if (voicemails[index + 1]) {
-			audio.addEventListener("ended", () =>  playFile(voicemails, index + 1))
-		}
+		$scope.player.play()
 	}
 
 	$scope.playVoicemail = (message) => {
-		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail)).then(() => playFile(message.voicemails, 0))
+		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail)).then(() => playFiles(message.voicemails))
 	}
 
 	$scope.loadMoreMessages = function() {
