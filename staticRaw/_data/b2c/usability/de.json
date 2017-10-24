@@ -1,8 +1,8 @@
 {
 	general: {
 		title: "whispeer",
-		message: "Einfach sicher kommunizieren",
-		description: "whispeer ist ein sicheres soziales Netzwerk, dass deine Privatsphäre durch Ende-zu-Ende Verschlüsselung schützt."
+		message: "Das verschlüsselte Kommunikationsnetzwerk",
+		description: "whispeer ist das erste wirklich sichere soziale Netzwerk mit einer echten Ende-zu-Ende Verschlüsselung."
 	},
 	teaser: {
 		headline: "Etwas passiert.",
@@ -21,9 +21,9 @@
 	},
 	teaser2: {
 		logo: true,
-		headline: "It's just like super secure whispering.",
+		headline: "Das verschlüsselte Kommunikationsnetzwerk.",
 		headingColor: "primary",
-		app: "Get the <strong class='text--primary'>BETA</strong> here:",
+		app: "Hole dir die <strong class='text--primary'>BETA</strong> jetzt:",
 		imageIdeas: "",
 		image: true,
 		registerForm: false,
@@ -42,7 +42,7 @@
 	sections: [
 		{
 			headline: "Einfach sicher kommunizieren",
-			details: "whispeer verschlüsselt alle deine Daten, damit du sicher bist und dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer trotzdem einfach zu nutzen! Plus: Registrieren dauert weniger als eine Minute und ist für die private Nutzung kostenfrei!",
+			details: "whispeer verschlüsselt alle deine Daten, damit du dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer trotzdem einfach zu nutzen - und das in Web und App! Logge dich einfach ein und los geht's!",
 			icon: "fa-lock",
 			registerAd: true,
 			mailForm: false
@@ -51,28 +51,28 @@
 			headline: "Die vielen Vorteile von whispeer:",
 			detailsList: [
 				{
-					icon: "fa-life-saver",
-					text: "Einfach zu nutzen"
-				},
-				{
 					icon: "fa-rocket",
-					text: "Schnelles Registrieren"
-				},
-				{
-					icon: "fa-paper-plane",
-					text: "Werbefrei"
-				},
-				{
-					icon: "fa-heart",
-					text: "Sende Freunden Nachrichten. Poste auf ihre Pinnwände. Teile Gedanken, Links und Fotos von deinen tollsten Momenten"
+					text: "Einfach & schnell zu nutzen"
 				},
 				{
 					icon: "fa-lock",
-					text: "Alle deine Daten sind sicher und verschlüsselt"
+					text: "Echte Ende-zu-Ende Verschlüsselung"
+				},
+				{
+					icon: "fa-globe",
+					text: "Komplett werbefrei"
+				},
+				{
+					icon: "fa-heart",
+					text: "Sende Freunden Nachrichten. Poste auf ihre Pinnwände.<br>Teile Gedanken, Links und Fotos von deinen tollsten Momenten."
+				},
+				{
+					icon: "fa-eur",
+					text: "Für die private Nutzung kostenfrei!<br>(Für Unternehmen gibt es whispeer Business)"
 				},
 				{
 					icon: "fa-mobile",
-					text: "Logge dich auf jedem Gerät in deinen Account ein, egal wo du gerade bist"
+					text: "Vom Smartphone, Tablet oder PC jederzeit erreichbar - lästige Backups gehören der Vergangenheit an."
 				}
 			],
 			icon: "fa-users",
@@ -80,7 +80,7 @@
 			registerForm: false
 		},
 		{
-			headline: "Hol' dir deinen eigenen Account!",
+			headline: "Hole dir jetzt deinen Account!",
 			registerForm: true,
 			animation: true,
 			fullScreen: true
