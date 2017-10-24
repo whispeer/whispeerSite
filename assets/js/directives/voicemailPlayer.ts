@@ -33,6 +33,7 @@ class voicemailPlayerComponent {
 	}[]
 	private player: VoicemailPlayer
 	private previousTime: number
+	private startTime: number = 0
 	seekVal: number = 0
 
 	toggle = () => this.isPlaying() ? this.pause() : this.play()
@@ -44,8 +45,6 @@ class voicemailPlayerComponent {
 	getProgress = () => this.voicemails.reduce((prev, { getProgress }) => getProgress ? prev + getProgress(): 0, 0)
 
 	getSize = () => this.voicemails.reduce((prev, { size }) => prev + size, 0)
-
-	getPosition = () => this.player ? this.player.getPosition() : 0
 
 	isLoaded = () => this.voicemails.reduce((prev, { loaded }) => prev && loaded, true)
 
@@ -72,7 +71,14 @@ class voicemailPlayerComponent {
 		return `${minutesString}:${secondsString}`
 	}
 
-	seekTo = (position: number) => this.player.seekTo(position)
+	seekTo = (position: number) => {
+		if (this.player) {
+			return this.player.seekTo(position)
+		}
+
+		this.startTime = position
+		this.timeUpdate(position)
+	}
 
 	loadAndPlay = () => {
 		const voicemails = this.voicemails
@@ -84,7 +90,11 @@ class voicemailPlayerComponent {
 			.then((player) => {
 				this.player = player
 				this.player.onPositionUpdateRAF(this.timeUpdate)
-				this.player.play()
+
+				this.player.awaitLoading().then(() => {
+					this.player.seekTo(this.startTime)
+					this.player.play()
+				})
 			})
 	}
 
