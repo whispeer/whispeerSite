@@ -1,10 +1,22 @@
-<div>
-  Loading: {{ $ctrl.isLoading() }} <br />
-  Progress: {{ $ctrl.getProgress() }} <br />
-  Size: {{ $ctrl.getSize() }} <br />
-  Position: <span id="position">00:00</span> <br />
-  Duration: {{ $ctrl.getDuration() * 1000 | date: 'mm:ss' }} <br />
+<div class="voicemail">
+  <button class="radial-progress" data-ng-click="$ctrl.toggle()">
+    <div class="circle circle-with-icon">
+      <i class="fa fa-fw fa-play" data-ng-if="!$ctrl.isPlaying()"></i>
+      <i class="fa fa-fw fa-pause" data-ng-if="$ctrl.isPlaying()"></i>
+    </div>
+  </button>
+  <loading-progress data-get-progress="$ctrl.getProgress" data-ng-if="$ctrl.isLoading() && !$ctrl.isLoaded()"></loading-progress>
+  <div class="voicemail--info">
+    <div class="voicemail--position">
+      <span id="position">00:00</span> / {{ $ctrl.getDuration() * 1000 | date: 'mm:ss' }}
+    </div>
+    <div class="voicemail--size" data-ng-if="!$ctrl.isLoaded()">
+      {{ $ctrl.getSize() }}
+    </div>
+    <div class="voicemail--progress" data-ng-if="$ctrl.isLoaded()">
+      PROGRESS!
+    </div>
+  </div>
 </div>
+
 <input data-ng-model="seekVal" /><button data-ng-click="$ctrl.seekTo(seekVal)">Seek</button>
-<button data-ng-if="!$ctrl.isPlaying()" data-ng-click="$ctrl.play()">Play</button>
-<button data-ng-if="$ctrl.isPlaying()" data-ng-click="$ctrl.pause()">Pause</button>

@@ -28,11 +28,14 @@ class voicemailPlayerComponent {
 		duration: number,
 		size: number,
 		loading: boolean,
+		loaded: boolean
 		getProgress: () => number
 	}[]
 	private player: VoicemailPlayer
 	private previousTime: number
 	seekVal: number = 0
+
+	toggle = () => this.isPlaying() ? this.pause() : this.play()
 
 	isPlaying = () => this.player ? this.player.isPlaying() : false
 
@@ -43,6 +46,8 @@ class voicemailPlayerComponent {
 	getSize = () => this.voicemails.reduce((prev, { size }) => prev + size, 0)
 
 	getPosition = () => this.player ? this.player.getPosition() : 0
+
+	isLoaded = () => this.voicemails.reduce((prev, { loaded }) => prev && loaded, true)
 
 	timeUpdate = (position) => {
 		console.log("Position", position)

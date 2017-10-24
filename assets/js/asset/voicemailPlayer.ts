@@ -17,6 +17,7 @@ export default class VoicemailPlayer {
 
 	private static activePlayer: VoicemailPlayer = null
 	private playing = false
+	private loaded = false
 	private recordings: recordingsType = []
 
 	private recordPlayingIndex = 0
@@ -30,11 +31,12 @@ export default class VoicemailPlayer {
 	play() {
 		this.awaitLoading().then(() => {
 			if (VoicemailPlayer.activePlayer) {
-				VoicemailPlayer.activePlayer.reset()
+				VoicemailPlayer.activePlayer.pause()
 			}
 			this.recordings[this.recordPlayingIndex].audio.play()
 			VoicemailPlayer.activePlayer = this
 			this.playing = true
+			this.loaded = true
 
 			this.positionListener()
 		})
@@ -96,35 +98,38 @@ export default class VoicemailPlayer {
 		this.playing = false
 	}
 
-	seekTo = (time) => {
-		let timeInTrack = time
-		const recordPlayingIndex = this.recordings.findIndex(({ audio }) => {
-			if (timeInTrack < audio.duration) {
-				return true
+	seekTo = (time) =>
+		this.awaitLoading().then(() => {
+			let timeInTrack = time
+			const recordPlayingIndex = this.recordings.findIndex(({ audio }) => {
+				if (timeInTrack < audio.duration) {
+					return true
+				}
+
+				timeInTrack -= audio.duration
+				return false
+			})
+
+			if (recordPlayingIndex === -1) {
+				return
 			}
 
-			timeInTrack -= audio.duration
-			return false
+			this.recordPlayingIndex = recordPlayingIndex
+
+			this.recordings[this.recordPlayingIndex].audio.currentTime = timeInTrack
+			this.positionListener()
+
+			if (this.isPlaying()) {
+				this.recordings.forEach(({ audio }, index) => index !== recordPlayingIndex ? audio.pause() : null )
+				this.recordings[this.recordPlayingIndex].audio.play()
+			}
 		})
-
-		if (recordPlayingIndex === -1) {
-			return
-		}
-
-		this.recordPlayingIndex = recordPlayingIndex
-
-		this.recordings[this.recordPlayingIndex].audio.currentTime = timeInTrack
-		this.positionListener()
-
-		if (this.isPlaying()) {
-			this.recordings.forEach(({ audio }, index) => index !== recordPlayingIndex ? audio.pause() : null )
-			this.recordings[this.recordPlayingIndex].audio.play()
-		}
-	}
 
 	awaitLoading = () => {
 		return Bluebird.all(this.loadingPromises)
 	}
+
+	isLoaded = () => this.loaded
 
 	private addRecording(url: string, duration: number) {
 		const audio = new Audio(url)

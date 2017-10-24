@@ -6,8 +6,6 @@
 	"debug": true,
 	"production": true,
 
-	"workerScript": "/assets/js/build/worker.js",
-
 	"serviceWorker": {
 		"enabled": false
 	}
