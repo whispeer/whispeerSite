@@ -85,15 +85,7 @@
 										<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
 										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
 										<div class="message-voicemail" ng-if="message.voicemails.length > 0">
-											<div ng-repeat="voicemail in message.voicemails">
-												Voicemail: {{ voicemail.duration }}
-											</div>
-											<div data-ng-if="player">
-												{{ player.isPlaying() }}
-												{{ player.getPosition() }}
-												{{ player.getDuration() }}
-											</div>
-											<button ng-click="playVoicemail(message)">Play</button>
+											<voicemail-player voicemails="message.voicemails"></voicemail-player>
 										</div>
 										<div class="message-files">
 											<display-file data-file="file" data-ng-repeat="file in message.files">

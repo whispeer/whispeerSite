@@ -1,0 +1,11 @@
+<div>
+  Playing: {{ $ctrl.isPlaying() }} <br />
+  Loading: {{ $ctrl.isLoading() }} <br />
+  Progress: {{ $ctrl.getProgress() }} <br />
+  Size: {{ $ctrl.getSize() }} <br />
+  Position: <span id="position">00:00</span> <br />
+  Duration: {{ $ctrl.getDuration() * 1000 | date: 'mm:ss' }} <br />
+</div>
+<input data-ng-model="seekVal" /><button data-ng-click="$ctrl.seekTo(seekVal)">Seek</button>
+<button data-ng-if="!$ctrl.isPlaying()" data-ng-click="$ctrl.play()">Play</button>
+<button data-ng-if="$ctrl.isPlaying()" data-ng-click="$ctrl.pause()">Pause</button>

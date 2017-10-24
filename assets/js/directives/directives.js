@@ -37,3 +37,4 @@ require("directives/closeSidebar");
 require("directives/loadingindicator");
 require("directives/displayFile");
 require("directives/loadingProgress");
+require("directives/voicemailPlayer");

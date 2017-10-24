@@ -20,9 +20,8 @@ export default class VoicemailPlayer {
 	private recordings: recordingsType = []
 
 	private recordPlayingIndex = 0
-	private position = 0
-	private interval : number = null
 	private loadingPromises : Bluebird<any>[] = []
+	private positionRAFListener: Function[] = []
 
 	constructor(recordings: audioInfo[]) {
 		recordings.map(({ url, estimatedDuration }) => this.addRecording(url, estimatedDuration))
@@ -37,12 +36,17 @@ export default class VoicemailPlayer {
 			VoicemailPlayer.activePlayer = this
 			this.playing = true
 
-			clearInterval(this.interval)
-			this.interval = window.setInterval(() => {
-				this.position = this.recordings[this.recordPlayingIndex].audio.currentTime
-			}, 100)
-
+			this.positionListener()
 		})
+	}
+
+	private positionListener = () => {
+		const position = this.getPosition()
+		this.positionRAFListener.forEach((func) => func(position))
+
+		if (this.isPlaying()) {
+			window.requestAnimationFrame(this.positionListener)
+		}
 	}
 
 	pause() {
@@ -59,6 +63,8 @@ export default class VoicemailPlayer {
 		}
 	}
 
+	onPositionUpdateRAF = (listener) => this.positionRAFListener.push(listener)
+
 	isPlaying() {
 		return this.playing
 	}
@@ -73,22 +79,42 @@ export default class VoicemailPlayer {
 
 	getPosition() {
 		const currentDuration = this.getDuration(this.recordPlayingIndex)
-		return currentDuration + this.position
+		return currentDuration + this.recordings[this.recordPlayingIndex].audio.currentTime
 	}
 
 	reset() {
-		clearInterval(this.interval)
-
-		this.recordings.forEach(({ audio }) => audio.pause())
+		this.recordings.forEach(({ audio }) => {
+			audio.pause()
+			audio.currentTime = 0
+		})
 		this.recordPlayingIndex = 0
-		this.position = 0
-		this.interval = null
 
 		if (VoicemailPlayer.activePlayer && this !== VoicemailPlayer.activePlayer) {
 			VoicemailPlayer.activePlayer.reset()
 		}
 		VoicemailPlayer.activePlayer = null
 		this.playing = false
+	}
+
+	seekTo = (time) => {
+		let timeInTrack = time
+		const recordPlayingIndex = this.recordings.findIndex(({ audio }) => {
+			if (timeInTrack < audio.duration) {
+				return true
+			}
+
+			timeInTrack -= audio.duration
+			return false
+		})
+
+		if (recordPlayingIndex === -1) {
+			return
+		}
+
+		this.recordPlayingIndex = recordPlayingIndex
+
+		this.recordings[this.recordPlayingIndex].audio.currentTime = timeInTrack
+		this.positionListener()
 	}
 
 	awaitLoading = () => {
@@ -133,7 +159,6 @@ export default class VoicemailPlayer {
 			// Use a Promise to trigger the angular zone. Zones are bad. Angular DI is bad.
 			Bluebird.resolve().then(() => {
 				this.recordPlayingIndex += 1
-				this.position = 0
 
 				if (this.recordPlayingIndex >= this.recordings.length) {
 					this.reset()

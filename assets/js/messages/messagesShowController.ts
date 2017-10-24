@@ -16,8 +16,6 @@ import blobService from "../services/blobService"
 
 import FeatureToggles from "../services/featureToggles"
 
-import VoicemailPlayer from "../asset/voicemailPlayer"
-
 const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
@@ -47,9 +45,7 @@ interface myScope {
 	sendMessageState: any
 	showMessageOptions: boolean,
 	messageBursts: Function,
-	toggleMessageOptions: Function,
-	playVoicemail: Function,
-	player: VoicemailPlayer
+	toggleMessageOptions: Function
 }
 
 namespace BurstHelper {
@@ -189,30 +185,6 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 	$scope.markRead = function() {
 		$scope.activeChat.markRead().catch(errorService.criticalError)
 	};
-
-	const loadVoicemail = (voicemail) => {
-		const loadProgress = new Progress()
-
-		voicemail.getProgress = () => loadProgress.getProgress()
-
-		return blobService.getBlobUrl(voicemail.blobID, voicemail.type, loadProgress, voicemail.size).then((url) => {
-			voicemail.url = url
-			voicemail.loaded = true
-		})
-	}
-
-	const playFiles = (voicemails) => {
-		$scope.player = new VoicemailPlayer(voicemails.map(({ url, duration }) => ({
-			url,
-			estimatedDuration: duration
-		})))
-
-		$scope.player.play()
-	}
-
-	$scope.playVoicemail = (message) => {
-		return Bluebird.resolve(message.voicemails).map((voicemail) => loadVoicemail(voicemail)).then(() => playFiles(message.voicemails))
-	}
 
 	$scope.loadMoreMessages = function() {
 		$scope.loadingMessages = true;
