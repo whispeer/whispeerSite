@@ -98,12 +98,12 @@ export default class VoicemailPlayer {
 
 	seekTo = (time) => {
 		let timeInTrack = time
-		const recordPlayingIndex = this.recordings.findIndex(({ audio }) => {
-			if (timeInTrack < audio.duration) {
+		const recordPlayingIndex = this.recordings.findIndex(({ duration }) => {
+			if (timeInTrack < duration) {
 				return true
 			}
 
-			timeInTrack -= audio.duration
+			timeInTrack -= duration
 			return false
 		})
 
@@ -146,7 +146,6 @@ export default class VoicemailPlayer {
 
 		const loadingPromise =
 			new Bluebird((resolve) => audio.addEventListener("canplaythrough", resolve))
-			.then(() => audioInfo.duration = audio.duration )
 
 		this.loadingPromises.push(loadingPromise)
 		this.recordings.push(audioInfo)

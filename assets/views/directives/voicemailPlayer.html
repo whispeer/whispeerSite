@@ -13,10 +13,6 @@
     <div class="voicemail--size" data-ng-if="!$ctrl.isLoaded()">
       {{ $ctrl.getSize() }}
     </div>
-    <div class="voicemail--progress" data-ng-if="$ctrl.isLoaded()">
-      PROGRESS!
-    </div>
+    <div class="voicemail--progress" data-ng-show="$ctrl.isLoaded()"></div>
   </div>
 </div>
-
-<input data-ng-model="seekVal" /><button data-ng-click="$ctrl.seekTo(seekVal)">Seek</button>

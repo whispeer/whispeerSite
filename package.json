@@ -38,6 +38,7 @@
     "lazy": "^1.0.11",
     "node-static": "0.7.x",
     "normalize.css": "^4.2.0",
+    "progressbar.js": "^1.0.1",
     "qtip2": "~2.2.0",
     "reflect-metadata": "^0.1.8",
     "requirejs": "^2.2.0",

@@ -9,6 +9,8 @@ import VoicemailPlayer from "../asset/voicemailPlayer"
 import blobService from "../services/blobService"
 import Progress from "../asset/Progress"
 
+const ProgressBar = require('progressbar.js');
+
 const loadVoicemail = (voicemail) => {
 	const loadProgress = new Progress()
 
@@ -34,6 +36,7 @@ class voicemailPlayerComponent {
 	private player: VoicemailPlayer
 	private previousTime: number
 	private startTime: number = 0
+	private progress: any
 	seekVal: number = 0
 
 	toggle = () => this.isPlaying() ? this.pause() : this.play()
@@ -49,8 +52,9 @@ class voicemailPlayerComponent {
 	isLoaded = () => this.voicemails.reduce((prev, { loaded }) => prev && loaded, true)
 
 	timeUpdate = (position) => {
-		console.log("Position", position)
 		const time = Math.floor(position)
+
+		this.progress.set(position/this.getDuration())
 
 		if (this.previousTime === time) {
 			return
@@ -105,6 +109,23 @@ class voicemailPlayerComponent {
 	getDuration = () => this.player ? this.player.getDuration() : this.voicemails.reduce((prev, { duration }) => prev + duration, 0)
 
 	constructor(private $element) {}
+
+	$postLink = () => {
+		const progressElement : HTMLElement = this.$element.find(".voicemail--progress")[0]
+		this.progress = new ProgressBar.Line(progressElement, {
+			strokeWidth: 2,
+			color: 'red',
+			trailColor: 'blue',
+			trailWidth: 2,
+			svgStyle: {width: '100%', height: '25%'}
+		})
+
+		progressElement.addEventListener('click', (event) => {
+			const rect = progressElement.getBoundingClientRect()
+			const progress = (event.pageX - rect.left) / rect.width;
+			this.seekTo(this.getDuration() * progress)
+		});
+	}
 
 	static $inject = ["$element"]
 }
