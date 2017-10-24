@@ -115,6 +115,11 @@ export default class VoicemailPlayer {
 
 		this.recordings[this.recordPlayingIndex].audio.currentTime = timeInTrack
 		this.positionListener()
+
+		if (this.isPlaying()) {
+			this.recordings.forEach(({ audio }, index) => index !== recordPlayingIndex ? audio.pause() : null )
+			this.recordings[this.recordPlayingIndex].audio.play()
+		}
 	}
 
 	awaitLoading = () => {
