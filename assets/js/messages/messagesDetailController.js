@@ -62,37 +62,40 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.setUsersToAdd = selected =>
 		$scope.selectedUsers = selected;
 
+	$scope.currentUser = undefined;
 	$scope.toggleAdmin = (user) => {
-		if(!$scope.amIAdmin()) {
-			return;
+		if(!$scope.amIAdmin() || changeUserState.isPending()) {
+			return
 		}
 
 		changeUserState.pending()
 		const promise = Bluebird.try(() => {
+			$scope.currentUser = user.id
 			if($scope.isAdmin(user)) {
 				return $scope.activeChat.removeAdmin(user)
 			}
 
 			return $scope.activeChat.addAdmin(user)
+		}).then(() => {
+			$scope.currentUser = undefined
 		})
 
 		errorService.failOnErrorPromise(changeUserState, promise);
 	}
 
-	$scope.promote = (user) => {
-		$scope.saving = true
-
-		return $scope.activeChat.addAdmin(user).then(() => {
-			$scope.saving = false
-		})
-	};
-
 	$scope.remove = (user) => {
-		$scope.saving = true
+		if($scope.isAdmin(user) || addUsersToTopicState.isPending() || removeUserState.isPending()) {
+			return
+		}
 
-		return $scope.activeChat.removeReceiver(user).then(() => {
-			$scope.saving = false
+		removeUserState.pending()
+
+		$scope.currentUser = user.id
+		const promise = $scope.activeChat.removeReceiver(user).then(() => {
+			$scope.currentUser = undefined
 		})
+
+		errorService.failOnErrorPromise(removeUserState, promise);
 	};
 
 	$scope.isAdmin = (user) => $scope.activeChat.isAdmin(user)
@@ -113,6 +116,10 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	});
 
 	$scope.addReceivers = () => {
+		if(addUsersToTopicState.isPending() || removeUserState.isPending()) {
+			return
+		}
+
 		addUsersToTopicState.pending();
 
 		const promise = Bluebird.resolve($scope.selectedUsers).then(data =>
