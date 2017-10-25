@@ -114,8 +114,6 @@ class voicemailPlayerComponent {
 		const progressElement : HTMLElement = this.$element.find(".voicemail--progress")[0]
 		this.progress = new ProgressBar.Line(progressElement, {
 			strokeWidth: 2,
-			color: 'red',
-			trailColor: 'blue',
 			trailWidth: 2,
 			svgStyle: {width: '100%', height: '25%'}
 		})
