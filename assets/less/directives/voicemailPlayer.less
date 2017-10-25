@@ -1,0 +1,43 @@
+voicemail-player {
+	.voicemail {
+		position: relative;
+		display: flex;
+	}
+
+	.voicemail--info {
+		margin-left: 40px;
+	}
+
+	.voicemail--progress {
+		width: 50%;
+		height: 22px;
+
+		svg {
+			:first-child {
+				stroke: @gainsboro;
+			}
+			:last-child {
+				stroke: @kellygreen;
+			}
+		}
+	}
+
+	.radial-progress {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		margin: 0;
+		left: 0;
+		transform: translate(0, -50%);
+		margin-left: 5px;
+
+		.circle {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+		}
+	}
+
+}

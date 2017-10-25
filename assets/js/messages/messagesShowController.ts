@@ -45,7 +45,7 @@ interface myScope {
 	sendMessageState: any
 	showMessageOptions: boolean,
 	messageBursts: Function,
-	toggleMessageOptions: Function,
+	toggleMessageOptions: Function
 }
 
 namespace BurstHelper {
@@ -153,7 +153,7 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 
 		file.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(file.blobID, loadProgress, file.size)
+		blobService.getBlobUrl(file.blobID, file.type, loadProgress, file.size)
 			.then((blobURL) => getBlobFromURL(blobURL))
 			.then((blob) => saveAs(blob, file.name))
 	}
