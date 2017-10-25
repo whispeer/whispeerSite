@@ -35,7 +35,7 @@
 		<h2 data-i18n="messages.chatPersons"></h2>
 		<div class="messages__details__search-wrap" data-ng-if="featureEnabled('chat.addReceiver') && amIAdmin()">
 			<search class="circleView-addUsers-search messages__details__search" data-supplier="userSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
-			<savebutton class="btn btn--primary messages__details__search-button" data-noiniticon data-state="addUsersToTopic" data-ng-click="addReceivers()" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending">
+			<savebutton class="btn btn--primary messages__details__search-button" data-noiniticon data-state="addUsersToTopic" data-ng-click="addReceivers()" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending || changeChatTitle.pending">
 				<span data-i18n="messages.addUsers"></span>
 			</savebutton>
 		</div>
@@ -46,12 +46,12 @@
 				</person>
 				<ul class="button-dropdown messages__partner__admin-options" data-ng-if="amIAdmin() && !partner.user.isOwn()">
 					<li class="button-dropdown-action" data-ng-if="featureEnabled('chat.promoteReceiver')">
-						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-successicon="true" data-state="currentUser === partner.id && changeUser" data-ng-click="toggleAdmin(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending">
+						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-successicon="true" data-state="currentUser === partner.id && changeUser" data-ng-click="toggleAdmin(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending || changeChatTitle.pending">
 							<span data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></span>
 						</savebutton>
 					</li>
 					<li class="button-dropdown-action" data-ng-if="featureEnabled('chat.removeReceiver') && !isAdmin(partner.user)">
-						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-successicon="true" data-state="removeUser" data-ng-click="remove(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending">
+						<savebutton class="button-dropdown-action-text messages__partner__admin-options__button" data-noiniticon data-successicon="true" data-state="removeUser" data-ng-click="remove(partner.user)" ng-disabled="addUsersToTopic.pending || removeUser.pending || changeUser.pending || changeChatTitle.pending">
 							<span data-i18n="messages.user.remove"></span>
 						</savebutton>
 					</li>
