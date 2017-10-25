@@ -28,7 +28,7 @@
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
 		<div class="messages__details__search-wrap">
 			<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle" class="messages__details__search">
-			<savebutton data-ng-click="saveTitle()" data-ng-if="amIAdmin()" class="btn btn--primary messages__details__search-button" data-state="chatDetailsSavingState">
+			<savebutton data-ng-click="saveTitle()" data-ng-if="amIAdmin()" class="btn btn--primary messages__details__search-button" data-noiniticon data-state="changeChatTitle">
 				<span data-i18n="messages.changeTitle"></span>
 			</savebutton>
 		</div>

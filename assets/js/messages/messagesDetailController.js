@@ -23,8 +23,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 	var chatID = h.parseDecimal($stateParams.topicid);
 
-	var chatDetailsSavingState = new State.default();
-	$scope.chatDetailsSavingState = chatDetailsSavingState.data;
+	var changeChatTitleState = new State.default();
+	$scope.changeChatTitle = changeChatTitleState.data;
 
 	const addUsersToTopicState = new State.default()
 	$scope.addUsersToTopic = addUsersToTopicState.data
@@ -36,19 +36,17 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.removeUser = removeUserState.data
 
 	$scope.saveTitle = function() {
-		chatDetailsSavingState.pending();
+		changeChatTitleState.pending()
 
 		if ($scope.chatTitle === $scope.activeChat.getTitle()) {
-			$state.go("app.messages.show", {
-				topicid: chatID
-			});
+			changeChatTitleState.success()
 
 			return
 		}
 
 		const savePromise = $scope.activeChat.setTitle($scope.chatTitle)
 
-		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
+		errorService.failOnErrorPromise(changeChatTitleState, savePromise)
 	};
 
 	$scope.amIAdmin = () =>
