@@ -36,6 +36,16 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.removeUser = removeUserState.data
 
 	$scope.saveTitle = function() {
+		if (
+			!$scope.amIAdmin() ||
+			addUsersToTopicState.isPending() ||
+			removeUserState.isPending() ||
+			changeUserState.isPending() ||
+			changeChatTitleState.isPending()
+		) {
+			return
+		}
+
 		changeChatTitleState.pending()
 
 		if ($scope.chatTitle === $scope.activeChat.getTitle()) {
@@ -66,7 +76,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 			!$scope.amIAdmin() ||
 			addUsersToTopicState.isPending() ||
 			removeUserState.isPending() ||
-			changeUserState.isPending()
+			changeUserState.isPending() ||
+			changeChatTitleState.isPending()
 		) {
 			return
 		}
@@ -91,7 +102,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 			$scope.isAdmin(user) ||
 			addUsersToTopicState.isPending() ||
 			removeUserState.isPending() ||
-			changeUserState.isPending()
+			changeUserState.isPending() ||
+			changeChatTitleState.isPending()
 		) {
 			return
 		}
@@ -127,7 +139,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 		if (
 			addUsersToTopicState.isPending() ||
 			removeUserState.isPending() ||
-			changeUserState.isPending()
+			changeUserState.isPending() ||
+			changeChatTitleState.isPending()
 		) {
 			return
 		}
