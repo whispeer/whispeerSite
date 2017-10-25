@@ -125,7 +125,6 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 			$scope.activeChat.addReceivers(data)
 		).then(() => {
 			$scope.$broadcast("resetSearch")
-			alert("Added")
 		});
 
 		errorService.failOnErrorPromise(addUsersToTopicState, promise);
