@@ -20,18 +20,18 @@
 		</span>
 		<div class="box-header-buttons--right">
 			<a whispeer-sref="app.messages.show({topicid: activeChat.getID()})" class="box-header-button box-header-button--right">
-				<i class="fa fa-times-circle"></i>
-			</a>
-			<a data-ng-click="saveTitle()" data-ng-if="amIAdmin()" class="box-header-button box-header-button--right">
-				<i class="fa fa-check" data-ng-if="chatDetailsSavingState.init || chatDetailsSavingState.success"></i>
-				<i class="fa fa-times" data-ng-if="chatDetailsSavingState.failed"></i>
-				<i class="fa fa-spinner fa-spin" data-ng-if="chatDetailsSavingState.pending"></i>
+				<i class="fa fa-arrow-left"></i>
 			</a>
 		</div>
 	</span>
 
 	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
-		<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
+		<div class="messages__details__search-wrap">
+			<input id="messages-editTitle" data-ng-show="featureEnabled('chat.changeTitle') && amIAdmin()" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle" class="messages__details__search">
+			<savebutton data-ng-click="saveTitle()" data-ng-if="amIAdmin()" class="btn btn--primary messages__details__search-button" data-state="chatDetailsSavingState">
+				<span data-i18n="messages.changeTitle"></span>
+			</savebutton>
+		</div>
 		<h2 data-i18n="messages.chatPersons"></h2>
 		<div class="messages__details__search-wrap" data-ng-if="featureEnabled('chat.addReceiver') && amIAdmin()">
 			<search class="circleView-addUsers-search messages__details__search" data-supplier="userSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>

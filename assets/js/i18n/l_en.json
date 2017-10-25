@@ -412,7 +412,8 @@
 			"demote": "Demote admin",
 			"remove": "Remove from chat"
 		},
-		"addUsers": "Add users"
+		"addUsers": "Add users",
+		"changeTitle": "Change title"
 	},
 	"profile": {
 		"notFound": "User not found!",

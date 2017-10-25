@@ -410,7 +410,8 @@
 			"demote": "Rechte zurückziehen",
 			"remove": "Aus Chat entfernen"
 		},
-		"addUsers": "Nutzer hinzufügen"
+		"addUsers": "Nutzer hinzufügen",
+		"changeTitle": "Titel ändern"
 	},
 	"profile": {
 		"notFound": "Dieser Nutzer existiert nicht!",

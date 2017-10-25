@@ -46,13 +46,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 			return
 		}
 
-		var savePromise = $scope.activeChat.setTitle($scope.chatTitle).then(function() {
-			$state.go("app.messages.show", {
-				topicid: chatID
-			});
-
-			return null;
-		});
+		const savePromise = $scope.activeChat.setTitle($scope.chatTitle)
 
 		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
 	};
