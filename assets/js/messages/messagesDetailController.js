@@ -64,7 +64,12 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 	$scope.currentUser = undefined;
 	$scope.toggleAdmin = (user) => {
-		if(!$scope.amIAdmin() || changeUserState.isPending()) {
+		if (
+			!$scope.amIAdmin() ||
+			addUsersToTopicState.isPending() ||
+			removeUserState.isPending() ||
+			changeUserState.isPending()
+		) {
 			return
 		}
 
@@ -84,7 +89,12 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	}
 
 	$scope.remove = (user) => {
-		if($scope.isAdmin(user) || addUsersToTopicState.isPending() || removeUserState.isPending()) {
+		if (
+			$scope.isAdmin(user) ||
+			addUsersToTopicState.isPending() ||
+			removeUserState.isPending() ||
+			changeUserState.isPending()
+		) {
 			return
 		}
 
@@ -116,7 +126,11 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	});
 
 	$scope.addReceivers = () => {
-		if(addUsersToTopicState.isPending() || removeUserState.isPending()) {
+		if (
+			addUsersToTopicState.isPending() ||
+			removeUserState.isPending() ||
+			changeUserState.isPending()
+		) {
 			return
 		}
 
