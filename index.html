@@ -45,8 +45,8 @@
 			<i class="fa fa-bars header-toggle-icon" data-ng-if="!sidebarActive"></i>
 			<i class="fa fa-chevron-left header-toggle-icon" data-ng-if="sidebarActive"></i>
 			<span>
-				<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
-					<span>{{messages.unread + friends.requestsCount + news.count}}</span>
+				<span class="badge" id="mobileCounter" data-ng-if="(getUnreadCount() + friends.requestsCount + news.count) > 0">
+					<span>{{getUnreadCount() + friends.requestsCount + news.count}}</span>
 				</span>
 			</span>
 		</button>

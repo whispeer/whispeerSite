@@ -286,7 +286,7 @@ class MyBlob {
 	}
 }
 
-const loadBlob = (blobID, progress, estimatedSize) => {
+const loadBlob = (blobID, type, progress, estimatedSize) => {
 	const decryptProgressStub = new Progress({ total: estimatedSize })
 	const downloadProgress = new Progress({ total: estimatedSize })
 
@@ -295,7 +295,7 @@ const loadBlob = (blobID, progress, estimatedSize) => {
 
 	return downloadBlobQueue.enqueue(1, () => Bluebird.try(async () => {
 		await initService.awaitLoading()
-		const data = await new BlobDownloader(socketService, blobID, downloadProgress).download()
+		const data = await new BlobDownloader(socketService, blobID, type, downloadProgress).download()
 
 		const blob = new MyBlob(data.blob, blobID, { meta: data.meta });
 
@@ -312,9 +312,9 @@ const loadBlob = (blobID, progress, estimatedSize) => {
 	}))
 }
 
-const getBlob = (blobID, downloadProgress: Progress, estimatedSize: number) => {
+const getBlob = (blobID, type, downloadProgress: Progress, estimatedSize: number) => {
 	if (!knownBlobURLs[blobID]) {
-		knownBlobURLs[blobID] = loadBlob(blobID, downloadProgress, estimatedSize)
+		knownBlobURLs[blobID] = loadBlob(blobID, type, downloadProgress, estimatedSize)
 	}
 
 	return knownBlobURLs[blobID]
@@ -327,9 +327,9 @@ const blobService = {
 	isBlobLoaded: (blobID) => {
 		return blobCache.isLoaded(blobID)
 	},
-	getBlobUrl: (blobID, progress: Progress = new Progress(), estimatedSize = 0): Bluebird<string> => {
+	getBlobUrl: (blobID, type: string, progress: Progress = new Progress(), estimatedSize = 0): Bluebird<string> => {
 		return blobCache.getBlobUrl(blobID).catch(() => {
-			return getBlob(blobID, progress, estimatedSize)
+			return getBlob(blobID, type, progress, estimatedSize)
 		})
 	},
 }

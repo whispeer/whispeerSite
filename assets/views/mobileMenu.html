@@ -13,7 +13,7 @@
 	</a>
 	<a class="mobileMenu-link" whispeer-sref="app.messages"  data-ng-click="toggleSidebar()">
 		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
-		<span class="mobileMenu-text" data-i18n="menu.messages|count={{messages.unread}}"></span>
+		<span class="mobileMenu-text" data-i18n="menu.messages|count={{getUnreadCount()}}"></span>
 	</a>
 	<a class="mobileMenu-link" whispeer-sref="app.circles"  data-ng-click="toggleSidebar()">
 		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/circles.png" alt="">

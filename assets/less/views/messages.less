@@ -364,7 +364,9 @@
 			.time {
 				width: 100px;
 				display: inline-block;
-				float: left;
+				position: absolute;
+				top: 0;
+				right: 0;
 				color: #b9b9b9;
 			}
 		}
@@ -473,7 +475,19 @@
 }
 
 .displayFile .radial-progress {
-	margin-top: -20px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	transform: translate(-50%, -50%);
+	margin: 0;
+
+	.circle {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
 }
 
 .messages-overlay {
