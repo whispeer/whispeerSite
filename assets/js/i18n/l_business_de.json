@@ -400,7 +400,8 @@
 			"peerChat": "Der Account deines Chatpartners wurde gelöscht. Daher wirst du nurnoch deine Nachrichten in dieser Unterhaltung lesen können. Ein Verfassen neuer Nachrichten ist in dieser Unterhaltung nicht möglich.",
 			"groupChat": "Der Account eines Teilnehmers dieses Chats wurde gelöscht. Daher können dessen verfasste Nachrichten nicht mehr abgerufen werden. Ein Verfassen neuer Nachrichten in dieser Unterhaltung ist nicht möglich. Bitte starte stattdessen eine neue Unterhaltung mit den verbleibenden Mitgliedern",
 			"ok": "Alles klar"
-		}
+		},
+		"fileTooLarge": "Datei zu groß: {name}. Wir erlauben aktuell nur {maximumSize}MB."
 	},
 	"profile": {
 		"notFound": "Dieser Nutzer existiert nicht!",

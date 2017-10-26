@@ -3,3 +3,5 @@ declare var CLIENT_INFO: {
 	version: string,
 	commit: string
 };
+
+declare var WHISPEER_BUSINESS: string;
