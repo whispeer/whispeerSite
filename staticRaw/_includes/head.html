@@ -10,7 +10,7 @@
 <meta property="og:title"			content="{{data.general.message}}" />
 <meta property="og:site_name"		content="{{data.general.title}}" />
 <meta property="og:description"		content="{{data.general.description}}" />
-<meta property="og:image"			content="https://whispeer.de/assets/images/whispeer-sm.jpg" />
+<meta property="og:image"			content="https://whispeer.de/assets/images/link-preview.jpg" />
 <meta property="og:locale"			content="{{lang.fb}}" />
 {% for lng in site.data.langs %}
 	{% if lng[0] != page.lang %}{%assign l = lng[0] %}<meta property="og:locale:alternate" content="{{site.data.langs[l].fb}}" />{% endif %}
@@ -23,7 +23,7 @@
 <!-- Goolge+ and Google Rich Search specific -->
 <meta itemprop="name"				content="{{data.general.title}} - {{data.general.message}}">
 <meta itemprop="description"		content="{{data.general.description}}">
-<meta itemprop="image"				content="https://whispeer.de/assets/images/whispeer-sm.jpg">
+<meta itemprop="image"				content="https://whispeer.de/assets/images/link-preview.jpg">
 <!-- End Meta -->
 
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: 'https://whispeer.de' }}">
