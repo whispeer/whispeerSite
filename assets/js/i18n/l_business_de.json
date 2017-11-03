@@ -400,7 +400,18 @@
 			"peerChat": "Der Account deines Chatpartners wurde gelöscht. Daher wirst du nurnoch deine Nachrichten in dieser Unterhaltung lesen können. Ein Verfassen neuer Nachrichten ist in dieser Unterhaltung nicht möglich.",
 			"groupChat": "Der Account eines Teilnehmers dieses Chats wurde gelöscht. Daher können dessen verfasste Nachrichten nicht mehr abgerufen werden. Ein Verfassen neuer Nachrichten in dieser Unterhaltung ist nicht möglich. Bitte starte stattdessen eine neue Unterhaltung mit den verbleibenden Mitgliedern",
 			"ok": "Alles klar"
-		}
+		},
+		"searchFriends": "Kontakte zum Chat hinzufügen",
+		"report": "Diesen Chat melden",
+		"reportConfirm": "Bitte bestätigen, Sie dass Sie diesen Chat melden möchten. Wir setzen uns dann mit Ihnen in Verbindung.",
+		"user": {
+			"admin": "Administrator",
+			"promote": "Rechte erteilen",
+			"demote": "Rechte zurückziehen",
+			"remove": "Aus Chat entfernen"
+		},
+		"addUsers": "Nutzer hinzufügen",
+		"changeTitle": "Titel ändern"
 	},
 	"profile": {
 		"notFound": "Dieser Nutzer existiert nicht!",
