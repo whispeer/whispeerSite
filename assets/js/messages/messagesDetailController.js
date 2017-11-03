@@ -35,14 +35,14 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	const removeUserState = new State.default()
 	$scope.removeUser = removeUserState.data
 
+	const isUpdating = () =>
+		addUsersToTopicState.isPending() ||
+		removeUserState.isPending() ||
+		changeUserState.isPending() ||
+		changeChatTitleState.isPending()
+
 	$scope.saveTitle = function() {
-		if (
-			!$scope.amIAdmin() ||
-			addUsersToTopicState.isPending() ||
-			removeUserState.isPending() ||
-			changeUserState.isPending() ||
-			changeChatTitleState.isPending()
-		) {
+		if (isUpdating()) {
 			return
 		}
 
@@ -72,13 +72,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 	$scope.currentUser = undefined;
 	$scope.toggleAdmin = (user) => {
-		if (
-			!$scope.amIAdmin() ||
-			addUsersToTopicState.isPending() ||
-			removeUserState.isPending() ||
-			changeUserState.isPending() ||
-			changeChatTitleState.isPending()
-		) {
+		if (isUpdating()) {
 			return
 		}
 
@@ -100,10 +94,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.remove = (user) => {
 		if (
 			$scope.isAdmin(user) ||
-			addUsersToTopicState.isPending() ||
-			removeUserState.isPending() ||
-			changeUserState.isPending() ||
-			changeChatTitleState.isPending()
+			isUpdating()
 		) {
 			return
 		}
@@ -136,12 +127,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	});
 
 	$scope.addReceivers = () => {
-		if (
-			addUsersToTopicState.isPending() ||
-			removeUserState.isPending() ||
-			changeUserState.isPending() ||
-			changeChatTitleState.isPending()
-		) {
+		if (isUpdating()) {
 			return
 		}
 
