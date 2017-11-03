@@ -184,10 +184,10 @@
 
 	width: 175px;
 
-	background-color: @isabelline;
+	background-color: @alabaster;
 	color: @textColorLighter;
 
-	box-shadow: -1px 1px 10px fade(@gainsboro, 30%);
+	box-shadow: -1px 1px 15px fade(@gainsboro, 85%);
 
 	border-radius: 0 0 0 @inputBorderRadius;
 
@@ -202,20 +202,24 @@
 
 	cursor: pointer;
 
+	border-bottom: 1px solid @isabelline;
+
 	&:hover {
-		background: fade(#ffffff, 25%);
+		background: darken(#fff, 5%);
 	}
 
 	&:last-child {
-		border-radius: 0 0 0 @inputBorderRadius;
+		border-bottom: 0;
 	}
 }
 
 .button-dropdown-action-text {
 	display: block;
-	padding: 0.5em;
+	padding: 1em;
 
 	box-sizing: border-box;
+
+	background: none;
 
 	color: @textColorLighter !important;
 }
