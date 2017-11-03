@@ -401,7 +401,7 @@
 			"groupChat": "Der Account eines Teilnehmers dieses Chats wurde gelöscht. Daher können dessen verfasste Nachrichten nicht mehr abgerufen werden. Ein Verfassen neuer Nachrichten in dieser Unterhaltung ist nicht möglich. Bitte starte stattdessen eine neue Unterhaltung mit den verbleibenden Mitgliedern",
 			"ok": "Alles klar"
 		},
-		"searchFriends": "Freunde zum Chat hinzufügen",
+		"searchFriends": "Kontakte zum Chat hinzufügen",
 		"report": "Diesen Chat melden",
 		"reportConfirm": "Bitte bestätige, dass du diesen Chat melden möchtest. Wir setzen uns dann mit dir in Verbindung.",
 		"user": {
