@@ -102,9 +102,8 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 		removeUserState.pending()
 
 		$scope.currentUser = user.id
-		const promise = $scope.activeChat.removeReceiver(user).then(() => {
-			$scope.currentUser = undefined
-		})
+		const promise = $scope.activeChat.removeReceiver(user)
+			.then(() => $scope.currentUser = undefined)
 
 		errorService.failOnErrorPromise(removeUserState, promise);
 	};
@@ -133,11 +132,9 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 
 		addUsersToTopicState.pending();
 
-		const promise = Bluebird.resolve($scope.selectedUsers).then(data =>
-			$scope.activeChat.addReceivers(data)
-		).then(() => {
-			$scope.$broadcast("resetSearch")
-		});
+		const promise = Bluebird.resolve($scope.selectedUsers)
+			.then(data => $scope.activeChat.addReceivers(data))
+			.then(() => $scope.$broadcast("resetSearch"))
 
 		errorService.failOnErrorPromise(addUsersToTopicState, promise);
 	}
