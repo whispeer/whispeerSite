@@ -48,6 +48,8 @@ interface myScope {
 	toggleMessageOptions: Function
 }
 
+const MAXIMUM_FILE_SIZE_MB = WHISPEER_BUSINESS ? 15 : 10
+
 namespace BurstHelper {
 	export const getNewElements = (messagesAndUpdates, bursts) => {
 		return messagesAndUpdates.filter((message) => {
@@ -129,7 +131,7 @@ namespace BurstHelper {
 	}
 }
 
-function messagesController($scope: myScope, $element, $stateParams, $timeout) {
+function messagesController($scope: myScope, $element, $stateParams, $timeout, localize) {
 	var topicLoadingState = new State.default();
 	$scope.topicLoadingState = topicLoadingState.data;
 
@@ -158,6 +160,18 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 			.then((blob) => saveAs(blob, file.name))
 	}
 
+	const fileTooLarge = (file: File) => {
+		if (file.size > MAXIMUM_FILE_SIZE_MB * 1000 * 1000) {
+			alert(localize.getLocalizedString("messages.fileTooLarge", {
+				name: file.name,
+				maximumSize: MAXIMUM_FILE_SIZE_MB,
+			}))
+			return true
+		}
+
+		return true
+	}
+
 	$scope.attachments = {
 		imageUploads: [],
 		fileUploads: [],
@@ -167,13 +181,13 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 		removeFile: (index) => {
 			$scope.attachments.fileUploads.splice(index, 1);
 		},
-		addFiles: ImageUpload.fileCallback((files) => {
+		addFiles: ImageUpload.fileCallback((files: File[]) => {
 			$scope.$apply(() => {
 				const imageUploads = files
 					.filter((file) => ImageUpload.isImage(file))
 					.map((file) => new ImageUpload(file))
 				const fileUploads = files
-					.filter((file) => !ImageUpload.isImage(file) && FeatureToggles.isFeatureEnabled("chat.fileTransfer"))
+					.filter((file) => !ImageUpload.isImage(file) && !fileTooLarge(file) && FeatureToggles.isFeatureEnabled("chat.fileTransfer"))
 					.map((file) => new FileUpload(file))
 
 				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
@@ -332,6 +346,6 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout) {
 	};
 }
 
-(<any>messagesController).$inject = ["$scope", "$element", "$stateParams", "$timeout"];
+(<any>messagesController).$inject = ["$scope", "$element", "$stateParams", "$timeout", "localize"];
 
 messagesModule.controller("ssn.messagesShowController", messagesController);

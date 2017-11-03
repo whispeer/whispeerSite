@@ -413,7 +413,8 @@
 			"remove": "Remove from chat"
 		},
 		"addUsers": "Add users",
-		"changeTitle": "Change title"
+		"changeTitle": "Change title",
+		"fileTooLarge": "File is too large: {name}. We only allow a maximum of {maximumSize}MB."
 	},
 	"profile": {
 		"notFound": "User not found!",

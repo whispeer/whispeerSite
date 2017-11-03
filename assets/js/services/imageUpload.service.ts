@@ -122,7 +122,7 @@ class ImageUpload extends FileUpload {
 		}
 	}
 
-	static isImage(file) {
+	static isImage(file: File) {
 		return file.type.match(/image.*/)
 	}
 

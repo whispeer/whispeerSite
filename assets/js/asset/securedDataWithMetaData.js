@@ -50,8 +50,6 @@ function SecuredDataWithMetaData(content, meta, options, isDecrypted) {
 	}
 
 	this._updated = h.deepCopyObj(this._original);
-
-	this._isKeyVerified = false;
 }
 
 SecuredDataWithMetaData.prototype._blockDisallowedAttributes = function (data) {
@@ -132,7 +130,7 @@ SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey)
 		throw new Error("can only sign and not encrypt");
 	}
 
-	if (this._original.meta._key && (this._original.meta._key !== cryptKey || !this._isKeyVerified)) {
+	if (this._original.meta._key && this._original.meta._key !== cryptKey) {
 		throw new Error("can not re-encrypt an old object with new key!");
 	}
 
@@ -215,8 +213,6 @@ SecuredDataWithMetaData.prototype.verifyAsync = function (signKey, id) {
 
 		return this._verifyContentHash();
 	}).then(function () {
-		this._isKeyVerified = true;
-
 		return true;
 	});
 };

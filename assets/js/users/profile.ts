@@ -55,19 +55,6 @@ export default class Profile extends Observer {
 		return this.isPublicProfile ? "public-" + this.id : "private-" + this.id;
 	};
 
-	getUpdatedData = (signKey: string) => {
-		//pad updated profile
-		//merge paddedProfile and updatedPaddedProfile
-		//sign/hash merge
-		//encrypt merge
-
-		if (this.isPublicProfile) {
-			return this.sign(signKey);
-		}
-
-		return this.securedData.getUpdatedData(signKey);
-	};
-
 	sign = (signKey: string, cb?: Function) => {
 		if (!this.isPublicProfile) {
 			throw new Error("please encrypt private profiles!");

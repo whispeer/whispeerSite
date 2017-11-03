@@ -444,7 +444,7 @@ class User implements UserInterface {
 		return Bluebird.try(() => {
 			return Bluebird.all([
 				this.rebuildProfiles(),
-				this.profiles.me.getUpdatedData(this.getSignKey())
+				this.profiles.me.signAndEncrypt(this.getSignKey(), this.getMainKey())
 			])
 		}).spread((profileData, myProfile: any) => {
 			profileData.me = myProfile
