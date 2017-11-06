@@ -59,18 +59,11 @@
 					<i class="fa fa-fw fa-circle-o-notch fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
 					<span data-i18n="messages.remaining|count={{remainingMessagesCount}}"></span>
 				</li>
-				<li class="burst-date" id="messagesView-endOfStream">
-					<p data-i18n="messages.endOfStream" data-ng-if="remainingMessagesCount == 0" class="burst-date-text">
-						<span data-for="date">{{::messageBursts()[0].firstItem().getTime()|date}}</span>
-					</p>
-				</li>
 				<li class="burst" data-ng-if="messageBursts().length === 0">
 					<burst-difference data-chat="activeChat" data-burst="messageBursts()[0]"></burst-difference>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
 					<burst-difference data-chat="activeChat" data-burst="burst" data-previous-burst="bursts[$index - 1]"></burst-difference>
-
-					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
 
 					<span>
 						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})" class="username">{{burst.sender().name}}</a>
