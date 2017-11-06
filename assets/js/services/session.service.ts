@@ -6,6 +6,7 @@ import Cache from "../services/Cache"
 import keyStore from "./keyStore.service";
 import { landingPage } from "./location.manager";
 import { withPrefix } from "./storage.service";
+import h from "../helper/helper"
 
 export class SessionService {
 	sid: string = "";
@@ -42,6 +43,8 @@ export class SessionService {
 		keyStore.security.setPassword(password);
 		this.sessionStorage.set("password", password);
 	}
+
+	bootLogin = h.cacheResult<Bluebird<boolean>>(() => this.loadLogin())
 
 	loadLogin = () => {
 		return this.sessionStorage.awaitLoading().then(() => {

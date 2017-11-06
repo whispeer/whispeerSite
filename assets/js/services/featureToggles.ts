@@ -1,15 +1,20 @@
 import socketService from "./socket.service"
+import sessionService from "./session.service"
 
 class FeatureToggles {
 	config = {}
 
 	constructor() {
-		socketService.definitlyEmit("featureToggles", {}).then((response) => {
-			if (response.toggles) {
-				this.config = response.toggles
-			}
-		})
+		sessionService.bootLogin()
+			.then(() => this.loadToggles())
+
+		sessionService.awaitLogin()
+			.then(() => this.loadToggles())
 	}
+
+	private loadToggles = () =>
+		socketService.definitlyEmit("featureToggles", {})
+			.then((response) => response.toggles ? this.config = response.toggles : null)
 
 	isFeatureEnabled(featureName) {
 		if (!this.config.hasOwnProperty(featureName)) {

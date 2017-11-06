@@ -216,6 +216,8 @@ function createLoader<ObjectType, CachedObjectType>({ download, load, restore, g
 			return byId
 		}
 
+		static removeLoaded = (id) => delete byId[id]
+
 		static addLoaded = (id, obj: ObjectType) => {
 			byId[id] = { instance: obj, lastUpdated: Date.now(), updating: false }
 		}
