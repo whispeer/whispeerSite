@@ -26,7 +26,7 @@
 	<div data-ng-repeat="chunk in $ctrl.chunksBetweenBursts()">
 		<div class="burst-date" data-ng-if="$ctrl.addedReceiver(chunk).length > 0">
 			<span class="burst-date-text">
-				<span data-i18n="messages.burstDifferences.addedUser">
+				<span data-i18n="messages.burstDifferences.addedUsers">
 					<span data-for="name">{{ $ctrl.getCreator(chunk).name }}</span>
 				</span><br />
 				<span data-ng-repeat="user in $ctrl.addedReceiver(chunk)">
@@ -37,7 +37,7 @@
 
 		<div class="burst-date" data-ng-if="$ctrl.removedReceiver(chunk).length > 0">
 			<span class="burst-date-text">
-				<span data-i18n="messages.burstDifferences.removedUser">
+				<span data-i18n="messages.burstDifferences.removedUsers">
 					<span data-for="name">{{ $ctrl.getCreator(chunk).name }}</span>
 				</span><br />
 				<span data-ng-repeat="user in $ctrl.removedReceiver(chunk)">

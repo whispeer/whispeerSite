@@ -1,15 +1,19 @@
-import templateUrl from "../../views/directives/burstDifference.html"
+const templateUrl = require("../../views/directives/burstDifference.html")
 
 import h from "../helper/helper"
 
-import ChunkLoader, { Chunk } from "../messages/chatChunk"
+import ChunkLoader from "../messages/chatChunk"
 import { Chat } from "../messages/chat"
 import Burst from "../messages/burst"
 
-import directivesModule from "directives/directivesModule";
+const directivesModule = require("directives/directivesModule");
 
 class BurstDifferenceComponentController {
 	constructor() {}
+	noDates: boolean
+	chat: Chat
+	burst: Burst
+	previousBurst: Burst
 
 	differentDay() {
 		if (this.noDates || !this.chat || !this.chat.getLatestChunk) {
