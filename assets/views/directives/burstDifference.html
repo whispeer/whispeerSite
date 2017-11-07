@@ -1,0 +1,58 @@
+<div class="burst-date" data-ng-if="$ctrl.differentDay()">
+	<span class="burst-date-text" data-ng-if="$ctrl.hasPreviousChunk()">
+		{{ $ctrl.getTime() | date }}
+	</span>
+	<span
+		class="burst-date-text"
+		data-ng-if="!$ctrl.hasPreviousChunk()"
+		data-i18n="messages.endOfStream"
+	>
+		<span data-for="date">
+			{{ $ctrl.getTime() | date }}
+		</span>
+	</span>
+</div>
+
+<div data-ng-if="$ctrl.differentChunk()">
+	<div class="burst-date" data-ng-if="!$ctrl.hasPreviousChunk()">
+		<span class="burst-date-text">
+			<span data-i18n="messages.burstDifferences.usersInChat"></span><br />
+			<span data-ng-repeat="user in $ctrl.receiver()">
+				{{ user.name }} <br />
+			</span>
+		</span>
+	</div>
+
+	<div data-ng-repeat="chunk in $ctrl.chunksBetweenBursts()">
+		<div class="burst-date" data-ng-if="$ctrl.addedReceiver(chunk).length > 0">
+			<span class="burst-date-text">
+				<span data-i18n="messages.burstDifferences.addedUsers">
+					<span data-for="name">{{ $ctrl.getCreator(chunk).name }}</span>
+				</span><br />
+				<span data-ng-repeat="user in $ctrl.addedReceiver(chunk)">
+					{{ user.name }} <br />
+				</span>
+			</span>
+		</div>
+
+		<div class="burst-date" data-ng-if="$ctrl.removedReceiver(chunk).length > 0">
+			<span class="burst-date-text">
+				<span data-i18n="messages.burstDifferences.removedUsers">
+					<span data-for="name">{{ $ctrl.getCreator(chunk).name }}</span>
+				</span><br />
+				<span data-ng-repeat="user in $ctrl.removedReceiver(chunk)">
+					{{ user.name }} <br />
+				</span>
+			</span>
+		</div>
+
+		<div class="burst-date" data-ng-if="$ctrl.changedTitle(chunk)">
+			<span class="burst-date-text">
+				<span data-i18n="messages.burstDifferences.changedTitle">
+					<span data-for="name">{{ $ctrl.getCreator(chunk).name }}</span>
+				</span><br />
+				{{ $ctrl.changedTitle(chunk) }}
+			</span>
+		</div>
+	</div>
+</div>

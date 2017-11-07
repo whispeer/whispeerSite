@@ -414,7 +414,13 @@
 		},
 		"addUsers": "Add users",
 		"changeTitle": "Change title",
-		"fileTooLarge": "File is too large: {name}. We only allow a maximum of {maximumSize}MB."
+		"fileTooLarge": "File is too large: {name}. We only allow a maximum of {maximumSize}MB.",
+		"burstDifferences": {
+			"usersInChat": "Users in this chat:",
+			"addedUsers": "{name} added:",
+			"removedUsers": "{name} removed:",
+			"changedTitle": "{name} changed the title:"
+		}
 	},
 	"profile": {
 		"notFound": "User not found!",

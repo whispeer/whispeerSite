@@ -412,7 +412,13 @@
 		},
 		"addUsers": "Nutzer hinzufügen",
 		"changeTitle": "Titel ändern",
-		"fileTooLarge": "Datei zu groß: {name}. Wir erlauben aktuell nur {maximumSize}MB."
+		"fileTooLarge": "Datei zu groß: {name}. Wir erlauben aktuell nur {maximumSize}MB.",
+		"burstDifferences": {
+			"usersInChat": "Nutzer in diesem Chat:",
+			"addedUsers": "{name} hat Nutzer hinzugefügt:",
+			"removedUsers": "{name} hat Nutzer entfernt:",
+			"changedTitle": "{name} hat den Chattitel geändert:"
+		}
 	},
 	"profile": {
 		"notFound": "Dieser Nutzer existiert nicht!",
