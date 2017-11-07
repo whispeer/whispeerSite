@@ -32,7 +32,6 @@
 	background-color: #ffffff;
 }
 .landing-section--background2 {
-	background-image: url("/assets/images/app-release-en.jpg");
 	background-color: #ebeced;
 	background-size: 100% auto;
 	background-position: center 50vh !important;
@@ -50,6 +49,12 @@
 	@media #{$smallerMobile} and (orientation: landscape) {
 		min-height: calc(100vh + 500px) !important;
 	}
+}
+.landing-section--background2-de {
+	background-image: url("/assets/images/app-release-de.jpg");
+}
+.landing-section--background2-en {
+	background-image: url("/assets/images/app-release-en.jpg");
 }
 .landing-section--background--night {
 	background-image: url("/assets/images/lighthouse_night.jpg");
