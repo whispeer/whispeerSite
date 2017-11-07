@@ -71,7 +71,7 @@
 					{% endif %}
 				</div>
 			</section> -->
-			<section id="heading" class="heading heading2 landing-section{% if data.teaser2.image != null %} landing-section--background2{% endif %}">
+			<section id="heading" class="heading heading2 landing-section{% if data.teaser2.image != null %} landing-section--background2 landing-section--background2-{{page.lang}}{% endif %}">
 				<div class="landing-section--inner" style="margin-top: 0;">
 					<img src="/assets/img/logo/grey.svg" class="landing-section__logo">
 					<h1 class="section-header section-header--large {% if data.teaser2.headingColor %} text--{{data.teaser2.headingColor}} {%endif%}{% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">{{ data.teaser2.headline }}</h1>
