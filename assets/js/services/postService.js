@@ -242,7 +242,8 @@ var Post = function (data) {
 	};
 
 	this.getText = function (cb) {
-		return securedData.decrypt().nodeify(cb);
+		return securedData.decrypt()
+			.then((content) => typeof content === "object" ? content.text : content).nodeify(cb);
 	};
 };
 
@@ -414,6 +415,17 @@ Timeline.prototype.addPost = function (newPost) {
 	});
 };
 
+const extractImagesInfo = (infos) => {
+	return infos.map((info) =>
+		h.objectMap(info, (val) => {
+			return Object.assign({}, val.meta, {
+				gif: val.content.gif,
+				blobHash: val.content.blobHash
+			})
+		})
+	)
+}
+
 var postService = {
 	getTimeline: function (filter, sortByCommentTime) {
 		filter.sort();
@@ -470,21 +482,8 @@ var postService = {
 		postsByUserWall = {};
 		timelinesCache = {};
 	},
-	createPost: function (content, visibleSelection, wallUserID, images) {
+	createPost: function (text, visibleSelection, wallUserID, images) {
 		visibleSelection = visibleSelection.slice()
-
-		/*
-				meta: {
-					contentHash,
-					time,
-					signature,
-					sender: ownid,
-					(key),
-					(walluser), //for a wallpost
-				}
-				content //padded!
-		*/
-		//var meta = {}, postKey, blobKeys;
 
 		var imagePreparation = Promise.resolve(images).map(function (image) {
 			return image.prepare();
@@ -499,7 +498,7 @@ var postService = {
 		var socketEmit = Promise.promisify(socket.emit.bind(socket));
 		var data, securedData;
 
-		return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesMetaData) {
+		return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesInfo) {
 			var uploadImages = Promise.all(images.map(function (image) {
 				return image.upload(postKey);
 			}));
@@ -512,11 +511,10 @@ var postService = {
 			meta.time = new Date().getTime();
 			meta.sender = userService.getOwn().getID();
 			meta.walluser = wallUserID;
-			meta.images = imagesMetaData;
+			meta.images = extractImagesInfo(imagesInfo);
 
 			var ownUser = userService.getOwn();
-
-			var secured = SecuredData.createPromisified(content, meta, { type: "post" }, ownUser.getSignKey(), postKey);
+			var secured = SecuredData.createPromisified(text, meta, { type: "post" }, ownUser.getSignKey(), postKey);
 
 			securedData = secured.data;
 
