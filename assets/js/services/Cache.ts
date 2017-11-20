@@ -1,31 +1,28 @@
 import { errorServiceInstance } from "./error.service";
 import * as Bluebird from "bluebird";
 import h from "../helper/helper"
-import idb, { Cursor, DB } from "idb" // tslint:disable-line:no-unused-variable
+import idb, { Cursor } from "idb" // tslint:disable-line:no-unused-variable
 
 const REINIT_CACHE_TIMEOUT = 2000
-let dbPromise: Promise<DB>, cachesDisabled
+let cachesDisabled = false
 
-const initCache = () => {
-	cachesDisabled = false
-
-	dbPromise = idb.open("whispeerCache", 10, upgradeDB => {
+const openDatabase = () =>
+	idb.open("whispeerCache", 10, upgradeDB => {
 		const objectStore = upgradeDB.createObjectStore('cache', { keyPath: "id" });
 
 		objectStore.createIndex("created", "created", { unique: false });
 		objectStore.createIndex("used", "used", { unique: false });
 		objectStore.createIndex("type", "type", { unique: false });
 		objectStore.createIndex("size", "size", { unique: false });
-	})
-
-	dbPromise.catch((e) => {
+	}).catch((e) => {
 		console.warn("Disabling indexedDB caching due to error", e)
 
 		cachesDisabled = true
-	})
-}
 
-initCache()
+		return Promise.reject(e)
+	})
+
+const initCache = () => cachesDisabled = false
 
 try {
 	indexedDB.deleteDatabase("whispeer");
@@ -50,11 +47,7 @@ export default class Cache {
 	static deleteDatabase() {
 		cachesDisabled = true
 
-		return dbPromise.then((db) =>
-			db.close()
-		).then(() =>
-			idb.delete("whispeerCache")
-		).then(() => {
+		return idb.delete("whispeerCache").then(() => {
 			setTimeout(() => {
 				initCache()
 			}, REINIT_CACHE_TIMEOUT)
@@ -102,7 +95,7 @@ export default class Cache {
 		}
 
 		return Bluebird.try(async () => {
-			const db = await dbPromise
+			const db = await openDatabase()
 
 			console.info(`Storing in indexeddb ${this.getID(id)}`)
 
@@ -110,6 +103,7 @@ export default class Cache {
 			tx.objectStore('cache').put(cacheEntry)
 
 			await tx.complete
+			db.close()
 		}).catch(errorServiceInstance.criticalError);
 	}
 
@@ -119,9 +113,11 @@ export default class Cache {
 		}
 
 		return Bluebird.try(async () => {
-			const db = await dbPromise
+			const db = await openDatabase()
 			const tx = db.transaction("cache", "readonly")
 			const count = await tx.objectStore("cache").count(`${this.name}/${id}`)
+
+			db.close()
 
 			return count > 0
 		})
@@ -139,7 +135,7 @@ export default class Cache {
 		*/
 
 		return Bluebird.try(async () => {
-			const db = await dbPromise
+			const db = await openDatabase()
 			const tx = db.transaction("cache", "readonly")
 			const data = await tx.objectStore("cache").get(`${this.name}/${id}`)
 
@@ -162,6 +158,8 @@ export default class Cache {
 			if (data.blobs.length === 1) {
 				data.blob = data.blobs[0];
 			}
+
+			db.close()
 
 			return data;
 		})
@@ -196,11 +194,12 @@ export default class Cache {
 		}
 
 		return Bluebird.try(async () => {
-			const db = await dbPromise
+			const db = await openDatabase()
 
 			const tx = db.transaction("cache", "readwrite")
 
 			await tx.objectStore("cache").delete(this.getID(id))
+			db.close()
 		})
 	}
 
@@ -216,21 +215,18 @@ export default class Cache {
 
 	private cursorEach(action, transactionType: "readonly" | "readwrite") {
 		return Bluebird.try(async () => {
-			const db = await dbPromise
+			const db = await openDatabase()
 
 			const tx = db.transaction("cache", transactionType)
 			const cursorPromise = tx.objectStore("cache").index("type").openCursor(this.name)
 
 			await followCursorUntilDone(cursorPromise, action)
+			db.close()
 		})
 	}
 
 	private isDisabled() {
 		return cachesDisabled || this.cacheDisabled
-	}
-
-	static disable() {
-		cachesDisabled = true;
 	}
 
 	disable() {
