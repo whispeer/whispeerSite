@@ -229,6 +229,10 @@ export default class Cache {
 		return cachesDisabled || this.cacheDisabled
 	}
 
+	static disable() {
+		cachesDisabled = true;
+	}
+
 	disable() {
 		this.cacheDisabled = true;
 	}
