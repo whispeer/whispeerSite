@@ -179,8 +179,6 @@ class User implements UserInterface {
 	private addFriendState = new State()
 	private ignoreFriendState = new State()
 
-	private loadBasicDataPromise
-
 	data: any = {}
 
 	constructor (userData, signedKeys, profiles: ProfilesType) {
@@ -453,7 +451,6 @@ class User implements UserInterface {
 		}).then(() => {
 			this.profiles.me.updated()
 
-			this.loadBasicDataPromise = null
 			return this.loadBasicData()
 		}).nodeify(cb)
 	}
