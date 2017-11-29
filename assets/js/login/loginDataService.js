@@ -95,10 +95,6 @@ var service = function () {
 				sessionStorage.set("password", password);
 
 				return sessionStorage.save().thenReturn(data);
-			}).then(function (data) {
-				if (!data.business && WHISPEER_BUSINESS) {
-					throw new errors.LoginError("Login failed", { failure: failureCodes.NOBUSINESSLICENSE})
-				}
 			}).catch(function (e) {
 				console.log(e);
 				throw e;
