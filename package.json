@@ -44,8 +44,8 @@
     "requirejs": "^2.2.0",
     "sjcl": "git+https://github.com/whispeer/sjcl.git#custom-build",
     "socket.io-client": "~2.0.0",
-    "ts-loader": "^1.2.2",
-    "webpack": "^3.0.0",
+    "ts-loader": "^3.1.1",
+    "webpack": "^3.8.1",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
@@ -82,7 +82,7 @@
     "ngtemplate-loader": "^1.3.1",
     "phantomjs-prebuilt": "^2.1.7",
     "tslint": "^4.0.2",
-    "typescript": "~2.3.4",
+    "typescript": "~2.6.2",
     "typings": "^2.0.0",
     "unused-files-webpack-plugin": "^3.0.0",
     "webpack-bundle-analyzer": "^2.6.0",
