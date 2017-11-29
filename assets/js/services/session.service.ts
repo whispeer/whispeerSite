@@ -1,7 +1,6 @@
 import * as Bluebird from "bluebird"
 
 import Storage from "./Storage";
-import blobCache from "../asset/blobCache"
 import Cache from "../services/Cache"
 import keyStore from "./keyStore.service";
 import { landingPage } from "./location.manager";
@@ -70,9 +69,8 @@ export class SessionService {
 
 	clear = () => {
 		return Bluebird.all([
-			blobCache.clear(),
-			this.sessionStorage.clear(),
-			Bluebird.resolve(Cache.deleteDatabase()),
+			this.sessionStorage.clear().then(() => console.log("session storage")),
+			Bluebird.resolve(Cache.deleteDatabase()).then(() => console.log("cache deletedb")),
 		].map(p => p.reflect()))
 	}
 
