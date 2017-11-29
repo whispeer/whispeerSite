@@ -104,6 +104,7 @@ var config = {
 		register: "./register/registerMain.js",
 		main: "./main.js",
 		recovery: "./recovery/recoveryMain.js",
+		token: "./token/tokenMain.ts",
 		verifyMail: "./verifyMail/verifyMailMain.js",
 		sales: "./sales/salesMain.ts"
 	},
