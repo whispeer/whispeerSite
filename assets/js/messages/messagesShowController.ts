@@ -169,7 +169,7 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout, l
 			return true
 		}
 
-		return true
+		return false
 	}
 
 	$scope.attachments = {
