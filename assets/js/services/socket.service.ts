@@ -213,7 +213,7 @@ class SocketService extends Observer {
 			}
 
 			if (WHISPEER_BUSINESS) {
-				if (response.logedin && !response.isBusiness) {
+				if (response.loggedin && !response.isBusiness && !request.ignoreBusiness) {
 					goToSalesPage()
 				}
 			}

@@ -41,11 +41,15 @@ Bluebird.all([
 ]).then(() =>
 	socket.emit("token.get", {
 		sid: sessionStorage.get("sid"),
-		token
+		token,
+		ignoreBusiness: true
 	})
-).then(({ companyID, loggedin }) => {
-	debugger
+).then(({ companyID, loggedin, isBusiness }) => {
 	tokenStorage.set("companyID", companyID)
+
+	if (isBusiness) {
+		return redirectTo("main")
+	}
 
 	if (loggedin) {
 		return useToken(token)
@@ -53,4 +57,8 @@ Bluebird.all([
 
 	tokenStorage.set("token", token)
 	redirectTo("register")
+}).catch((e) => {
+	if (e.extra.response.isBusiness) {
+		return redirectTo("main")
+	}
 })
