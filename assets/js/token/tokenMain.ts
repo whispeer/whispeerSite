@@ -14,7 +14,7 @@ const tokenStorage = withPrefix("whispeer.token")
 
 const getToken = () => {
 	const parts = window.location.pathname.split("/");
-	return parts[parts.length - 1]
+	return parts.reverse().filter((ele) => ele.length > 0)[0]
 }
 
 const getLanguage = () => window.location.pathname.split("/")[1]
