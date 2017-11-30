@@ -10,11 +10,28 @@ import { withPrefix } from "../services/storage.service";
 import socket from "../services/socket.service"
 
 const sessionStorage = withPrefix("whispeer.session")
+const tokenStorage = withPrefix("whispeer.token")
 
 const getToken = () => {
 	const parts = window.location.pathname.split("/");
 	return parts[parts.length - 1]
 }
+
+const getLanguage = () => window.location.pathname.split("/")[1]
+
+const extra = WHISPEER_BUSINESS ? "" : "/business"
+
+const redirectTo = (route: string) => {
+	window.location.href = `/${getLanguage()}/${route}${extra}`
+}
+
+const useToken = (token) =>
+	socket.emit("token.use", {
+		sid: sessionStorage.get("sid"),
+		token
+	}).then(() =>
+		redirectTo("main")
+	)
 
 const token = getToken()
 
@@ -26,6 +43,14 @@ Bluebird.all([
 		sid: sessionStorage.get("sid"),
 		token
 	})
-).then((response) => {
+).then(({ companyID, loggedin }) => {
 	debugger
+	tokenStorage.set("companyID", companyID)
+
+	if (loggedin) {
+		return useToken(token)
+	}
+
+	tokenStorage.set("token", token)
+	redirectTo("register")
 })

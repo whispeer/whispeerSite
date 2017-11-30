@@ -10,7 +10,10 @@ var h = require("../helper/helper").default;
 var trustManager = require("crypto/trustManager");
 var SecuredData = require("asset/securedDataWithMetaData");
 
-var keyGenPromise, sessionStorage = Storage.withPrefix("whispeer.session"), clientStorage = Storage.withPrefix("whispeer.client");
+var keyGenPromise
+const sessionStorage = Storage.withPrefix("whispeer.session")
+const tokenStorage = Storage.withPrefix("whispeer.token")
+const clientStorage = Storage.withPrefix("whispeer.client")
 var registerPromise;
 
 var registerService = {
@@ -101,6 +104,8 @@ var registerService = {
 				}
 
 				registerData.preID = clientStorage.get("preID") || "";
+
+				registerData.token = tokenStorage.get("token")
 
 				return socketService.emit("session.register", registerData);
 			}).then(function (result) {
