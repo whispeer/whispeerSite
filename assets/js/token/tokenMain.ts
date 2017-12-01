@@ -45,6 +45,12 @@ Bluebird.all([
 		ignoreBusiness: true
 	})
 ).then(({ companyID, loggedin, isBusiness }) => {
+	if (sessionStorage.get("sid") && !loggedin) {
+		sessionStorage.clear()
+		window.location.reload()
+		return
+	}
+
 	tokenStorage.set("companyID", companyID)
 
 	if (isBusiness) {
