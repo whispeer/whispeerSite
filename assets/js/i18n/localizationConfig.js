@@ -1,15 +1,26 @@
-var localizationLoader = require("./localization.loader").default;
-var h = require("whispeerHelper").default;
-var Localize = require("./localize").default;
+const localizationLoader = require("./localization.loader").default;
+const h = require("whispeerHelper").default;
+const Localize = require("./localize").default;
+const withPrefix = require("../services/storage.service").withPrefix
 
-var availableLanguages = ["en", "de"];
+const availableLanguages = ["en", "de"];
 
 localizationLoader.setAvailableLanguages(availableLanguages);
 localizationLoader.setFallBackLanguage(availableLanguages[0]);
 
-var lang = h.getLanguageFromPath();
-var pathLanguageAvailable = availableLanguages.indexOf(lang) > -1;
+const lang = h.getLanguageFromPath();
+const pathLanguageAvailable = availableLanguages.indexOf(lang) > -1;
 
-var localize = new Localize(pathLanguageAvailable ? lang : null);
+const localize = new Localize(pathLanguageAvailable ? lang : null);
+
+if (WHISPEER_BUSINESS) {
+	localize.loadOptionalLocaleExtension("assets/js/i18n/l_business_")
+
+	const companyID = withPrefix("whispeer.token").get("companyID")
+
+	if (companyID) {
+		localize.loadOptionalLocaleExtension(`assets/js/i18n/companies/l_${companyID}_`)
+	}
+}
 
 module.exports = localize;
