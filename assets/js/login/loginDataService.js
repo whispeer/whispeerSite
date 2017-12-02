@@ -20,8 +20,9 @@ var service = function () {
 		UNKNOWN: 5
 	};
 
-	var sessionStorage = Storage.withPrefix("whispeer.session");
-	var loginStorage = Storage.withPrefix("whispeer.login");
+	const sessionStorage = Storage.withPrefix("whispeer.session");
+	const loginStorage = Storage.withPrefix("whispeer.login");
+	const tokenStorage = Storage.withPrefix("whispeer.token")
 
 	try {
 		if (localStorage.getItem("loggedin") === "true") {
@@ -79,7 +80,8 @@ var service = function () {
 				return socketService.emit("session.login", {
 					identifier: name,
 					password: hash,
-					token: data.token
+					token: data.token,
+					companyToken: tokenStorage.get("token")
 				}).catch(function (e) {
 					if (e.name === "disconnectedError") {
 						throw new errors.LoginError("Login failed", { failure: failureCodes.NOCONNECTION });

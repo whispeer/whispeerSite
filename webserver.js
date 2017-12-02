@@ -149,6 +149,8 @@ function run() {
 			res.redirect("/" + redirectLocale + req.originalUrl);
 		} else if (paths[0] === "recovery") {
 			res.sendFile(__dirname + "/static/" + possibleLocale + "/recovery/index.html");
+		} else if (paths[0] === "token") {
+			res.sendFile(__dirname + "/static/" + possibleLocale + "/token/index.html");
 		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
 			res.sendFile(__dirname + "/index.html");
 		} else if (paths[0] === "verifyMail") {
