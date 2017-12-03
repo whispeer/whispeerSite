@@ -107,13 +107,11 @@ function qrScannerDirective($timeout) {
 					theStream = stream;
 					var v = iElement.find("video")[0];
 
-					if(webkit) {
-						v.src = window.webkitURL.createObjectURL(stream);
-					} else if(moz) {
+					if(moz) {
 						v.mozSrcObject = stream;
 						v.play();
 					} else {
-						v.src = stream;
+						v.src = window.webkitURL.createObjectURL(stream);
 					}
 
 					$timeout(captureToCanvas, 500);
