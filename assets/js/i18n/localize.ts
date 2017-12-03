@@ -1,9 +1,13 @@
 import Observer from "../asset/observer";
 import localizationLoader from "./localization.loader";
+import * as Bluebird from "bluebird"
 
 export default class Localize extends Observer {
 	dictionary: any = {}
+	dictionaryExtensions = []
 	resourceFileLoaded = false
+	onloadedCallback: () => void
+	loadedPromise: Bluebird<void>
 
 	language = window.navigator.language;
 
@@ -13,6 +17,11 @@ export default class Localize extends Observer {
 		if (baseLanguage) {
 			this.language = baseLanguage;
 		}
+
+		this.loadedPromise = new Bluebird<void>((resolve) => {
+			this.onloadedCallback = resolve
+		})
+
 	}
 
 	static invalidTranslation = (value: string) => {
@@ -36,6 +45,17 @@ export default class Localize extends Observer {
 		return Localize.regExpFromString(Localize.getReplacementString(replacer));
 	}
 
+	private extend = (dictionary) => {
+		this.dictionaryExtensions.push(dictionary)
+
+		this.notify(this.language, "localizeResourcesUpdates");
+	}
+
+	loadOptionalLocaleExtension = (location) =>
+		this.loadedPromise
+			.then(() => localizationLoader.loadOptionalLocaleExtension(location))
+			.then((dictionary) => this.extend(dictionary))
+
 	// loads the language resource file from the server
 	initLocalizedResources = () => {
 		this.resourceFileLoaded = false;
@@ -45,12 +65,11 @@ export default class Localize extends Observer {
 			this.resourceFileLoaded = true;
 
 			this.notify(this.language, "localizeResourcesUpdates");
+			this.onloadedCallback()
 		});
 	}
 
-	getLanguage = function () {
-		return localizationLoader.loadedLanguage || this.language;
-	};
+	getLanguage = () => localizationLoader.loadedLanguage || this.language
 
 	setLocales = function (_dictionary: any) {
 		this.resourceFileLoaded = true;
@@ -96,20 +115,14 @@ export default class Localize extends Observer {
 		return parsed && parsed.min <= count && parsed.max >= count;
 	};
 
-	tryPluralization = function (tag: Object, count: string) {
-		var key: string, countInt: number;
-		countInt = parseInt(count, 10);
-		if (isNaN(countInt)) {
-			return tag;
-		}
+	getDictionaryValue = (value) : string => {
+		const keys = value.split(".")
 
-		var plurals = this.dictionary.plurals;
-		for (key in plurals) {
-			if (plurals.hasOwnProperty(key) && this.matchesPluralization(key, count)) {
-				return tag[plurals[key]];
-			}
-		}
-	};
+		return [this.dictionary].concat(this.dictionaryExtensions).reverse().map((dictionary) => {
+			return keys
+				.reduce((prev, attr) => prev[attr] ? prev[attr] : prev, dictionary);
+		}).find((val) => typeof val === "string")
+	}
 
 	// checks the dictionary for a localized resource string
 	getLocalizedString = (value: string, replacements: any) => {
@@ -117,31 +130,18 @@ export default class Localize extends Observer {
 			return "";
 		}
 
-		var tag = value.split(".").reduce(function (previousValue, attr) {
-			if (previousValue[attr]) {
-				return previousValue[attr];
-			}
+		const entry : string = this.getDictionaryValue(value)
 
-			return previousValue;
-		}, this.dictionary);
-
-		if (typeof tag === "object") {
-			tag = this.tryPluralization(tag, replacements.count);
-		}
-
-		if (typeof tag === "undefined" || typeof tag === "object") {
+		if (typeof entry === "undefined" || typeof entry === "object") {
 			return Localize.invalidTranslation(value);
 		}
 
-		if (replacements) {
-			var element: string;
-			for (element in replacements) {
-				if (replacements.hasOwnProperty(element)) {
-					tag = tag.replace(Localize.getFullReplacer(element), replacements[element]);
-				}
-			}
+		if (!replacements) {
+			return entry
 		}
 
-		return tag;
+		return Object.keys(replacements).reduce((prev, element: string) => {
+			return prev.replace(Localize.getFullReplacer(element), replacements[element]);
+		}, entry)
 	}
 }
