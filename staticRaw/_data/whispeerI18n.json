@@ -45,10 +45,6 @@
 			"passwordDescription": "Du musst jetzt noch ein möglichst starkes Passwort wählen.<br>Wir empfehlen mindestens 12 Zeichen, darunter groß- und kleingeschriebene Buchstaben sowie Zahlen und Sonderzeichen.<br>",
 			"passwordTip": "Tipp: An der rechten Seite des Eingabefeldes findest du eine kleine Anzeige, die dir die Stärke deines Passworts anzeigt.",
 			"agbHeadline": "Der letzte Schritt",
-			"agbText1": "Ein paar Formalitäten müssen dann leider doch sein:",
-			"agbText2": "Wir bitten dich, unsere ",
-			"agbText3": " und unsere ",
-			"agbText4": " zu lesen und zu akzeptieren.",
 			"agbNote": "Wir haben versucht, diese so kurz und simpel wie möglich zu halten, aber ganz ohne geht leider nicht."
 		},
 		"general": {
@@ -139,10 +135,6 @@
 			"passwordDescription": "You should create a unique and secure password for your account now.<br>We suggest a combination of upper- and lowercase letters, numbers and special characters with at least 12 characters in total.<br>",
 			"passwordTip": "Our little graph on the right will show you how strong your password currently is.",
 			"agbHeadline": "Almost done",
-			"agbText1": "Just a bit of paperwork is left.",
-			"agbText2": "By clicking Sign Up, you agree to our ",
-			"agbText3": " and to our (very strict) ",
-			"agbText4": ".",
 			"agbNote": "We tried to shorten it to the essentials but, unfortunately, we cannot operate completely without them."
 		},
 		"legal": {

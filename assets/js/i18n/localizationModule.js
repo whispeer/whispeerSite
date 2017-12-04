@@ -68,15 +68,15 @@ module.provider("localize", function () {
 // simple translation filter
 // usage {{ TOKEN | i18n }}
 module.filter("i18n", ["localize", function (localize) {
-	return function (input) {
-		return localize.getLocalizedString(input);
-	};
+	const filter = (input) => localize.getLocalizedString(input)
+	filter.$stateful = true
+	return filter
 }]);
 
 module.filter("l", ["localize", function (localize) {
-	return function (input) {
-		return localize.getLocalizedString(input);
-	};
+	const filter = (input) => localize.getLocalizedString(input)
+	filter.$stateful = true
+	return filter
 }]);
 
 // translation directive that can handle dynamic strings

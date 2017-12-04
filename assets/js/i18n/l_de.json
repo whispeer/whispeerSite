@@ -291,6 +291,7 @@
 		"register": {
 			"initialWelcome": "Hallo {name}",
 			"initialRegisterDescription": "Die Registration bei whispeer ist ganz einfach. Gib' einfach einen Benutzernamen ein und klick auf weiter!",
+			"agbText": "Ein paar Formalitäten müssen dann leider doch sein: {br} Wir bitten dich, unsere {agb} und unsere {privacyPolicy} zu lesen und zu akzeptieren. {br2} {note}",
 			"errors": {
 				"agb": "Bitte akzeptiere die AGB",
 				"mailInvalid": "Ungültige E-Mail",

@@ -39,6 +39,7 @@
 		</aside>
 		<section id="register-main">
 			<div id="startView-register">
+				<div ng-bind-html="extraHtml()"></div>
 				<form class="registerForm" data-validated-form="validationOptions" autocomplete="off">
 					<section class="register-body" data-ng-show="nicknameForm">
 						<header id="register-guide">
@@ -82,10 +83,12 @@
 							<h1 class="register-headline">
 								{{ i18n.register.agbHeadline }}!
 							</h1>
-							<p class="register-headline">
-								{{ i18n.register.agbText1 }}<br>
-								{{ i18n.register.agbText2 }}<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>{{ i18n.register.agbText3 }}<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>{{ i18n.register.agbText4 }}<br>
-								<small>{{ i18n.register.agbNote }}</small>
+							<p class="register-headline" data-i18n="login.register.agbText">
+								<br data-for="br">
+								<br data-for="br2">
+								<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+								<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
+								<small data-for="note">{{ i18n.register.agbNote }}</small>
 							</p>
 						</header>
 						<label class="register-agb btn btn--primary btn--big" for="checkAGB" validation="agbValidations">

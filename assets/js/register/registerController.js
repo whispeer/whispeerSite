@@ -13,7 +13,7 @@ const h = require("whispeerHelper").default;
 const State = require("asset/state");
 const registerModule = require("register/registerModule");
 
-function registerController($scope, $timeout) {
+function registerController($scope, $timeout, $sce, localize) {
 	var registerState = new State.default();
 
 	function hasLocalStorage() {
@@ -49,6 +49,9 @@ function registerController($scope, $timeout) {
 	};
 
 	$scope.loading = false;
+
+	$scope.extraHtml = () =>
+		$sce.trustAsHtml(localize.getLocalizedString("login.register.extraHtml", {}))
 
 	registerService.setPreID();
 
@@ -256,6 +259,6 @@ function registerController($scope, $timeout) {
 	};
 }
 
-registerController.$inject = ["$scope", "$timeout"];
+registerController.$inject = ["$scope", "$timeout", "$sce", "localize"];
 
 registerModule.controller("ssn.registerController", registerController);

@@ -291,7 +291,7 @@
 		"register": {
 			"initialWelcome": "Hey {name}",
 			"initialRegisterDescription": "It is really simple to create your account for whispeer. Just type in your future username (you can choose to display any other name later) and click on continue.",
-
+			"agbText": "Just a bit of paperwork is left. {br} By clicking Sign Up, you agree to our {agb} and to our (very strict) {privacyPolicy}. {br2} {note}",
 			"errors": {
 				"agb": "Please accept our terms and conditions",
 				"mailInvalid": "Invalid e-mail",
