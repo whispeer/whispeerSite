@@ -42,12 +42,10 @@
 				<form class="registerForm" data-validated-form="validationOptions" autocomplete="off">
 					<section class="register-body" data-ng-show="nicknameForm">
 						<header id="register-guide">
-							<h1 class="register-headline">
-								{{ i18n.register.initialWelcome }}<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+							<h1 class="register-headline" data-i18n="login.register.initialWelcome">
+								<span data-for="name" data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}!</span>
 							</h1>
-							<p class="register-headline">
-								{{ i18n.register.initialRegisterDescription }}
-							</p>
+							<p class="register-headline" data-i18n="login.register.initialRegisterDescription"></p>
 						</header>
 						<div class="annotatedInput-container">
 							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="nicknameForm">

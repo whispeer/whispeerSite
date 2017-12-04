@@ -289,6 +289,8 @@
 		"username": "Accountname",
 		"wrongPassword": "Falsches Passwort",
 		"register": {
+			"initialWelcome": "Hallo {name}",
+			"initialRegisterDescription": "Die Registration bei whispeer ist ganz einfach. Gib' einfach einen Benutzernamen ein und klick auf weiter!",
 			"errors": {
 				"agb": "Bitte akzeptiere die AGB",
 				"mailInvalid": "Ungültige E-Mail",
