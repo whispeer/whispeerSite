@@ -51,7 +51,9 @@ function registerController($scope, $timeout, $sce, localize) {
 	$scope.loading = false;
 
 	$scope.extraHtml = () =>
-		$sce.trustAsHtml(localize.getLocalizedString("login.register.extraHtml", {}))
+		WHISPEER_BUSINESS ?
+		$sce.trustAsHtml(localize.getLocalizedString("login.register.extraHtml", {})) :
+		""
 
 	registerService.setPreID();
 
