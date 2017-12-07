@@ -91,16 +91,16 @@
 				"ignore": "Backupdatei überspringen (nicht empfohlen)"
 			},
 			"optionalData": {
-				"header": "Freiwillige Angaben:",
-				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Freunde dich einfacher finden:",
-				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
-				"mail": "E-Mail",
+				"header": "Freiwillige Angaben",
+				"nameExplanation": "Damit deine Freunde dich leichter finden, kannst du hier deinen echten Namen eintragen. Dieser wird anstelle deines Accountsnamens benutzt und damit für alle im Netzwerk sichtbar.",
+				"mailExplanation": "Du kannst deine E-Mail hinterlassen, um über Aktivitäten deiner Freunde benachrichtigt zu werden und deinen Account-Wiederherstellungsprozess für die Zukunft zu vereinfachen.",
+				"email": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname",
-				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)",
+				"privateName": "begrenze die Sichtbarkeit auf 'nur meine Kontakte'",
 				"dismiss": "Überspringen"
 			},
-			"save": "Name und E-Mail speichern"
+			"save": "Angaben speichern"
 		},
 		"mail": {
 			"verify": "E-Mail bestätigen",
