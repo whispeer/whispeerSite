@@ -89,7 +89,8 @@ function setupController($scope, $location) {
 		loadBackupPromise.then(function () {
 			saveAs(backupBlob, "whispeer-backup-" + userService.getOwn().getNickname() + ".png");
 
-			$scope.goToNext();
+			/* TODO: once pressed, switch "setupView-noBackup" button title to "views.setup.backup.continue",
+			which is used permanently at the moment instead of "views.setup.backup.ignore" */
 		}).catch(errorService.criticalError);
 	};
 
@@ -99,7 +100,8 @@ function setupController($scope, $location) {
 			document.body.appendChild(backupCanvas);
 
 			window.print();
-			$scope.goToNext();
+			/* TODO: once pressed, switch "setupView-noBackup" button title to "views.setup.backup.continue",
+			which is used permanently at the moment instead of "views.setup.backup.ignore" */
 		}).catch(errorService.criticalError);
 	};
 }

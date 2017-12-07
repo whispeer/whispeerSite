@@ -79,16 +79,16 @@
 			"reference": "Referenz: {referrer}"
 		},
 		"setup": {
-			"welcomeHeader": "Willkommen bei whispeer!",
+			"welcomeHeader": "Gratulation zu deinem neuen Account!",
 			"backup": {
-				"header": "Sichere jetzt deinen Schlüssel",
-				"why": "Warum?",
-				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
-				"impossible": "Du kannst mit dem aktuellen Gerät deine Schlüssel-Datei nicht herunterladen! Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Bitte benutze ein anderes Gerät um deinen Schlüssel zu sichern!",
-				"downloadKey": "Schlüssel herunterladen",
+				"header": "Mache jetzt noch schnell ein Backup",
+				"explanation": "Falls du dein Passwort einmal vergessen solltest, brauchst du einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei findest du diesen Code als Zeichenkette.<br><br><i>Speichere bitte diese Backupdatei an einem sicheren Ort oder drucke sie aus.<strong>Es gibt aus technischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong></i>",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Backupdatei nicht herunterladen. Bitte sichere daher deine Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus technischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong>",
+				"downloadKey": "Backupdatei herunterladen",
 				"or": "oder",
-				"printKey": "Schlüssel ausdrucken",
-				"ignore": "Schlüssel nicht sichern"
+				"printKey": "Backupdatei ausdrucken",
+				"continue": "Weiter",
+				"ignore": "Backupdatei überspringen (nicht empfohlen)"
 			},
 			"optionalData": {
 				"header": "Freiwillige Angaben:",
