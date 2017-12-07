@@ -26,6 +26,13 @@ var WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").We
 
 var data = require(path.resolve("package.json"))
 
+const entryPoint = (entry) => {
+	return [
+		"es6-shim",
+		entry
+	]
+}
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
@@ -100,13 +107,13 @@ var config = {
 		]
 	},
 	entry: {
-		login: "./login/loginMain.js",
-		register: "./register/registerMain.js",
-		main: "./main.js",
-		recovery: "./recovery/recoveryMain.js",
-		token: "./token/tokenMain.ts",
-		verifyMail: "./verifyMail/verifyMailMain.js",
-		sales: "./sales/salesMain.ts"
+		login: entryPoint("./login/loginMain.js"),
+		register: entryPoint("./register/registerMain.js"),
+		main: entryPoint("./main.js"),
+		recovery: entryPoint("./recovery/recoveryMain.js"),
+		token: entryPoint("./token/tokenMain.ts"),
+		verifyMail: entryPoint("./verifyMail/verifyMailMain.js"),
+		sales: entryPoint("./sales/salesMain.ts")
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),

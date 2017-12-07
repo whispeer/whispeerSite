@@ -28,6 +28,17 @@ var directive = function ($window, localize) {
 		return new Date().getTime() - timestamp;
 	}
 
+	const getLocalTime = (date) => {
+		const time = date.toLocaleTimeString()
+		const stripped = time.match(/^[^:]+(:\d\d){2} *(am|pm|)\b/i)
+
+		if (stripped && stripped.length > 0) {
+			return stripped[0]
+		}
+
+		return time
+	}
+
 	function toDateString(input, noDayDisplay) {
 		if (input) {
 			var date = new Date(h.parseDecimal(input));
@@ -38,10 +49,10 @@ var directive = function ($window, localize) {
 			}
 
 			if (noDayDisplay) {
-				return date.toLocaleTimeString().match(/^[^:]+(:\d\d){2} *(am|pm|)\b/i)[0];
+				return getLocalTime(date);
 			}
 
-			return date.toLocaleDateString() + " " + date.toLocaleTimeString().match(/^[^:]+(:\d\d){2} *(am|pm|)\b/i)[0];
+			return date.toLocaleDateString() + " " + getLocalTime(date);
 		} else {
 			return "";
 		}
