@@ -79,28 +79,28 @@
 			"reference": "Referrer: {referrer}"
 		},
 		"setup": {
-			"welcomeHeader": "Welcome to whispeer!",
+			"welcomeHeader": "Congratulations on your new account!",
 			"backup": {
-				"header": "Save your key now",
-				"why": "Why?",
-				"explanation": "If you forget your password for whispeer, you don't have access to your account anymore. To reset your password, you need a particular code which is generetaded specifically for you. You will find that code in the file. Please download the file or print it out, so we can give you access to your account again if needed.",
-				"impossible": "You can not download your backup key with this device! \n If you forget your password for whispeer, you don't have access to your account anymore. \n Please use a different device to download or print your backup key!",
-				"downloadKey": "Download key",
+				"header": "Quickly download your backup",
+				"explanation": "If you forget your password for whispeer, you will need a special code to regain access to your account. You'll find this code in the backup file as a text.<br><br><i>Save the backup file in a secure place or print it.<strong>Due to technical reasons there is no other possibility to restore your account in case of disaster!</strong></i>",
+				"impossible": "You can not download your backup file with this device! Please download the backup file with a different device. <strong>Without this file it is technically impossible to restore your account in case of disaster!</strong>",
+				"downloadKey": "Download backup file",
 				"or": "or",
-				"printKey": "Print key",
-				"ignore": "Don't save key"
+				"printKey": "Print backup file",
+				"continue": "Continue",
+				"ignore": "Skip backup file (not recommended)"
 			},
 			"optionalData": {
-				"header": "Optional Data:",
-				"nameExplanation": "Tell us your first name and last name so your friends can find you easily:",
-				"mailExplanation": "Tell us your e-mail so we can contact you if there is news:",
+				"header": "Optional Information",
+				"nameExplanation": "Enter your real name so your friends can find you easier. It will be used instead of your username and is visible to everyone.",
+				"mailExplanation": "Tell us your e-mail to get notifications about friend activity and ease account recovery in the future.",
 				"mail": "E-mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "Turn your name private (Your friends will not find you as easily anymore)",
+				"privateName": "limit visibility to 'only my contacts'",
 				"dismiss": "Skip"
 			},
-			"save": "Save Mail and Name"
+			"save": "Save"
 		},
 		"mail": {
 			"verify": "Verify e-mail",
@@ -289,9 +289,14 @@
 		"username": "Username",
 		"wrongPassword": "Wrong password",
 		"register": {
-			"initialWelcome": "Hey {name}",
-			"initialRegisterDescription": "It is really simple to create your account for whispeer. Just type in your future username (you can choose to display any other name later) and click on continue.",
-			"agbText": "Just a bit of paperwork is left. {br} By clicking Sign Up, you agree to our {agb} and to our (very strict) {privacyPolicy}. {br2} {note}",
+			"extraHtml": " ",
+			"initialWelcome": "Welcome to whispeer{name}!",
+			"initialRegisterDescription": "We're happy that you are taking the next step into a safe future with us.<br>Let us show you how to set up your account.<br><br><i>As a first step, please choose a representative username.</i>",
+			"passwordDescription": "Modern security standards recommend passphrases as passwords - a long password consisting of several words that is easier to remember. An example:<br><small>coconut here donations sheet embrace</small><br><br><i>Please choose a passphrase (normal passwords work too). We recommend at least 12 characters.</i>",
+			"passwordHeadline": "Next up: Security!",
+			"agbHeadline": "Terms and conditions",
+			"agbText": "Just a bit of paperwork is left. We tried to keep everything as simple as possible.<br> Privacy will always have the highest priority on whispeer.<br><br><i> We'd like to ask you to read amd accept our {agb} and {privacyPolicy}.</i>",
+
 			"errors": {
 				"agb": "Please accept our terms and conditions",
 				"mailInvalid": "Invalid e-mail",
