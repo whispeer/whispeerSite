@@ -1,10 +1,8 @@
 <h1 data-i18n="views.setup.welcomeHeader"></h1>
 
 <div class="profile" data-ng-if="!profileSaved">
-	<header>
-		<h2 data-i18n="views.setup.optionalData.header"></h2>
-	</header>
 	<div class="name">
+		<h2 data-i18n="views.setup.optionalData.header"></h2>
 		<p data-i18n="views.setup.optionalData.nameExplanation"></p>
 		<input type="text" name="firstname" data-ng-model="profile.firstName" data-i18n-attr="views.setup.optionalData.firstName|placeholder">
 		<input type="text" name="lastname" data-ng-model="profile.lastName" data-i18n-attr="views.setup.optionalData.lastName|placeholder">

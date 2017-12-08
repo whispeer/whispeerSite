@@ -85,6 +85,7 @@
 		margin-top: 1.34em;
 	}
 	.profile {
+		text-align: left;
 		background: transparent;
 		padding: 1%;
 		.box-fix;
@@ -97,18 +98,12 @@
 		@media @screen and @mobile {
 			.column(12);
 		}
-		h2 {
-			margin-top: 0;
-		}
 		.name, .mail, .submit {
 			// same styling for desktop and mobile ahead!
 			.column(12);
-			h3 {
-				// workaround with a float and .width() here to keep the original h3 margin!
-				float: left;
-				.width(12);
-				text-align: left;
-			}
+		}
+		.submit {
+			text-align: center;
 		}
 		.name {
 			input[type="text"] {
