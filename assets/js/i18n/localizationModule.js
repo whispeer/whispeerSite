@@ -17,10 +17,10 @@ Enjoy!
 * Changes by Nils Kenneweg, http://whispeer.com
 */
 
-var angular = require("angular");
-var Localize = require("./localize").default;
-var localize = require("./localizationConfig");
-var jQuery = require("jquery");
+const angular = require("angular");
+const Localize = require("./localize").default;
+const localize = require("./localizationConfig");
+const jQuery = require("jquery");
 
 function toReplacementObject(values) {
 	var result = {};
@@ -67,25 +67,20 @@ module.provider("localize", function () {
 
 // simple translation filter
 // usage {{ TOKEN | i18n }}
-module.filter("i18n", ["localize", function (localize) {
+module.filter("i18n", [function () {
 	const filter = (input) => localize.getLocalizedString(input)
 	filter.$stateful = true
 	return filter
 }]);
 
-module.filter("l", ["localize", function (localize) {
+module.filter("l", [function () {
 	const filter = (input) => localize.getLocalizedString(input)
 	filter.$stateful = true
 	return filter
 }]);
 
-// translation directive that can handle dynamic strings
-// updates the text value of the attached element
-// usage <span data-i18n="TOKEN" ></span>
-// or
-// <span data-i18n="TOKEN|VALUE1|VALUE2" ></span>
-module.directive("i18n", ["localize", "$compile", function (localize, $compile) {
-	var i18nDirective = {
+const i18nDirective = ($compile, directiveName, allowHtml) => {
+	const directive = {
 		restrict: "EAC",
 		updateText: function (scope, elm, token, i18nElements) {
 			var values = token.split("|");
@@ -105,7 +100,7 @@ module.directive("i18n", ["localize", "$compile", function (localize, $compile) 
 
 			tags.forEach(function (cur) {
 				if (typeof cur === "string") {
-					elm.append(document.createTextNode(cur));
+					elm.append(allowHtml === true ? cur : document.createTextNode(cur));
 				} else {
 					cur.forEach(function (element) {
 						elm.append(element.clone());
@@ -136,17 +131,30 @@ module.directive("i18n", ["localize", "$compile", function (localize, $compile) 
 
 			return function (scope, elm, attrs) {
 				scope.$on("localizeResourcesUpdates", function () {
-					i18nDirective.updateText(scope, elm, attrs.i18n, elements);
+					directive.updateText(scope, elm, attrs[directiveName], elements);
 				});
 
-				attrs.$observe("i18n", function () {
-					i18nDirective.updateText(scope, elm, attrs.i18n, elements);
+				attrs.$observe(directiveName, function () {
+					directive.updateText(scope, elm, attrs[directiveName], elements);
 				});
 			};
 		},
-	};
+	}
 
-	return i18nDirective;
+	return directive
+}
+
+// translation directive that can handle dynamic strings
+// updates the text value of the attached element
+// usage <span data-i18n="TOKEN" ></span>
+// or
+// <span data-i18n="TOKEN|VALUE1|VALUE2" ></span>
+module.directive("i18n", ["$compile", function ($compile) {
+	return i18nDirective($compile, "i18n", false)
+}]);
+
+module.directive("i18nHtml", ["$compile", function ($compile) {
+	return i18nDirective($compile, "i18nHtml", true)
 }]);
 
 // translation directive that can handle dynamic strings
@@ -154,7 +162,7 @@ module.directive("i18n", ["localize", "$compile", function (localize, $compile) 
 // usage <span data-i18n-attr="TOKEN|ATTRIBUTE" ></span>
 // or
 // <span data-i18n-attr="TOKEN|ATTRIBUTE|VALUE1|VALUE2" ></span>
-module.directive("i18nAttr", ["localize", function (localize) {
+module.directive("i18nAttr", [function () {
 	var i18nAttrDirective = {
 		restrict: "EAC",
 		updateText: function (elm, token) {

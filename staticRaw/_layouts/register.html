@@ -46,7 +46,7 @@
 							<h1 class="register-headline" data-i18n="login.register.initialWelcome">
 								<span data-for="name" data-ng-if="registerData.nickname.length > 0">, {% raw %}{{registerData.nickname}}{% endraw %}</span>
 							</h1>
-							<p class="register-headline" data-i18n="login.register.initialRegisterDescription"></p>
+							<p class="register-headline" data-i18n-html="login.register.initialRegisterDescription"></p>
 						</header>
 						<div class="annotatedInput-container">
 							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="nicknameForm">
@@ -57,7 +57,7 @@
 					<section class="register-body" data-ng-show="passwordForm">
 						<header id="register-guide">
 							<h1 class="register-headline" data-i18n="login.register.passwordHeadline"></h1>
-							<p class="register-headline" data-i18n="login.register.passwordDescription"></p>
+							<p class="register-headline" data-i18n-html="login.register.passwordDescription"></p>
 						</header>
 						<passwordinput state="pwState">
 							<div class="annotatedInput-container">
@@ -76,14 +76,17 @@
 					<section class="register-body" id="register-accept-agb" data-ng-show="agbForm">
 						<header id="register-guide">
 							<h1 class="register-headline" data-i18n="login.register.agbHeadline"></h1>
-							<p class="register-headline" data-i18n="login.register.agbText">
+							<p class="register-headline" data-i18n-html="login.register.agbText">
 								<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
 								<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
 							</p>
 						</header>
 						<label class="register-agb btn btn--primary btn--big" for="checkAGB" validation="agbValidations">
 							<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
-							<span data-i18n="landingpage.legal"></span>
+							<span data-i18n="landingpage.legal">
+								<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+								<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
+							</span>
 						</label>
 						<br>
 						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToPasswordForm()"><i class="fa fa-arrow-left"></i> {{ i18n.general.previous }}</button>
