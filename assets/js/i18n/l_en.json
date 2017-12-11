@@ -97,7 +97,7 @@
 				"email": "E-Mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "limit visibility to 'only my friends'",
+				"privateName": "limit visibility to 'my friends only'",
 				"dismiss": "Skip"
 			},
 			"save": "Save"
@@ -291,7 +291,7 @@
 		"register": {
 			"extraHtml": " ",
 			"initialWelcome": "Welcome to whispeer{name}!",
-			"initialRegisterDescription": "We are happy that you are taking the next step into a secure future with us.<br>Let us show you how to set up your account.<br><br><i>As a first step, please choose a representative username.</i>",
+			"initialRegisterDescription": "We are happy that you are taking the next step with us into a secure future.<br>Let us show you how to set up your account.<br><br><i>As a first step, please choose a representative username.</i>",
 			"passwordDescription": "Modern security standards recommend passphrases as passwords - a long password consisting of several words that is easy to remember. For example: <small>coconut here donations sheet embrace</small><br><br><i>Please choose a passphrase. Standard passwords are also okay. We recommend at least 12 characters.</i>",
 			"passwordHeadline": "Next up: Security!",
 			"agbHeadline": "Terms, Conditions & Privacy",

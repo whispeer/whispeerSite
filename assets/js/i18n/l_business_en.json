@@ -11,9 +11,13 @@
 			"yourName": "Let your contacts know who is inviting them (optional):"
 		},
 		"setup": {
+			"welcomeHeader": "whispeer Business welcomes you on board!",
+			"backup": {
+				"explanation": "If you ever forget your password, you will need a special code to get back into your account. You'll find this code in the backup file as a text.<br><br><i>Please save the backup file in a secure place and contact <strong><a href=\"/en/contact/\">us</a></strong>, if you have any further questions.<br><strong>In case of an emergency there is no other way to restore your account for security reasons!</strong></i>"
+			},
 			"optionalData": {
-				"nameExplanation": "Tell us your first name and last name so your contacts can find you easily:",
-				"privateName": "Turn your name private (Your contacts will not find you as easily anymore)"
+				"privateName": "limit visibility to 'my contacts only'",
+				"mailExplanation": "You may leave your e-mail address here to get notifications about contact activities and have an easier account recovery in the future."
 			}
 		},
 		"circles": {
@@ -53,6 +57,9 @@
 	},
 	"login": {
 		"register": {
+			"extraHtml": " ",
+			"initialWelcome": "Welcome to whispeer Business{name}!",
+			"agbText": "Privacy plays a special role at whispeer Business. Therefore, we made our privacy policy universally understandable. Together we protect your communication.<br><br><i>We'd like to ask you to read and accept our {agb} and short {privacyPolicy}.</i>",
 			"intro": "Please type in your gender, name, birthday and city you live in. With this information, your contacts on whispeer can find you more easily. We don't force you to do so, though! It is completely up to you."
 		}
 	},
