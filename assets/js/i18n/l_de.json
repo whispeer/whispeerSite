@@ -129,7 +129,7 @@
 			"new": "Neuer Kreis",
 			"createCircle": "Kreis erstellen",
 			"personCount":	"Es befinden sich {count} Nutzer in diesem Kreis",
-			"personsInCircle":"Nutzer im Kreis \"{name}\"",
+			"personsInCircle": "Nutzer im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
 			"addUsers": "Nutzer hinzufügen",
 			"removeUser": "Aus Kreis entfernen",
@@ -391,7 +391,7 @@
 		"endOfStream": "Konversation gestartet am {date}",
 		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
-		"chat" :"Chat mit",
+		"chat" : "Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
 		"start": {
@@ -541,7 +541,7 @@
 					"m":	"männlich",
 					"f":	"weiblich",
 					"none":	"Keine Angabe",
-					"other":"Individuell",
+					"other": "Individuell",
 					"otherInput": "Dein Geschlecht"
 				},
 				"languages": {

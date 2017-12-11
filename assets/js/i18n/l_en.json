@@ -129,7 +129,7 @@
 			"new": "New Circle",
 			"createCircle": "Create Circle",
 			"personCount":	"There are {count} people in this Circle",
-			"personsInCircle":"People in Circle \"{name}\"",
+			"personsInCircle": "People in Circle \"{name}\"",
 			"nocircle": "No circles found",
 			"addUsers": "Add users to this Circle",
 			"removeUser": "Remove from Circle",
@@ -394,7 +394,7 @@
 		"endOfStream": "Conversation started on {date}",
 		"remaining": "Loading older messages. {count} remaining",
 		"title": "Messages",
-		"chat" :"Chat with",
+		"chat" : "Chat with",
 		"newMessage": "New message",
 		"search": "Who should receive this message?",
 		"start": {
@@ -544,7 +544,7 @@
 					"m":	"male",
 					"f":	"female",
 					"none":	"No gender selected",
-					"other":"Custom",
+					"other": "Custom",
 					"otherInput": "Your Gender"
 				},
 				"languages": {
