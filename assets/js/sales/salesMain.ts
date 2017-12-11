@@ -4,7 +4,7 @@ require("../runners/serviceWorkerRunner")
 
 const config = require('../config.js');
 
-	const goMain = () => window.location.href = "/"
+const goMain = () => window.location.href = "/"
 
 document.getElementById("trial").addEventListener("click", function () {
 	const url = (config.https ? "https://" : "http://") +

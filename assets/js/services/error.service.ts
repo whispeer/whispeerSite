@@ -1,11 +1,7 @@
-const config = require('../config.js');
-import State from '../asset/state';
-
+import * as Raven from "raven-js"
 import 'whatwg-fetch';
 
-interface Error {
-	stack: String
-}
+import State from '../asset/state';
 
 class ErrorService {
 	constructor() {
@@ -27,19 +23,7 @@ class ErrorService {
 		if (e) {
 			console.error(e);
 
-			const url = (config.https ? "https://" : "http://") +
-				config.ws +
-				":" + config.wsPort +
-				"/reportError";
-
-			window.fetch(url, {
-				method: 'POST',
-				mode: 'cors',
-				headers: new Headers({
-					"Content-Type": "application/json",
-				}),
-				body: JSON.stringify({ error: e.toString(), stack: e.stack })
-			}).catch(() => {});
+			Raven.captureException(e);
 		}
 	};
 

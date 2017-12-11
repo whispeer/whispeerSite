@@ -2,6 +2,16 @@
 set -e
 set -x
 
+if [[ -z "${SENTRY_KEY_PROD}" ]]; then
+	echo "SENTRY_KEY_PROD not set. Exiting build"
+	exit 1
+fi
+
+if [[ -z "${SENTRY_KEY_BUSINESS}" ]]; then
+	echo "SENTRY_KEY_BUSINESS not set. Exiting build"
+	exit 1
+fi
+
 sudo npm install -g yarn
 
 cd ..
