@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 if [[ -z "${SENTRY_KEY_PROD}" ]]; then
 	echo "SENTRY_KEY_PROD not set. Exiting build"
@@ -11,6 +10,13 @@ if [[ -z "${SENTRY_KEY_BUSINESS}" ]]; then
 	echo "SENTRY_KEY_BUSINESS not set. Exiting build"
 	exit 1
 fi
+
+if [[ -z "${SENTRY_AUTH_TOKEN}" ]]; then
+	echo "SENTRY_AUTH_TOKEN not set. Exiting build"
+	exit 1
+fi
+
+set -x
 
 sudo npm install -g yarn
 
@@ -50,6 +56,16 @@ cp ./sw.js ../b2b
 cp -r ./assets ../b2b
 cp -r ./static ../b2b
 cp -r ./node_modules/bluebird/js/browser ../b2b/assets/bluebird
+
+# upload sourcemaps to sentry
+VERSION=$(./scripts/getVersion.js)
+
+sentry-cli releases -o sentry -p web new "$VERSION"
+sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+
+sentry-cli releases -o sentry -p web-business new "$VERSION"
+sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+
 
 cd /var/www/
 sudo cp whispeer/assets/js/build/* whispeer-build/ | true
