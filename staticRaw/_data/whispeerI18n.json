@@ -83,7 +83,7 @@
 				"content": "Danke das du Entwicklung und Betrieb von whispeer unterstützt!",
 				"back": "Zurück zur Startseite"
 			}
-		},
+		}
 	},
 	"en": {
 		"general": {
@@ -169,7 +169,7 @@
 				"content": "Thanks for supporting the development and operation of whispeer!",
 				"back": "Back to startpage"
 			}
-		},
+		}
 	},
 	"fr": {
 		"mail": {
@@ -205,7 +205,7 @@
 			"noConnection": "No connection",
 			"wrongPassword": "Wrong password",
 			"forgotName": "Forgot username",
-			"forgotPassword": "Forgot password",
+			"forgotPassword": "Forgot password"
 		},
 		"register": {
 			"link":	"Register",
