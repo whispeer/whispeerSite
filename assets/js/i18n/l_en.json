@@ -5,15 +5,15 @@
 	},
 	"trustLevel": {
 		"deleted": "Deleted user",
-		"unVerified": "You have not verified this user. Verification is available on a users profile.",
+		"unVerified": "You have not verified this user. You may verify users through their profiles.",
 		"groupVerified": "One of your friends verified this user",
-		"selfVerified": "You verified this user personally"
+		"selfVerified": "You verified this user"
 	},
 	"window": {
 		"title": {
 			"newmessage": "{data}: New Message",
 			"basic": "whispeer",
-			"terms": "Terms and conditions",
+			"terms": "Terms and Conditions",
 			"data": "Privacy policy",
 			"contact": "Contact",
 			"notice": "Site notice"
@@ -61,9 +61,9 @@
 			"title": "whispeer is more fun with friends! Spread the word!",
 			"anonymous": "Send anonymous invite",
 			"invite": "Invite",
-			"viaMail": "Invite via e-mail",
+			"viaMail": "Invite via E-Mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
-			"mail": "E-mail",
+			"mail": "E-Mail",
 			"addMail": "Add another E-Mail",
 			"viaLink": "Invite via link",
 			"viaLinkExplanation": "Generate an invite link that you can pass on to your friends:",
@@ -81,9 +81,9 @@
 		"setup": {
 			"welcomeHeader": "Congratulations on your new account!",
 			"backup": {
-				"header": "Quickly download your backup",
-				"explanation": "If you forget your password for whispeer, you will need a special code to regain access to your account. You'll find this code in the backup file as a text.<br><br><i>Save the backup file in a secure place or print it.<strong>Due to technical reasons there is no other possibility to restore your account in case of disaster!</strong></i>",
-				"impossible": "You can not download your backup file with this device! Please download the backup file with a different device. <strong>Without this file it is technically impossible to restore your account in case of disaster!</strong>",
+				"header": "Now quickly do the important backup",
+				"explanation": "If you ever forget your password, you will need a special code to get back into your account. You'll find this code in the backup file as a text.<br><br><i>Please save the backup file in a secure place or print it out.<br><strong>In case of an emergency there is no other way to restore your account for security reasons!</strong></i>",
+				"impossible": "You can not download your backup file with this device! Please download the backup file with a different device. <strong>In case of an emergency there is no other way to restore your account for security reasons!</strong>",
 				"downloadKey": "Download backup file",
 				"or": "or",
 				"printKey": "Print backup file",
@@ -93,20 +93,20 @@
 			"optionalData": {
 				"header": "Optional Information",
 				"nameExplanation": "Enter your real name so your friends can find you easier. It will be used instead of your username and is visible to everyone.",
-				"mailExplanation": "Tell us your e-mail to get notifications about friend activity and ease account recovery in the future.",
-				"mail": "E-mail",
+				"mailExplanation": "You may leave your e-mail address here to get notifications about friend activities and have an easier account recovery in the future.",
+				"email": "E-Mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "limit visibility to 'only my contacts'",
+				"privateName": "limit visibility to 'only my friends'",
 				"dismiss": "Skip"
 			},
 			"save": "Save"
 		},
 		"mail": {
-			"verify": "Verify e-mail",
+			"verify": "Verify E-Mail",
 			"updateMe": "I would like to receive updates via mail",
 			"verifying": "Verifying.",
-			"verified": "Your e-mail was verified.",
+			"verified": "Your E-Mail was verified.",
 			"backToLogin": "Return to login",
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
@@ -291,14 +291,14 @@
 		"register": {
 			"extraHtml": " ",
 			"initialWelcome": "Welcome to whispeer{name}!",
-			"initialRegisterDescription": "We're happy that you are taking the next step into a safe future with us.<br>Let us show you how to set up your account.<br><br><i>As a first step, please choose a representative username.</i>",
-			"passwordDescription": "Modern security standards recommend passphrases as passwords - a long password consisting of several words that is easier to remember. An example:<br><small>coconut here donations sheet embrace</small><br><br><i>Please choose a passphrase (normal passwords work too). We recommend at least 12 characters.</i>",
+			"initialRegisterDescription": "We are happy that you are taking the next step into a secure future with us.<br>Let us show you how to set up your account.<br><br><i>As a first step, please choose a representative username.</i>",
+			"passwordDescription": "Modern security standards recommend passphrases as passwords - a long password consisting of several words that is easy to remember. For example: <small>coconut here donations sheet embrace</small><br><br><i>Please choose a passphrase. Standard passwords are also okay. We recommend at least 12 characters.</i>",
 			"passwordHeadline": "Next up: Security!",
-			"agbHeadline": "Terms and conditions",
-			"agbText": "Just a bit of paperwork is left. We tried to keep everything as simple as possible.<br> Privacy will always have the highest priority on whispeer.<br><br><i> We'd like to ask you to read amd accept our {agb} and {privacyPolicy}.</i>",
+			"agbHeadline": "Terms, Conditions & Privacy",
+			"agbText": "Just a bit of paperwork is left. We have tried to keep everything as comprehensible as possible.<br> Privacy will always have the highest priority on whispeer.<br><br><i>We'd like to ask you to read and accept our {agb} and short {privacyPolicy}.</i>",
 
 			"errors": {
-				"agb": "Please accept our terms and conditions",
+				"agb": "Please accept our Terms and Conditions and our Privacy Policy",
 				"mailInvalid": "Invalid e-mail",
 				"mailUsed": "This e-mail is already in use",
 				"nickEmpty": "Please enter a username",
@@ -306,7 +306,7 @@
 				"nickUsed": "This username is already in use",
 				"password2Empty": "Please repeat your password",
 				"passwordEmpty": "Please enter a password",
-				"passwordNoMatch": "Passwords do not match",
+				"passwordNoMatch": "Inputs do not match",
 				"passwordWeak": "Password too weak"
 			},
 
@@ -324,8 +324,8 @@
 			"previous": "Previous",
 			"repeatPassword":	"Repeat password",
 			"passwordstrength":	"Password strength: ",
-			"email":	"E-mail address",
-			"repeatEmail":	"Repeat e-mail address",
+			"email":	"E-Mail address",
+			"repeatEmail":	"Repeat E-Mail address",
 
 			"firstname": "First name",
 			"lastname": "Last name",
@@ -664,10 +664,10 @@
 			"account":	"Account",
 			"changeName": "Change name",
 			"changeUsername": "Change username",
-			"changeMail": "Change e-mail address",
+			"changeMail": "Change E-Mail address",
 			"changePassword": "Change password",
 			"save": "Save",
-			"mail": "E-mail address"
+			"mail": "E-Mail address"
 		}
 	},
 	"donateHint": {

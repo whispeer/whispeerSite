@@ -14,12 +14,12 @@
 			"backup": {
 				"header": "Machen Sie schnell noch das wichtige Backup",
 				"explanation": "Falls Sie Ihre Passphrase einmal vergessen sollten, brauchen Sie einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei finden Sie diesen Code als Zeichenkette.<br><br><i>Speichern Sie bitte diese Backupdatei an einem sicheren Ort und sprechen Sie mit <strong><a href=\"/contact/\">uns</a></strong>, falls Sie weitere Fragen haben.<br><strong>Es gibt aus sicherheitstechnischen Gründen keine andere Möglichkeit Ihren Account im Notfall wiederherzustellen!</strong></i>",
-				"impossible": "Sie können mit dem aktuellen Gerät Ihre Backupdatei nicht herunterladen. Bitte sichern Sie daher Ihre Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus sicherheitstechnischen Gründen keine andere Möglichkeit Ihren Account im Notfall wiederherzustellen!</strong>",
+				"impossible": "Sie können mit dem aktuellen Gerät Ihre Backupdatei nicht herunterladen. Bitte sichern Sie daher Ihre Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus sicherheitstechnischen Gründen keine andere Möglichkeit Ihren Account im Notfall wiederherzustellen!</strong>"
 			},
 			"optionalData": {
 				"nameExplanation": "Damit Ihre Kontakte Sie leichter finden, können Sie hier Ihren echten Namen eintragen. Dieser wird anstelle Ihres Accountsnamens benutzt und damit für alle im Netzwerk sichtbar.",
 				"mailExplanation": "Sie können Ihre E-Mail hinterlassen, um über Aktivitäten Ihrer Kontakte benachrichtigt zu werden und Ihren Account-Wiederherstellungsprozess für die Zukunft zu vereinfachen.",
-				"privateName": "begrenze die Sichtbarkeit auf 'nur meine Kontakte'",
+				"privateName": "begrenze die Sichtbarkeit auf 'nur meine Kontakte'"
 			}
 		},
 		"circles": {

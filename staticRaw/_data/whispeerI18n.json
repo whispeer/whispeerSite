@@ -101,7 +101,7 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"privacy": {
-			"header": "Privacy policy"
+			"header": "Privacy Policy"
 		},
 		"impressum": {
 			"header": "Site Notice",
@@ -139,8 +139,8 @@
 		},
 		"legal": {
 			"header": "Legal information",
-			"terms": "Terms and conditions",
-			"data": "Privacy policy",
+			"terms": "Terms and Conditions",
+			"data": "Privacy Policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		},
@@ -183,7 +183,7 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"privacy": {
-			"header": "Privacy policy"
+			"header": "Privacy Policy"
 		},
 		"impressum": {
 			"header": "Site Notice",
@@ -214,8 +214,8 @@
 		},
 		"legal": {
 			"header": "Legal information",
-			"terms": "Terms and conditions",
-			"data": "Privacy policy",
+			"terms": "Terms and Conditions",
+			"data": "Privacy Policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		}

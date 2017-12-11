@@ -5,9 +5,9 @@
 	},
 	"trustLevel": {
 		"deleted": "Nutzer wurde gelöscht",
-		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
-		"groupVerified": "Ein Freund hat diese Person verifiziert.",
-		"selfVerified": "Du hast diese Person verifiziert."
+		"unVerified": "Die Identität dieses Nutzers wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
+		"groupVerified": "Ein Freund hat diesen Nutzer verifiziert.",
+		"selfVerified": "Du hast diesen Nutzer verifiziert."
 	},
 	"window": {
 		"title": {
@@ -64,7 +64,7 @@
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
 			"mail": "E-Mail",
-			"addMail": "Weitere Person per E-Mail einladen",
+			"addMail": "Weitere Freunde per E-Mail einladen",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
 			"generateLink": "Neuen Einladungslink generieren",
@@ -74,7 +74,7 @@
 			"name": "Name",
 			"shareText": "Teile deine privaten Gedanken auf whispeer!",
 			"shareHashTags": "Privatsphäre,whispeer",
-			"invited": "Von dir eingeladene Personen:",
+			"invited": "Von dir eingeladene Nutzer:",
 			"sentInvites": "Gesendete Einladungen",
 			"reference": "Referenz: {referrer}"
 		},
@@ -128,8 +128,8 @@
 			"newCircle":	"Neuen Kreis anlegen",
 			"new": "Neuer Kreis",
 			"createCircle": "Kreis erstellen",
-			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-			"personsInCircle":"Personen im Kreis \"{name}\"",
+			"personCount":	"Es befinden sich {count} Nutzer in diesem Kreis",
+			"personsInCircle":"Nutzer im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
 			"addUsers": "Nutzer hinzufügen",
 			"removeUser": "Aus Kreis entfernen",
@@ -241,9 +241,9 @@
 	"search": {
 		"searching": "Suche läuft",
 		"user": {
-			"selected": "Ausgewählte Personen ({count})",
-			"emptyselection": "Keine Personen ausgewählt!",
-			"select": "Person auswählen ({count})",
+			"selected": "Ausgewählte Nutzer ({count})",
+			"emptyselection": "Keine Nutzer ausgewählt!",
+			"select": "Nutzer auswählen ({count})",
 			"mutualFriends": "gemeinsame Freunde",
 			"from": "aus",
 			"age": "Alter:",
@@ -386,7 +386,7 @@
 		}
 	},
 	"messages": {
-		"chatPersons": "Personen in diesem Chat",
+		"chatPersons": "Teilnehmer in diesem Chat",
 		"details": "Chat Info",
 		"endOfStream": "Konversation gestartet am {date}",
 		"remaining": "Nachrichten werden geladen. {count} verbleibend",
@@ -421,7 +421,7 @@
 		"changeTitle": "Titel ändern",
 		"fileTooLarge": "Datei zu groß: {name}. Wir erlauben aktuell nur {maximumSize}MB.",
 		"burstDifferences": {
-			"usersInChat": "Nutzer in diesem Chat:",
+			"usersInChat": "Teilnehmer in diesem Chat:",
 			"addedUsers": "{name} hat Nutzer hinzugefügt:",
 			"removedUsers": "{name} hat Nutzer entfernt:",
 			"changedTitle": "{name} hat den Chattitel geändert:"
