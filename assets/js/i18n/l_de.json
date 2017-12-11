@@ -81,9 +81,9 @@
 		"setup": {
 			"welcomeHeader": "Gratulation zu deinem neuen Account!",
 			"backup": {
-				"header": "Mache jetzt noch schnell ein Backup",
-				"explanation": "Falls du dein Passwort einmal vergessen solltest, brauchst du einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei findest du diesen Code als Zeichenkette.<br><br><i>Speichere bitte diese Backupdatei an einem sicheren Ort oder drucke sie aus.<br><strong>Es gibt aus technischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong></i>",
-				"impossible": "Du kannst mit dem aktuellen Gerät deine Backupdatei nicht herunterladen. Bitte sichere daher deine Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus technischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong>",
+				"header": "Mache jetzt noch schnell das wichtige Backup",
+				"explanation": "Falls du dein Passwort einmal vergessen solltest, brauchst du einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei findest du diesen Code als Zeichenkette.<br><br><i>Speichere bitte diese Backupdatei an einem sicheren Ort oder drucke sie aus.<br><strong>Es gibt aus sicherheitstechnischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong></i>",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Backupdatei nicht herunterladen. Bitte sichere daher deine Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus sicherheitstechnischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong>",
 				"downloadKey": "Backupdatei herunterladen",
 				"or": "oder",
 				"printKey": "Backupdatei ausdrucken",
@@ -295,7 +295,7 @@
 			"passwordHeadline": "Nun zur Sicherheit!",
 			"passwordDescription": "Heutige Sicherheitsstandards empfehlen Passphrasen als Passwort – ein langes Passwort aus mehreren Wörtern, das du dir gut merken kannst. Ein Beispiel: <small>soviel hier spenden folie umarmt</small><br><br><i>Wähle bitte eine Passphrase. Standard Passwörter funktionieren auch. Wir empfehlen mindestens 12 Zeichen.</i>",
 			"agbHeadline": "AGB und Datenschutz",
-			"agbText": "Ein paar Formalitäten müssen dann leider doch sein. Wir haben versucht, alles so allgemeinverständlich wie möglich zu halten.<br>Der Datenschutz wird bei whispeer immer oberste Priorität haben.<br><br><i>Wir möchten dich bitten, unsere {agb} und {privacyPolicy} zu lesen und sie zu akzeptieren.</i>",
+			"agbText": "Ein paar Formalitäten müssen dann leider doch sein. Wir haben versucht, alles so allgemeinverständlich wie möglich zu halten.<br>Der Datenschutz wird bei whispeer immer oberste Priorität haben.<br><br><i>Wir möchten dich bitten, unsere {agb} und kurzen {privacyPolicy} zu lesen und sie zu akzeptieren.</i>",
 			"errors": {
 				"agb": "Bitte akzeptiere die AGB und Datenschutzbestimmungen",
 				"mailInvalid": "Ungültige E-Mail",
