@@ -32,6 +32,7 @@ require("services/settings.service")
 require("services/featureToggles")
 
 module.exports = angular.module("ssn", [
+	"ngRaven",
 	"ssn.controllers",
 	"ssn.services",
 	"ssn.directives",
@@ -44,7 +45,7 @@ module.exports = angular.module("ssn", [
 
 	"localization",
 	"ui.router",
-	"ngTouch"
+	"ngTouch",
 ], ["$compileProvider", function ($compileProvider) {
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|app):/);

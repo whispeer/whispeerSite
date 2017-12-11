@@ -1,11 +1,13 @@
-var path = require("path");
-var webpack = require("webpack");
+const path = require("path")
+const webpack = require("webpack")
+
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
+const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"]
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
-var UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"];
-
-var unusedFiles = new UnusedFilesWebpackPlugin({
+const unusedFiles = new UnusedFilesWebpackPlugin({
 	globOptions: {
 		ignore: [
 			"node_modules/**/*",
@@ -19,17 +21,25 @@ var unusedFiles = new UnusedFilesWebpackPlugin({
 			"helper/helper.js"
 		]
 	}
-});
+})
 
-var BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
-var WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
+const SENTRY_KEY_DEV = "https://9f1870e5f93a4592b815ca8f1a35e4a9@errors.whispeer.de/10"
 
-var data = require(path.resolve("package.json"))
+const getSentryKey = () => {
+	if (process.env.WHISPEER_BUSINESS) {
+		return process.env.SENTRY_KEY_BUSINESS || SENTRY_KEY_DEV
+	}
 
-const entryPoint = (entry) => {
+	return process.env.SENTRY_KEY_PROD || SENTRY_KEY_DEV
+}
+
+const packageJSON = require(path.resolve("package.json"))
+
+const entryPoint = (entry, angular) => {
 	return [
 		"es6-shim",
-		entry
+		angular ? "./ravenConfigAngular.ts" : "./ravenConfig.ts",
+		entry,
 	]
 }
 
@@ -47,9 +57,10 @@ var plugins = [
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV),
 		"WHISPEER_BUSINESS": JSON.stringify(!!process.env.WHISPEER_BUSINESS),
+		"SENTRY_KEY": JSON.stringify(getSentryKey()),
 		"CLIENT_INFO": JSON.stringify({
 			type: "browser",
-			version: data.version
+			version: packageJSON.version
 		})
 	}),
 	new webpack.optimize.ModuleConcatenationPlugin(),
@@ -72,9 +83,9 @@ if (process.env.WHISPEER_ENV !== "development") {
 
 var config = {
 	context: path.resolve("./assets/js"),
-	plugins: plugins,
-	devtool: devtool,
-	bail: bail,
+	plugins,
+	devtool,
+	bail,
 	resolve: {
 		modules: [
 			path.resolve("./assets/js"),
@@ -83,18 +94,15 @@ var config = {
 		extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
 		alias: {
 			whispeerHelper: "helper/helper",
-			angular: "angular",
 			angularUiRouter: "angular-ui-router",
 			angularTouch: "angular-touch",
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
-			debug: "debug"
 		}
 	},
 	module: {
 		rules: [
-			{ test: /angular\.js/, loader: "imports-loader?jquery!exports-loader?angular" },
 			{ test: /\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
 			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
@@ -107,13 +115,13 @@ var config = {
 		]
 	},
 	entry: {
-		login: entryPoint("./login/loginMain.js"),
-		register: entryPoint("./register/registerMain.js"),
-		main: entryPoint("./main.js"),
-		recovery: entryPoint("./recovery/recoveryMain.js"),
-		token: entryPoint("./token/tokenMain.ts"),
-		verifyMail: entryPoint("./verifyMail/verifyMailMain.js"),
-		sales: entryPoint("./sales/salesMain.ts")
+		login: entryPoint("./login/loginMain.js", true),
+		register: entryPoint("./register/registerMain.js", true),
+		main: entryPoint("./main.js", true),
+		recovery: entryPoint("./recovery/recoveryMain.js", true),
+		verifyMail: entryPoint("./verifyMail/verifyMailMain.js", true),
+		token: entryPoint("./token/tokenMain.ts", false),
+		sales: entryPoint("./sales/salesMain.ts", false)
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),

@@ -1,5 +1,6 @@
 # temporary files and logs
 
+.env
 *.DS_STORE
 *.DS_Store
 *.cmd

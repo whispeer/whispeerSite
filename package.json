@@ -41,6 +41,7 @@
     "normalize.css": "^4.2.0",
     "progressbar.js": "^1.0.1",
     "qtip2": "~2.2.0",
+    "raven-js": "^3.20.1",
     "reflect-metadata": "^0.1.8",
     "requirejs": "^2.2.0",
     "sjcl": "git+https://github.com/whispeer/sjcl.git#custom-build",
