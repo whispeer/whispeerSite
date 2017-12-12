@@ -67,13 +67,13 @@ module.provider("localize", function () {
 
 // simple translation filter
 // usage {{ TOKEN | i18n }}
-module.filter("i18n", [function () {
+module.filter("i18n", ["localize", function () {
 	const filter = (input) => localize.getLocalizedString(input)
 	filter.$stateful = true
 	return filter
 }]);
 
-module.filter("l", [function () {
+module.filter("l", ["localize", function () {
 	const filter = (input) => localize.getLocalizedString(input)
 	filter.$stateful = true
 	return filter
@@ -149,11 +149,11 @@ const i18nDirective = ($compile, directiveName, allowHtml) => {
 // usage <span data-i18n="TOKEN" ></span>
 // or
 // <span data-i18n="TOKEN|VALUE1|VALUE2" ></span>
-module.directive("i18n", ["$compile", function ($compile) {
+module.directive("i18n", ["$compile", "localize", function ($compile) {
 	return i18nDirective($compile, "i18n", false)
 }]);
 
-module.directive("i18nHtml", ["$compile", function ($compile) {
+module.directive("i18nHtml", ["$compile", "localize", function ($compile) {
 	return i18nDirective($compile, "i18nHtml", true)
 }]);
 
@@ -162,7 +162,7 @@ module.directive("i18nHtml", ["$compile", function ($compile) {
 // usage <span data-i18n-attr="TOKEN|ATTRIBUTE" ></span>
 // or
 // <span data-i18n-attr="TOKEN|ATTRIBUTE|VALUE1|VALUE2" ></span>
-module.directive("i18nAttr", [function () {
+module.directive("i18nAttr", ["localize", function () {
 	var i18nAttrDirective = {
 		restrict: "EAC",
 		updateText: function (elm, token) {
