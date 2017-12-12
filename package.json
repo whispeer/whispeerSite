@@ -1,6 +1,6 @@
 {
   "name": "Whispeer",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "main": "app://beta.whispeer.de/index.html#!/main",
   "nodejs": false,
   "toolbar": true,
@@ -51,6 +51,7 @@
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
+    "@sentry/cli": "^1.26.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.2",

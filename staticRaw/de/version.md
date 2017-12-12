@@ -4,6 +4,22 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.13
+
+* Geschäftskundenfeatures
+* Besseres Fehler Reporting
+* Besseres laden von Sprachen
+* Textverbesserungen
+
+## 0.3.12
+
+* Nutzer zu Chats hinzufügen
+* Hinzugefügte Nutzer und Titeländerungen werden im Chat angezeigt
+* Größere Schrift in Chats
+* Neues Icon
+* Dateiversand
+* Voicemails anhören
+
 ## 0.3.7
 
 * Geschäftskundenversion

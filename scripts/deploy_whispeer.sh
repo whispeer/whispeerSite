@@ -61,13 +61,14 @@ cp -r ./node_modules/bluebird/js/browser ../b2b/assets/bluebird
 VERSION=$(./scripts/getVersion.js)
 
 sentry-cli releases -o sentry -p web new "$VERSION"
-sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
 
 sentry-cli releases -o sentry -p web-business new "$VERSION"
-sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
 
 # copy company extensions
 cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2c/assets/js/i18n/
 
 cd /var/www/
 sudo cp whispeer/assets/js/build/* whispeer-build/ | true
