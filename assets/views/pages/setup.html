@@ -1,19 +1,18 @@
 <h1 data-i18n="views.setup.welcomeHeader"></h1>
 
 <div class="profile" data-ng-if="!profileSaved">
-	<header>
-		<h2 data-i18n="views.setup.optionalData.header"></h2>
-	</header>
 	<div class="name">
-		<h3 data-i18n="views.setup.optionalData.nameExplanation"></h3>
+		<h2 data-i18n="views.setup.optionalData.header"></h2>
+		<p data-i18n="views.setup.optionalData.nameExplanation"></p>
 		<input type="text" name="firstname" data-ng-model="profile.firstName" data-i18n-attr="views.setup.optionalData.firstName|placeholder">
 		<input type="text" name="lastname" data-ng-model="profile.lastName" data-i18n-attr="views.setup.optionalData.lastName|placeholder">
 		<div><input data-ng-model="profile.privateName" type="checkbox" id="privateName"> <label for="privateName" data-i18n="views.setup.optionalData.privateName"></label></div>
 	</div>
 
 	<div class="mail">
-		<h3 data-i18n="views.setup.optionalData.mailExplanation"></h3>
-		<input name="mail" data-ng-model="profile.mail" data-i18n-attr="views.setup.optionalData.mail|placeholder">
+		<h2 data-i18n="views.setup.optionalData.email"></h2>
+		<p data-i18n="views.setup.optionalData.mailExplanation"></p>
+		<input name="mail" data-ng-model="profile.mail" data-i18n-attr="views.setup.optionalData.email|placeholder">
 	</div>
 	<div class="submit">
 		<savebutton data-state="saveSetupState" data-noiniticon data-ng-click="saveProfile()" class="btn--big">

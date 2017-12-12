@@ -83,7 +83,7 @@
 				"content": "Danke das du Entwicklung und Betrieb von whispeer unterstützt!",
 				"back": "Zurück zur Startseite"
 			}
-		},
+		}
 	},
 	"en": {
 		"general": {
@@ -101,7 +101,7 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"privacy": {
-			"header": "Privacy policy"
+			"header": "Privacy Policy"
 		},
 		"impressum": {
 			"header": "Site Notice",
@@ -139,8 +139,8 @@
 		},
 		"legal": {
 			"header": "Legal information",
-			"terms": "Terms and conditions",
-			"data": "Privacy policy",
+			"terms": "Terms and Conditions",
+			"data": "Privacy Policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		},
@@ -169,7 +169,7 @@
 				"content": "Thanks for supporting the development and operation of whispeer!",
 				"back": "Back to startpage"
 			}
-		},
+		}
 	},
 	"fr": {
 		"mail": {
@@ -183,7 +183,7 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"privacy": {
-			"header": "Privacy policy"
+			"header": "Privacy Policy"
 		},
 		"impressum": {
 			"header": "Site Notice",
@@ -205,7 +205,7 @@
 			"noConnection": "No connection",
 			"wrongPassword": "Wrong password",
 			"forgotName": "Forgot username",
-			"forgotPassword": "Forgot password",
+			"forgotPassword": "Forgot password"
 		},
 		"register": {
 			"link":	"Register",
@@ -214,8 +214,8 @@
 		},
 		"legal": {
 			"header": "Legal information",
-			"terms": "Terms and conditions",
-			"data": "Privacy policy",
+			"terms": "Terms and Conditions",
+			"data": "Privacy Policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		}

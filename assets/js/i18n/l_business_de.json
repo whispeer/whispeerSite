@@ -2,17 +2,24 @@
 	"trustLevel": {
 		"groupVerified": "Ein Kontakt hat diese Person verifiziert."
 	},
-	"inviteFriends": "Neu bei whispeer? Lade jetzt deine Kontakte ein!",
+	"inviteFriends": "Neu bei whispeer? Laden Sie jetzt Ihre Kontakte ein!",
 	"views": {
 		"invite": {
-			"title": "whispeer macht mehr Spaß mit deinen Kontakten! Lade jetzt deine Kontakte ein!",
-			"viaMailExplanation": "Gib die E-Mail Adressen deiner Kontakte ein, um sie einzuladen:",
-			"yourName": "Lass deine Kontakte wissen, wer sie einlädt (freiwillig):"
+			"title": "whispeer Business macht die Kommunikation zu Ihrem Team, zu Ihren Kunden und Ihren Partnern simpler und enorm sicher. Laden Sie jetzt Ihre Kontakte ein!",
+			"viaMailExplanation": "Geben Sie die E-Mail Adressen Ihrer Kontakte ein, um ihnen eine Einladung zu schicken.",
+			"yourName": "Personalisieren Sie Ihre Einladung mit Ihrem echten Namen (optional)."
 		},
 		"setup": {
+			"welcomeHeader": "whispeer Business heißt Sie herzlich willkommen an Bord!",
+			"backup": {
+				"header": "Machen Sie schnell noch das wichtige Backup",
+				"explanation": "Falls Sie Ihre Passphrase einmal vergessen sollten, brauchen Sie einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei finden Sie diesen Code als Zeichenkette.<br><br><i>Speichern Sie bitte diese Backupdatei an einem sicheren Ort und sprechen Sie mit <strong><a href=\"/de/contact/\">uns</a></strong>, falls Sie weitere Fragen haben.<br><strong>Es gibt aus sicherheitstechnischen Gründen keine andere Möglichkeit Ihren Account im Notfall wiederherzustellen!</strong></i>",
+				"impossible": "Sie können mit dem aktuellen Gerät Ihre Backupdatei nicht herunterladen. Bitte sichern Sie daher Ihre Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus sicherheitstechnischen Gründen keine andere Möglichkeit Ihren Account im Notfall wiederherzustellen!</strong>"
+			},
 			"optionalData": {
-				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Kontakte dich einfacher finden:",
-				"privateName": "Mache meinen Namen privat (Deine Kontakte können dich dann schwieriger finden)"
+				"nameExplanation": "Damit Ihre Kontakte Sie leichter finden, können Sie hier Ihren echten Namen eintragen. Dieser wird anstelle Ihres Accountsnamens benutzt und damit für alle im Netzwerk sichtbar.",
+				"mailExplanation": "Sie können Ihre E-Mail hinterlassen, um über Aktivitäten Ihrer Kontakte benachrichtigt zu werden und Ihren Account-Wiederherstellungsprozess für die Zukunft zu vereinfachen.",
+				"privateName": "begrenze die Sichtbarkeit auf 'nur meine Kontakte'"
 			}
 		},
 		"circles": {
@@ -20,9 +27,9 @@
 		}
 	},
 	"landingpage": {
-		"inviteExplain": "Du benötigst eine Einladung, um dich bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutze die Zeit bis dahin, um deine Familie und Kontakte zu whispeer einzuladen!",
+		"inviteExplain": "Sie benötigen eine Einladung, um sich bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutzen Sie die Zeit bis dahin, um Ihre Kontakte zu whispeer einzuladen!",
 		"more": {
-			"paragraphFour": "Weiterhin kannst du dein Profil um andere Daten ergänzen, wie zum Beispiel dein Geburtsdatum, deinen Wohnort, deinen Beziehungsstatus. Jede dieser Angaben ist anfangs verschlüsselt und nur für dich selbst sichtbar. Du kannst für jede einzelne Angabe auswählen, wer genau sie sehen kann. Deine Kontakte sollen dein Geburtsdatum wissen, aber nicht deinen Wohnort? Kein Problem. Dein selbst erstellter Kreis „Kollegen“ soll sehen wo du arbeitet, aber nicht was dein Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen kannst du angeben, ob alle Kontakte oder nur einer (oder mehrere) deiner Kreise diese Information sehen darf. So behälst du den Überblick und die Kontrolle!"
+			"paragraphFour": "Weiterhin können Sie Ihr Profil um andere Daten ergänzen, wie zum Beispiel Ihr Geburtsdatum, Ihren Wohnort, Ihren Beziehungsstatus. Jede dieser Angaben ist verschlüsselt und nur für Sie selbst sichtbar. Sie können für jede einzelne Angabe auswählen, wer genau sie sehen kann. Ihre Kontakte sollen Ihr Geburtsdatum wissen, aber nicht Ihren Wohnort? Kein Problem. Ihr selbst erstellter Kreis \"Kunden\" soll sehen, wo Sie arbeiten, aber nicht was Ihr Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen können Sie angeben, ob alle Kontakte oder nur einer (oder mehrere) Ihrer Kreise diese Information sehen darf. So behalten Sie den Überblick und die Kontrolle!"
 		}
 	},
 	"directives": {
@@ -36,8 +43,8 @@
 	},
 	"general": {
 		"zeroContent": {
-			"findFriends": "Finde deine Kontakte auf whispeer",
-			"inviteFriends": "Lade deine Kontakte ein"
+			"findFriends": "Finden Sie Ihre Kontakte auf whispeer",
+			"inviteFriends": "Laden Sie Ihre Kontakte ein"
 		}
 	},
 	"search": {
@@ -48,21 +55,26 @@
 	},
 	"menu": {
 		"friends": "Kontakte ({count})",
-		"invite": "Lade deine Kontakte ein"
+		"invite": "Laden Sie Ihre Kontakte ein"
 	},
 	"login": {
 		"register": {
-			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Kontakten bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!"
+			"extraHtml": " ",
+			"initialWelcome": "Herzlich willkommen zu whispeer Business{name}!",
+			"initialRegisterDescription": "Schön, dass Sie mit uns den ersten Schritt in eine sichere Zukunft machen.<br>Lassen Sie uns Ihnen zeigen, wie Sie Ihren Account einrichten.<br><br><i>Als ersten Schritt suchen Sie sich bitte einen repräsentativen Accountnamen aus.</i>",
+			"passwordDescription": "Heutige Sicherheitsstandards empfehlen Passphrasen als Passwort – ein langes Passwort aus mehreren Wörtern, das Sie sich gut merken können. Ein Beispiel: <small>soviel hier spenden folie umarmt</small><br><br><i>Wählen Sie bitte eine Passphrase. Standard Passwörter funktionieren auch. Wir empfehlen mindestens 12 Zeichen.</i>",
+			"agbText": "Datenschutz spielt bei whispeer Business eine besondere Rolle. Daher haben wir allgemeinverständliche Datenschutzbestimmungen verfasst. Gemeinsam schützen wir Ihre Kommunikation.<br><br><i>Wir möchten Sie bitten, unsere {agb} und kurzen {privacyPolicy} zu lesen und sie zu akzeptieren.</i>",
+			"intro": "Teilen Sie uns Ihr Geschlecht, Ihren Namen, Ihr Geburtsdatum und Ihren Wohnort mit (optional). Dies ermöglicht Ihren Kontakten bei whispeer, Sie leichter zu finden. Selbstverständlich sind diese Angaben optional."
 		}
 	},
 	"wall": {
 		"inform": {
-			"text": "<p><strong>Herzlich Willkommen!</strong><br>whispeer Business befindet sich aktuell in der Pilotphase. Und Sie sind jetzt schon dabei!<br>Als Dankeschön möchten wir Ihnen das weltweit sicherste und beste Kommunikationsnetzwerk zur Verfügung stellen.<br>Interessiert?</p><p>Das Team hinter whispeer arbeitet mit Hochdruck an stetigen Verbesserungen des Netzwerks. Die Beta-App für Android und iOS finden Sie im <strong><a href=\"https://play.google.com/store/apps/details?id=whispeer.app\">Android Play Store</a></strong> und im <strong><a href=\"https://itunes.apple.com/de/app/whispeer/id1031025741\">iOS App Store</a></strong> - vom Smartphone, Tablet oder PC greifen Sie so jederzeit auf Ihre Daten zu.</p><p>Die Grundfunktionalität umfasst Messaging, Verwaltung der Kontakte und Profile. Doch die Reise beginnt erst.<br>Begleiten Sie uns auf dem Weg zu einem umfassenden Tool zur unternehmensinternen als auch -externen Kommunikation.<br>Der erste Schritt ist getan: Sie sind ab heute Vorreiter. Und erfahren natürlich als Erstes von allen Neuerungen!<br>Grow and thrive with Privacy!</p><p>Ihr Team von whispeer</p>"
+			"text": "<p><strong>Herzlich Willkommen!</strong><br>whispeer Business befindet sich aktuell in der Pilotphase. Und Sie sind jetzt schon dabei!<br>Als Dankeschön möchten wir Ihnen das weltweit sicherste und beste Kommunikationsnetzwerk zur Verfügung stellen.<br>Interessiert?</p><p>Das Team hinter whispeer arbeitet mit Hochdruck an stetigen Verbesserungen des Netzwerks. Die App für Android und iOS finden Sie im <strong><a href=\"https://play.google.com/store/apps/details?id=whispeer.app\">Android Play Store</a></strong> und im <strong><a href=\"https://itunes.apple.com/de/app/whispeer/id1031025741\">iOS App Store</a></strong> - vom Smartphone, Tablet oder PC greifen Sie so jederzeit auf Ihre Daten zu.</p><p>Die Grundfunktionalität umfasst Messaging, Verwaltung der Kontakte und Profile. Doch die Reise beginnt erst.<br>Begleiten Sie uns auf dem Weg zu einem umfassenden Tool zur unternehmensinternen als auch -externen Kommunikation.<br>Der erste Schritt ist getan: Sie sind ab heute Vorreiter. Und erfahren natürlich als Erstes von allen Neuerungen!<br>Grow and thrive with Privacy!</p><p>Ihr Team von whispeer</p>"
 		}
 	},
 	"messages": {
 		"start": {
-			"info": "Um mit deinen Kontakten zu chatten wähle im linken Menü einen Chat aus oder starte einen Neuen indem du oben links auf den Button \"Neue Nachricht\" klickst."
+			"info": "Um mit Ihren Kontakten Nachrichten auszutauschen, wählen Sie im linken Menü eine Konversation aus oder starten Sie eine neue Konversation über den Button \"Neue Nachricht\"."
 		},
 		"searchFriends": "Teilnehmer zum Chat hinzufügen",
 		"reportConfirm": "Bitte bestätigen, Sie dass Sie diesen Chat melden möchten. Wir setzen uns dann mit Ihnen in Verbindung.",
@@ -93,7 +105,7 @@
 		"loading":			"Kontakte werden geladen",
 		"search": "Kontakte durchsuchen",
 		"zeroContent": {
-			"headline": "Hallo {name}! Das hier ist deine Kontaktliste."
+			"headline": "Hallo {name}! Das hier ist Ihre Kontaktliste."
 		}
 	},
 	"magicbar": {

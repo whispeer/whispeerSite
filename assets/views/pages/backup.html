@@ -15,7 +15,7 @@
 <div class="backup" data-ng-if="!backupFailed">
 	<header>
 		<h2 data-i18n="views.setup.backup.header"></h2>
-		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
+		<div class="backupWarningExplanation" data-i18n-html="views.setup.backup.explanation"></div>
 	</header>
 	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
 		<i class="fa fa-download"></i> <span data-i18n="views.setup.backup.downloadKey"></span>
@@ -27,6 +27,6 @@
 	<br><br>
 
 	<button id="setupView-noBackup" class="btn btn--gray btn--big" data-ng-click="goToNext()">
-		<span data-i18n="views.setup.backup.ignore"></span>
+		<span data-i18n="views.setup.backup.continue"></span>
 	</button>
 </div>

@@ -5,9 +5,9 @@
 	},
 	"trustLevel": {
 		"deleted": "Nutzer wurde gelöscht",
-		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
-		"groupVerified": "Ein Freund hat diese Person verifiziert.",
-		"selfVerified": "Du hast diese Person verifiziert."
+		"unVerified": "Die Identität dieses Nutzers wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
+		"groupVerified": "Ein Freund hat diesen Nutzer verifiziert.",
+		"selfVerified": "Du hast diesen Nutzer verifiziert."
 	},
 	"window": {
 		"title": {
@@ -64,7 +64,7 @@
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
 			"mail": "E-Mail",
-			"addMail": "Weitere Person per E-Mail einladen",
+			"addMail": "Weitere Freunde per E-Mail einladen",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
 			"generateLink": "Neuen Einladungslink generieren",
@@ -74,33 +74,33 @@
 			"name": "Name",
 			"shareText": "Teile deine privaten Gedanken auf whispeer!",
 			"shareHashTags": "Privatsphäre,whispeer",
-			"invited": "Von dir eingeladene Personen:",
+			"invited": "Von dir eingeladene Nutzer:",
 			"sentInvites": "Gesendete Einladungen",
 			"reference": "Referenz: {referrer}"
 		},
 		"setup": {
-			"welcomeHeader": "Willkommen bei whispeer!",
+			"welcomeHeader": "Gratulation zu deinem neuen Account!",
 			"backup": {
-				"header": "Sichere jetzt deinen Schlüssel",
-				"why": "Warum?",
-				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
-				"impossible": "Du kannst mit dem aktuellen Gerät deine Schlüssel-Datei nicht herunterladen! Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Bitte benutze ein anderes Gerät um deinen Schlüssel zu sichern!",
-				"downloadKey": "Schlüssel herunterladen",
+				"header": "Mache jetzt noch schnell das wichtige Backup",
+				"explanation": "Falls du dein Passwort einmal vergessen solltest, brauchst du einen speziellen Code, um wieder Zugang zu erhalten. In der Backupdatei findest du diesen Code als Zeichenkette.<br><br><i>Speichere bitte diese Backupdatei an einem sicheren Ort oder drucke sie aus.<br><strong>Es gibt aus sicherheitstechnischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong></i>",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Backupdatei nicht herunterladen. Bitte sichere daher deine Backupdatei über ein anderes Gerät. <strong>Ohne diese Datei gibt es aus sicherheitstechnischen Gründen keine andere Möglichkeit deinen Account im Notfall wiederherzustellen!</strong>",
+				"downloadKey": "Backupdatei herunterladen",
 				"or": "oder",
-				"printKey": "Schlüssel ausdrucken",
-				"ignore": "Schlüssel nicht sichern"
+				"printKey": "Backupdatei ausdrucken",
+				"continue": "Weiter",
+				"ignore": "Backupdatei überspringen (nicht empfohlen)"
 			},
 			"optionalData": {
-				"header": "Freiwillige Angaben:",
-				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Freunde dich einfacher finden:",
-				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
-				"mail": "E-Mail",
+				"header": "Freiwillige Angaben",
+				"nameExplanation": "Damit deine Freunde dich leichter finden, kannst du hier deinen echten Namen eintragen. Dieser wird anstelle deines Accountsnamens benutzt und damit für alle im Netzwerk sichtbar.",
+				"mailExplanation": "Du kannst deine E-Mail hinterlassen, um über Aktivitäten deiner Freunde benachrichtigt zu werden und deinen Account-Wiederherstellungsprozess für die Zukunft zu vereinfachen.",
+				"email": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname",
-				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)",
+				"privateName": "begrenze die Sichtbarkeit auf 'nur meine Freunde'",
 				"dismiss": "Überspringen"
 			},
-			"save": "Name und E-Mail speichern"
+			"save": "Angaben speichern"
 		},
 		"mail": {
 			"verify": "E-Mail bestätigen",
@@ -128,8 +128,8 @@
 			"newCircle":	"Neuen Kreis anlegen",
 			"new": "Neuer Kreis",
 			"createCircle": "Kreis erstellen",
-			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-			"personsInCircle":"Personen im Kreis \"{name}\"",
+			"personCount":	"Es befinden sich {count} Nutzer in diesem Kreis",
+			"personsInCircle": "Nutzer im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
 			"addUsers": "Nutzer hinzufügen",
 			"removeUser": "Aus Kreis entfernen",
@@ -241,9 +241,9 @@
 	"search": {
 		"searching": "Suche läuft",
 		"user": {
-			"selected": "Ausgewählte Personen ({count})",
-			"emptyselection": "Keine Personen ausgewählt!",
-			"select": "Person auswählen ({count})",
+			"selected": "Ausgewählte Nutzer ({count})",
+			"emptyselection": "Keine Nutzer ausgewählt!",
+			"select": "Nutzer auswählen ({count})",
 			"mutualFriends": "gemeinsame Freunde",
 			"from": "aus",
 			"age": "Alter:",
@@ -289,19 +289,23 @@
 		"username": "Accountname",
 		"wrongPassword": "Falsches Passwort",
 		"register": {
-			"initialWelcome": "Hallo {name}",
-			"initialRegisterDescription": "Die Registration bei whispeer ist ganz einfach. Gib' einfach einen Benutzernamen ein und klick auf weiter!",
-			"agbText": "Ein paar Formalitäten müssen dann leider doch sein: {br} Wir bitten dich, unsere {agb} und unsere {privacyPolicy} zu lesen und zu akzeptieren. {br2} {note}",
+			"extraHtml": " ",
+			"initialWelcome": "Herzlich willkommen zu whispeer{name}!",
+			"initialRegisterDescription": "Schön, dass du mit uns den nächste Schritt in eine sichere Zukunft machst.<br>Lass uns dir zeigen, wie du deinen Account einrichtest.<br><br><i>Als ersten Schritt suche dir bitte einen repräsentativen Accountnamen aus.</i>",
+			"passwordHeadline": "Nun zur Sicherheit!",
+			"passwordDescription": "Heutige Sicherheitsstandards empfehlen Passphrasen als Passwort – ein langes Passwort aus mehreren Wörtern, das du dir gut merken kannst. Ein Beispiel: <small>soviel hier spenden folie umarmt</small><br><br><i>Wähle bitte eine Passphrase. Standard Passwörter funktionieren auch. Wir empfehlen mindestens 12 Zeichen.</i>",
+			"agbHeadline": "AGB und Datenschutz",
+			"agbText": "Ein paar Formalitäten müssen dann leider doch sein. Wir haben versucht, alles so allgemeinverständlich wie möglich zu halten.<br>Der Datenschutz wird bei whispeer immer oberste Priorität haben.<br><br><i>Wir möchten dich bitten, unsere {agb} und kurzen {privacyPolicy} zu lesen und sie zu akzeptieren.</i>",
 			"errors": {
-				"agb": "Bitte akzeptiere die AGB",
+				"agb": "Bitte akzeptiere die AGB und Datenschutzbestimmungen",
 				"mailInvalid": "Ungültige E-Mail",
-				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"mailUsed": "Diese E-Mail ist schon in Benutzung",
 				"nickEmpty": "Bitte gib einen Accountnamen an",
-				"nickInvalid": "Der Benutzername darf keine Umlaute, Leer- oder Sonderzeichen enthalten!",
+				"nickInvalid": "Der Accountname darf keine Umlaute, Leer- oder Sonderzeichen enthalten",
 				"nickUsed": "Dieser Accountname ist schon vergeben",
 				"password2Empty": "Bitte wiederhole dein Passwort",
 				"passwordEmpty": "Bitte gib ein Passwort ein",
-				"passwordNoMatch": "Passwörter stimmen nicht überein",
+				"passwordNoMatch": "Eingaben stimmen nicht überein",
 				"passwordWeak": "Passwort zu schwach"
 			},
 			"invite": {
@@ -377,17 +381,17 @@
 		"inform": {
 			"more": "Weiterlesen",
 			"less": "Weniger anzeigen",
-			"androidBeta": "Jetzt <strong>die Beta</strong><br>testen!",
-			"text": "<p><strong>Liebe NutzerInnen,</strong><br>euch ist bestimmt schon aufgefallen, dass es in letzter Zeit einige Änderungen an whispeer gab.<br>Hinter dem Projekt steht nun ein festes Team und wir haben heute die Freude euch verkünden zu können: whispeer wird aktiv weiterentwickelt!<br>Aber was bedeutet das genau?</p><p>Unser gemeinsames Netzwerk kann endlich sein volles Potential entfalten - mit allem, wofür es in Sachen Sicherheit, Privatsphäre und Nutzerfreundlichkeit bisher schon gestanden hat. Kein Big Data, keine Werbung, kein Micropayment, kein Haken. Alles, was ihr an whispeer lieben gelernt habt, wird mit den kommenden Updates verbessert. Und whispeer ist für die private Nutzung auch weiterhin kostenfrei!</p><p>Es gibt noch wesentlich mehr, dass wir euch gerne mitteilen würden, aber dafür reicht der Platz hier nicht. Ein kleiner Ausblick: unser Fokus liegt momentan auf dem Ausbau unserer whispeer Messenger App. Sie ist jetzt schon als Beta Version sowohl im <strong><a href=\"https://play.google.com/store/apps/details?id=whispeer.app\">Android Play Store</a></strong> als auch im <strong><a href=\"https://itunes.apple.com/de/app/whispeer/id1031025741\">iOS App Store</a></strong> verfügbar. Definitiv einmal ausprobieren! Und falls ihr uns Feedback geben möchtet, könnt ihr dies mit einer Nachricht auf <strong><a href=\"/user/feedback\">whispeer Feedback</a></strong> machen.</p><p>Letztendlich schulden wir euch noch ein <strong>großes Dankeschön!</strong><br>Ihr habt über die Jahre an whispeer geglaubt und damit ein Zeichen gesetzt, dass Sicherheit und Privatsphäre im Netz sehr wichtig sind.<br>Wir sind daher wirklich glücklich und aufgeregt, diese neue Reise gemeinsam mit euch nun anzutreten.<br>Enjoy your right of Privacy!</p><p>Euer Team von whispeer</p>"
+			"androidBeta": "Jetzt die App<br>testen!",
+			"text": "<p><strong>Liebe NutzerInnen,</strong><br>euch ist bestimmt schon aufgefallen, dass es in letzter Zeit einige Änderungen an whispeer gab.<br>Hinter dem Projekt steht nun ein festes Team und wir haben heute die Freude euch verkünden zu können: whispeer wird aktiv weiterentwickelt!<br>Aber was bedeutet das genau?</p><p>Unser gemeinsames Netzwerk kann endlich sein volles Potential entfalten - mit allem, wofür es in Sachen Sicherheit, Privatsphäre und Nutzerfreundlichkeit bisher schon gestanden hat. Kein Big Data, keine Werbung, kein Micropayment, kein Haken. Alles, was ihr an whispeer lieben gelernt habt, wird mit den kommenden Updates verbessert. Und whispeer ist für die private Nutzung auch weiterhin kostenfrei!</p><p>Es gibt noch wesentlich mehr, dass wir euch gerne mitteilen würden, aber dafür reicht der Platz hier nicht. Ein kleiner Ausblick: unser Fokus liegt momentan auf dem Ausbau unserer whispeer Messenger App. Sie ist jetzt sowohl im <strong><a href=\"https://play.google.com/store/apps/details?id=whispeer.app\">Android Play Store</a></strong> als auch im <strong><a href=\"https://itunes.apple.com/de/app/whispeer/id1031025741\">iOS App Store</a></strong> verfügbar. Definitiv einmal ausprobieren! Und falls ihr uns Feedback geben möchtet, könnt ihr dies mit einer Nachricht auf <strong><a href=\"/user/feedback\">whispeer Feedback</a></strong> machen.</p><p>Letztendlich schulden wir euch noch ein <strong>großes Dankeschön!</strong><br>Ihr habt über die Jahre an whispeer geglaubt und damit ein Zeichen gesetzt, dass Sicherheit und Privatsphäre im Netz sehr wichtig sind.<br>Wir sind daher wirklich glücklich und aufgeregt, diese neue Reise gemeinsam mit euch nun anzutreten.<br>Enjoy your right of Privacy!</p><p>Euer Team von whispeer</p>"
 		}
 	},
 	"messages": {
-		"chatPersons": "Personen in diesem Chat",
+		"chatPersons": "Teilnehmer in diesem Chat",
 		"details": "Chat Info",
 		"endOfStream": "Konversation gestartet am {date}",
 		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
-		"chat" :"Chat mit",
+		"chat" : "Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
 		"start": {
@@ -417,7 +421,7 @@
 		"changeTitle": "Titel ändern",
 		"fileTooLarge": "Datei zu groß: {name}. Wir erlauben aktuell nur {maximumSize}MB.",
 		"burstDifferences": {
-			"usersInChat": "Nutzer in diesem Chat:",
+			"usersInChat": "Teilnehmer in diesem Chat:",
 			"addedUsers": "{name} hat Nutzer hinzugefügt:",
 			"removedUsers": "{name} hat Nutzer entfernt:",
 			"changedTitle": "{name} hat den Chattitel geändert:"
@@ -537,7 +541,7 @@
 					"m":	"männlich",
 					"f":	"weiblich",
 					"none":	"Keine Angabe",
-					"other":"Individuell",
+					"other": "Individuell",
 					"otherInput": "Dein Geschlecht"
 				},
 				"languages": {
