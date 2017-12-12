@@ -60,11 +60,11 @@ cp -r ./node_modules/bluebird/js/browser ../b2b/assets/bluebird
 # upload sourcemaps to sentry
 VERSION=$(./scripts/getVersion.js)
 
-./node_modules/.bin/sentry-cli releases -o sentry -p web new "$VERSION"
-./node_modules/.bin/sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+sentry-cli releases -o sentry -p web new "$VERSION"
+sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
 
-./node_modules/.bin/sentry-cli releases -o sentry -p web-business new "$VERSION"
-./node_modules/.bin/sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
+sentry-cli releases -o sentry -p web-business new "$VERSION"
+sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
 
 # copy company extensions
 cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
