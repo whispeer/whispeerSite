@@ -58,7 +58,6 @@ function qrScannerDirective($timeout) {
 					return;
 				}
 
-				var webkit=false;
 				var moz=false;
 
 				return Bluebird.try(function () {
@@ -91,7 +90,6 @@ function qrScannerDirective($timeout) {
 						if(navigator.getUserMedia) {
 							navigator.getUserMedia(constraints, resolve, reject);
 						} else if(navigator.webkitGetUserMedia) {
-							webkit=true;
 							navigator.webkitGetUserMedia(constraints, resolve, reject);
 						} else if(navigator.mozGetUserMedia) {
 							moz=true;
