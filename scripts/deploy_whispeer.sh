@@ -68,6 +68,7 @@ sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps
 
 # copy company extensions
 cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2c/assets/js/i18n/
 
 cd /var/www/
 sudo cp whispeer/assets/js/build/* whispeer-build/ | true
