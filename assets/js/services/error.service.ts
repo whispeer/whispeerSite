@@ -4,28 +4,18 @@ import 'whatwg-fetch';
 import State from '../asset/state';
 
 class ErrorService {
-	constructor() {
-		this.criticalError = this.criticalError.bind(this);
-		this.logError = this.logError.bind(this);
+	constructor() {}
 
-		window.addEventListener("unhandledrejection", (e : any) => {
-			var reason = e.detail.reason;
+	criticalError = (e : any) =>
+		this.logError(e)
 
-			this.criticalError(reason);
-		});
-	}
-
-	criticalError (e : any) {
-		this.logError(e);
-	};
-
-	logError (e : Error) {
+	logError = (e : Error) => {
 		if (e) {
 			console.error(e);
 
 			Raven.captureException(e);
 		}
-	};
+	}
 
 	failOnErrorPromise (state : State, promise : any) {
 		return promise.then(() => {
