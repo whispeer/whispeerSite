@@ -66,6 +66,8 @@ sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/a
 sentry-cli releases -o sentry -p web-business new "$VERSION"
 sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate #--url-prefix '~/android_asset/www/build/'
 
+# copy company extensions
+cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
 
 cd /var/www/
 sudo cp whispeer/assets/js/build/* whispeer-build/ | true
