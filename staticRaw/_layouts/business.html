@@ -4,7 +4,7 @@
 	{% assign lang = site.data.langs[page.lang] %}
 	{% assign i18n = site.data.whispeerI18n[page.lang] %}
 	<head>
-		{% include head.html %}
+		{% include head.html business=true %}
 		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
 		<link rel="stylesheet" href="{{ "/assets/css/business_landing.css" | prepend: site.baseurl }}">
 
