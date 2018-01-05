@@ -80,15 +80,13 @@ function rootController($scope, $http, $interval) {
 	}, 2000);
 
 	socketService.on("disconnect", function () {
-		$scope.$applyAsync(function () {
-			$scope.lostConnection = true;
-		});
+		$scope.lostConnection = true
+		$scope.$applyAsync()
 	});
 
 	socketService.on("connect", function () {
-		$scope.$applyAsync(function () {
-			$scope.lostConnection = false;
-		});
+		$scope.lostConnection = false
+		$scope.$applyAsync()
 	});
 
 	$scope.activateSidebar = function () {

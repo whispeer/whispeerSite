@@ -77,9 +77,8 @@ function searchDirective($injector) {
 
             /* close on body click */
 			jQuery(document.body).click(function () {
-				scope.$applyAsync(function () {
-					scope.hide();
-				});
+				scope.hide()
+				scope.$applyAsync()
 			});
 
 			var noAutoClose = typeof iAttrs.noAutoClose !== "undefined";
