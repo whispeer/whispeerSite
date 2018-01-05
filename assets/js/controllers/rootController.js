@@ -80,13 +80,13 @@ function rootController($scope, $http, $interval) {
 	}, 2000);
 
 	socketService.on("disconnect", function () {
-		$scope.$apply(function () {
+		$scope.$applyAsync(function () {
 			$scope.lostConnection = true;
 		});
 	});
 
 	socketService.on("connect", function () {
-		$scope.$apply(function () {
+		$scope.$applyAsync(function () {
 			$scope.lostConnection = false;
 		});
 	});

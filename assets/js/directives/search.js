@@ -77,7 +77,7 @@ function searchDirective($injector) {
 
             /* close on body click */
 			jQuery(document.body).click(function () {
-				scope.$apply(function () {
+				scope.$applyAsync(function () {
 					scope.hide();
 				});
 			});

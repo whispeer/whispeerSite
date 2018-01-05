@@ -26,7 +26,7 @@ function messagesController($scope, $state, $stateParams) {
 			$scope.create.images.splice(index, 1);
 		},
 		addImages: ImageUpload.fileCallback((files) => {
-			$scope.$apply(() => {
+			$scope.$applyAsync(() => {
 				$scope.create.images = $scope.create.images.concat(files.map((file) => new ImageUpload(file)))
 			})
 		}),

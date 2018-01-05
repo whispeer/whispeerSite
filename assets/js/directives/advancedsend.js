@@ -10,7 +10,7 @@ var advancedsendDirective = function () {
 			Bluebird.try(function () {
 				var messages = settingsService.getBranch("messages");
 				function send() {
-					scope.$apply(function (){
+					scope.$applyAsync(function (){
 						scope.$eval(attrs.advancedsend);
 					});
 				}

@@ -17,7 +17,7 @@ function accessibleClick() {
 
 			element.on("keypress", function (e) {
 				if (SELECT.indexOf(e.keyCode) > -1) {
-					scope.$apply(function () {
+					scope.$applyAsync(function () {
 						scope.accessibleClick();
 					});
 				}

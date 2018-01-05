@@ -8,6 +8,15 @@ const angular = require("angular")
 
 const app = require("app")
 
+const Bluebird = require("bluebird")
+
+Bluebird.config({
+	warnings: false,
+	longStackTraces: false,
+	cancellation: false,
+	monitoring: false
+})
+
 require("config/routesConfig")
 require("i18n/localizationConfig")
 

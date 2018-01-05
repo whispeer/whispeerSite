@@ -32,7 +32,7 @@ directivesModule.directive("modal", function () {
 			jQuery(document).keyup(function (e) {
 				if (scope.visible && CLOSEKEYS.indexOf(e.keyCode) > -1) {
 					scope.visible = false;
-					scope.$apply();
+					scope.$applyAsync();
 				}
 			});
 		}

@@ -119,7 +119,7 @@ function imageGallery() {
 
 			jQuery(document).keyup(function (e) {
 				if (scope.modal) {
-					scope.$apply(function () {
+					scope.$applyAsync(function () {
 						if (NEXTKEYS.indexOf(e.keyCode) > -1) {
 							scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1);
 							e.preventDefault();
