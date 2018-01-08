@@ -1,6 +1,6 @@
 "use strict";
 
-const Worker = require("worker/worker-loader");
+const Worker = require("../worker/worker-loader");
 
 /** constructor for worker pool
 *   @param Promise a promise implementation
