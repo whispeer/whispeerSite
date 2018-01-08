@@ -1,5 +1,5 @@
 var Bluebird = require("bluebird");
-var SecuredData = require("asset/securedDataWithMetaData");
+var SecuredData = require("../asset/securedDataWithMetaData").default;
 
 var userService = require("users/userService").default;
 var socket = require("services/socket.service").default;

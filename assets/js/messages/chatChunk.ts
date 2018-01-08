@@ -1,7 +1,7 @@
 import h from "../helper/helper";
 const validator = require("validation/validator");
 import Observer from "../asset/observer"
-const SecuredData = require("asset/securedDataWithMetaData");
+import SecuredDataApi from "../asset/securedDataWithMetaData"
 import * as Bluebird from "bluebird"
 const debug = require("debug");
 
@@ -11,7 +11,6 @@ import ObjectLoader from "../services/cachedObjectLoader"
 const keyStore = require("services/keyStore.service").default;
 const sessionService = require("services/session.service").default;
 
-import { Message } from "./message"
 import ChatTitleUpdate from "./chatTitleUpdate"
 
 const debugName = "whispeer:chunk";
@@ -35,7 +34,7 @@ export class Chunk extends Observer {
 	private admins: number[]
 	private titleUpdate: ChatTitleUpdate
 
-	constructor({ content, server, meta, receiverObjects }) {
+	constructor({ content, server, meta, receiverObjects }, public chunkData?) {
 		super()
 
 		var err = validator.validate("topic", meta);
@@ -45,7 +44,7 @@ export class Chunk extends Observer {
 
 		meta.receiver.sort();
 
-		this.securedData = SecuredData.createRaw(content, meta, CHUNK_SECURED_DATA_OPTIONS);
+		this.securedData = SecuredDataApi.createRaw(content, meta, CHUNK_SECURED_DATA_OPTIONS);
 
 		this.id = server.id
 		this.chatID = server.chatID
@@ -72,6 +71,14 @@ export class Chunk extends Observer {
 		if (predecessorID && ChunkLoader.isLoaded(predecessorID)) {
 			ChunkLoader.getLoaded(predecessorID).setSuccessor(this.getID())
 		}
+	}
+
+	create = ({ server: { id, chatID }}) => {
+		this.id = id
+		this.chatID = chatID
+
+		ChunkLoader.addLoaded(id, this)
+		ChunkLoader.removeLoaded(-1)
 	}
 
 	getChatID = () => this.chatID
@@ -165,6 +172,11 @@ export class Chunk extends Observer {
 
 		return this.title
 	}
+
+	setTitle = (title) => {
+		this.title = title
+	}
+
 
 	isAdmin = (user) => {
 		return this.getAdmins().indexOf(user.getID()) > -1
@@ -319,7 +331,7 @@ export class Chunk extends Observer {
 				creator: userService.getOwn().getID(),
 			}
 
-			const secured = SecuredData.createRaw(content, chunkMeta, { type: "topic" })
+			const secured = SecuredDataApi.createRaw(content, chunkMeta, { type: "topic" })
 
 			if (predecessorChunk) {
 				secured.setParent(predecessorChunk.getSecuredData())
@@ -332,46 +344,6 @@ export class Chunk extends Observer {
 			}, cryptInfo)
 		})
 	};
-
-	static createData(receiver, message, images) {
-		Message.prepare(images)
-
-		const uploadImages = (chunkKey) => {
-			return Bluebird.all(images.map((image) => {
-				return image.upload(chunkKey)
-			}))
-		}
-
-		return Bluebird.try(async function () {
-			const chunkData = await Chunk.createRawData(receiver, { content: {} })
-			const chunkStub = new Chunk({
-				meta: chunkData.chunk.meta,
-				content: {},
-				server: {},
-				receiverObjects: []
-			});
-
-			const messageMeta = {
-				createTime: new Date().getTime()
-			}
-
-			const secured = Message.createRawSecuredData(message, messageMeta, chunkStub)
-
-			await Message.setAttachmentsInfo(secured, { images, files: [], voicemails: [] })
-
-			const messageData = await secured._signAndEncrypt(userService.getOwn().getSignKey(), chunkStub.getKey())
-
-			const imageKeys = await uploadImages(chunkStub.getKey())
-
-			return {
-				...chunkData,
-				message: {
-					...messageData,
-					imageKeys: h.array.flatten(imageKeys).map(keyStore.upload.getKey)
-				}
-			};
-		})
-	}
 }
 
 Observer.extend(Chunk);
@@ -384,7 +356,7 @@ const decryptAndVerifyTitleUpdate = (titleUpdate) => {
 
 		const { content, meta, server } = titleUpdate
 
-		const securedData = SecuredData.load(content, meta, { type: "topicUpdate" });
+		const securedData = SecuredDataApi.load(content, meta, { type: "topicUpdate" });
 
 		const sender = await userService.get(meta.userID);
 
@@ -450,7 +422,7 @@ export default class ChunkLoader extends ObjectLoader<Chunk, ChunkCache>({
 	},
 	load: ({ content, meta, server, latestTitleUpdate }) : Bluebird<ChunkCache> => {
 		return Bluebird.try(async function () {
-			const securedData = SecuredData.load(content, meta, CHUNK_SECURED_DATA_OPTIONS)
+			const securedData = SecuredDataApi.load(content, meta, CHUNK_SECURED_DATA_OPTIONS)
 
 			const creator = await userService.get(securedData.metaAttr("creator"))
 

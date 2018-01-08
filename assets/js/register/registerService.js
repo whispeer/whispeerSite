@@ -7,8 +7,8 @@ var errorService = require("services/error.service").errorServiceInstance;
 var Bluebird = require("bluebird");
 var h = require("../helper/helper").default;
 
-var trustManager = require("crypto/trustManager");
-var SecuredData = require("asset/securedDataWithMetaData");
+var trustManager = require("../crypto/trustManager");
+var SecuredData = require("../asset/securedDataWithMetaData").default
 
 var keyGenPromise
 const sessionStorage = Storage.withPrefix("whispeer.session")

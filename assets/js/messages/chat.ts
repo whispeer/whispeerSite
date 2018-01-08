@@ -2,7 +2,7 @@ import * as Bluebird from 'bluebird';
 
 import socketService from "../services/socket.service"
 
-import ObjectLoader from "../services/mutableObjectLoader"
+import ObjectLoader, { SYMBOL_UNCHANGED } from "../services/mutableObjectLoader"
 
 import ChunkLoader, { Chunk } from "./chatChunk"
 import MessageLoader, { Message } from "./message"
@@ -17,7 +17,7 @@ import sessionService from "../services/session.service"
 
 const initService = require("services/initService");
 
-const messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
+const messageSendCache = new Cache("unsentMessages", { maxEntries: -1, maxBlobSize: -1 });
 
 let unreadChatIDs = []
 
@@ -97,24 +97,32 @@ export class Chat extends Observer {
 	private unreadMessageIDs: number[] = []
 
 	private id: number
+	private draft: boolean = false
 
 	public newMessage = ""
 
-	constructor({ id, latestMessage, latestChunk, unreadMessageIDs }) {
+	constructor({ id, latestMessage, latestChunk, unreadMessageIDs }, draft?: boolean) {
 		super()
 
 		this.id = id
+		this.draft = draft
 
 		this.update({ latestChunk, latestMessage, unreadMessageIDs })
 	}
 
+	getInfo = () => ({
+		id: this.id,
+		unreadMessageIDs: this.unreadMessageIDs,
+		latestMessageID: this.getLatestSentMessage(),
+		latestChunkID: this.getLatestChunk()
+	})
+
 	private store = () => {
-		const storeInfo = {
-			id: this.id,
-			unreadMessageIDs: this.unreadMessageIDs,
-			latestMessageID: this.getLatestMessage(),
-			latestChunkID: this.getLatestChunk()
+		if (this.draft) {
+			return
 		}
+
+		const storeInfo = this.getInfo()
 
 		if (h.deepEqual(this.lastStoredInfo, storeInfo)) {
 			return
@@ -123,6 +131,16 @@ export class Chat extends Observer {
 		this.lastStoredInfo = storeInfo
 
 		ChatLoader.updateCache(this.id, storeInfo)
+	}
+
+	create = ({ id, latestChunkID }) => {
+		this.draft = false
+
+		this.id = id
+		this.chunkIDs = [latestChunkID]
+
+		ChatLoader.addLoaded(id, this)
+		ChatLoader.removeLoaded(-1)
 	}
 
 	isBlocked = () => {
@@ -330,6 +348,10 @@ export class Chat extends Observer {
 	}
 
 	loadMoreMessages() {
+		if (this.draft) {
+			return Bluebird.resolve(0)
+		}
+
 		const oldestKnownMessage = this.messages.length === 0 ? null : MessageLoader.getLoaded(this.messages[0].id)
 
 		return this.loadOlderMessages(oldestKnownMessage)
@@ -361,6 +383,14 @@ export class Chat extends Observer {
 		}
 	}
 
+	getLatestSentMessage() {
+		const messages = this.messages.map(({ id }) => MessageLoader.getLoaded(id)).filter((m) => m.hasBeenSent())
+
+		if (messages.length > 0) {
+			return h.array.last(messages).getClientID()
+		}
+	}
+
 	localMarkRead() {
 		if (this.unreadMessageIDs.length === 0 && unreadChatIDs.indexOf(this.id) === -1) {
 			return
@@ -375,6 +405,10 @@ export class Chat extends Observer {
 
 	markRead() {
 		this.localMarkRead()
+
+		if (this.draft) {
+			return Bluebird.resolve()
+		}
 
 		return socketService.definitlyEmit("chat.markRead", { id: this.id })
 	}
@@ -404,7 +438,7 @@ export class Chat extends Observer {
 	amIAdmin = () => {
 		const latestChunk = ChunkLoader.getLoaded(this.getLatestChunk())
 
-		return latestChunk.amIAdmin()
+		return !this.isDraft() && latestChunk.amIAdmin()
 	}
 
 	getReceivers = () => {
@@ -449,19 +483,6 @@ export class Chat extends Observer {
 		}
 
 		return this.setAdmins([...adminIDs, receiver.getID()])
-	}
-
-	removeAdmin = (receiver) => {
-		const latestChunk = ChunkLoader.getLoaded(this.getLatestChunk())
-
-		const adminIDs = latestChunk.getAdmins()
-		const receiverID = receiver.getID()
-
-		return this.setAdmins(
-			adminIDs.filter(elem =>
-				elem != receiverID
-			)
-		)
 	}
 
 	getAdmins = () => {
@@ -524,7 +545,7 @@ export class Chat extends Observer {
 
 		const {
 			canReadOldMessages = false,
-			title = latestChunk.getTitle() || "",
+			title = latestChunk.getTitle(),
 			admins = latestChunk.getAdmins(),
 		} = options
 
@@ -588,15 +609,19 @@ export class Chat extends Observer {
 			return
 		}
 
-		return this.sendMessage(messageData.message, { images: [], files: [] }, messageData.id);
+		return this.sendMessage(messageData.message, { images: [], files: [], voicemails: [] }, messageData.id);
 	};
 
 	private storeMessage = (messageObject, message, id) => {
-		if (!id) {
+		if (id) {
 			return Bluebird.resolve()
 		}
 
-		if (message.hasAttachments()) {
+		if (this.draft) {
+			return Bluebird.resolve()
+		}
+
+		if (messageObject.hasAttachments()) {
 			return Bluebird.resolve()
 		}
 
@@ -606,16 +631,18 @@ export class Chat extends Observer {
 				{
 					chatID: this.getID(),
 					id: messageObject.getClientID(),
-					message: message
+					message
 				}
 			)
 		)
 	}
 
+	isDraft = () => this.draft
+
 	sendMessage = (message, attachments, id?) => {
 		var messageObject = new Message(message, this, attachments, id)
 
-		this.storeMessage(messageObject, message, id).finally(() => {
+		return this.storeMessage(messageObject, message, id).finally(() => {
 			var sendMessagePromise = messageObject.sendContinously();
 
 			sendMessagePromise.then(() => {
@@ -632,9 +659,9 @@ export class Chat extends Observer {
 
 			MessageLoader.addLoaded(messageObject.getClientID(), messageObject)
 			this.addMessageID(messageObject.getClientID(), Number.MAX_SAFE_INTEGER)
-		})
 
-		return null;
+			return sendMessagePromise
+		})
 	};
 
 	static getUnreadChatIDs() {
@@ -649,10 +676,29 @@ type ChatCache = {
 	unreadMessageIDs: any
 }
 
+const loadChatInfo = (ids) =>
+	socketService.definitlyEmit("chat.getMultiple", { ids })
+		.then(({ chats }) =>
+			ids.map((id) => chats.find(({ chat }) => h.parseDecimal(chat.id) === h.parseDecimal(id)))
+		)
+
+const getChatInfo = h.delayMultiplePromise(Bluebird, 50, loadChatInfo, 10)
+
 export default class ChatLoader extends ObjectLoader<Chat, ChatCache>({
-	download: (id) =>
-		socketService.definitlyEmit("chat.get", { id }).then((response) => response.chat),
-	load: (chatResponse) => {
+	download: (id) => {
+		return getChatInfo(id).then((chatInfo) => {
+			if (h.parseDecimal(chatInfo.chat.id) !== h.parseDecimal(id)) {
+				throw new Error(`Chat ID incorrect after loading. Should be ${id} but is ${chatInfo.chat.id}`)
+			}
+			return chatInfo
+		})
+	},
+
+	load: (chatResponse, previousInstance) => {
+		if (previousInstance && h.deepEqual(previousInstance.getInfo(), chatResponse.chat)) {
+			return Bluebird.resolve(SYMBOL_UNCHANGED)
+		}
+
 		const loadChunks = Bluebird.all(chatResponse.chunks.map((chunkData) =>
 			ChunkLoader.load(chunkData)
 		))
@@ -693,7 +739,7 @@ export default class ChatLoader extends ObjectLoader<Chat, ChatCache>({
 			})
 		})
 	},
-	shouldUpdate: () => Bluebird.resolve(true),
+	shouldUpdate: (_event, instance) => Bluebird.resolve(!instance.isDraft()),
 	cacheName: "chat"
 }) {}
 

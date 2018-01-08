@@ -9,18 +9,18 @@ import Cache from "../services/Cache"
 import sessionService from "../services/session.service"
 var initService = require("services/initService");
 
-import ChunkLoader, { Chunk } from "../messages/chatChunk"
+import ChunkLoader from "../messages/chatChunk"
 import ChatLoader from "../messages/chat"
 import MessageLoader from "../messages/message"
 import ChatListLoader from "../messages/chatList"
 
 new Cache("messageSend").deleteAll()
 
-var messageService;
-
 let activeChat = 0
 
-messageService = {
+const messageService = {
+	notify: <any> null,
+	allChatsLoaded: false,
 	prependChatID: function (chatID) {
 		if (!ChatListLoader.isLoaded(sessionService.getUserID())) {
 			return
@@ -121,82 +121,12 @@ messageService = {
 			});
 		});
 	},
-	getChat: function (chatID, cb) {
+	getChat: function (chatID, cb?) {
 		return Bluebird.try(function () {
 			return ChatLoader.get(chatID);
 		}).nodeify(cb);
 	},
-	sendMessageToUserChatIfExists: function(receiver, message, attachments) {
-		return Bluebird.try(async () => {
-			const chatid = await messageService.getUserChat(receiver)
-
-			if (!chatid) {
-				return;
-			}
-
-			const chat = await ChatLoader.get(chatid)
-			const chunk = await ChunkLoader.get(chat.getLatestChunk())
-
-			var otherReceiver = chunk.getReceiver().map(h.parseDecimal)
-
-			if (otherReceiver.length > 2) {
-				console.log("send to existing user chat failed as more than two users in receiver list")
-				return false;
-			}
-
-			if (otherReceiver.indexOf(receiver) === -1) {
-				console.log("send to existing user chat failed as other user is not in receiver list")
-				return false;
-			}
-
-			if (otherReceiver.indexOf(sessionService.getUserID()) > -1) {
-				console.log("send to existing user chat failed as own user is not in receiver list")
-				return false;
-			}
-
-			await messageService.sendMessage(chat, message, attachments)
-
-			return chat.getID()
-		});
-	},
-	sendNewChat: function (receiver, message, images) {
-		return Bluebird.try(function () {
-			if (receiver.length === 1) {
-				return messageService.sendMessageToUserChatIfExists(receiver[0], message, { images, files: [], voicemails: [] });
-			}
-
-			return false;
-		}).then(function (chat) {
-			if (chat) {
-				return chat.getID();
-			}
-
-			return Chunk.createData(receiver, message, images).then(function (chunkData) {
-				return socket.emit("chat.create", {
-					initialChunk: chunkData.chunk,
-					firstMessage: chunkData.message,
-					receiverKeys: chunkData.receiverKeys,
-					keys: chunkData.keys
-				});
-			}).then(function (response) {
-				return ChatLoader.load(response.chat);
-			}).then(function (chat) {
-				return chat.getID();
-			});
-		});
-	},
-	sendMessage: function (chatID, message, attachments) {
-		return Bluebird.resolve(chatID).then(function (chat) {
-			if (typeof chat !== "object") {
-				return ChatLoader.get(chat);
-			} else {
-				return chat;
-			}
-		}).then(function (chat) {
-			return chat.sendMessage(message, attachments);
-		});
-	},
-	getUserChat: function (uid, cb) {
+	getUserChat: function (uid, cb?) {
 		return initService.awaitLoading().then(function () {
 			return socket.definitlyEmit("chat.getChatWithUser", {
 				userID: uid
@@ -221,8 +151,8 @@ socket.channel("notify.chat", function (e, data) {
 	}
 });
 
-initService.listen(function () {
-	messageService.sendUnsentMessages();
-}, "initDone");
+initService.awaitLoading().then(() => {
+	messageService.sendUnsentMessages()
+})
 
 export default messageService

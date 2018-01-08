@@ -2,7 +2,7 @@ import * as Bluebird from "bluebird"
 
 const userService = require("users/userService").default
 const keyStore = require("services/keyStore.service").default
-const SecuredData = require("asset/securedDataWithMetaData")
+import SecuredDataApi, { SecuredData } from "../asset/securedDataWithMetaData"
 
 import h from "../helper/helper"
 import socket from "../services/socket.service"
@@ -30,7 +30,7 @@ export class Message {
 	private serverID: number
 	private clientID: any
 	private previousID: any
-	private securedData: any
+	private securedData: SecuredData
 	private attachments: attachments
 
 	private sendTime: number
@@ -62,9 +62,10 @@ export class Message {
 
 		this.sendTime = h.parseDecimal(server.sendTime)
 
-		this.securedData = SecuredData.createRaw(content, meta, { type: "message" })
+		this.securedData = new SecuredData(content, meta, { type: "message" }, true)
 
 		this.setDefaultData()
+
 
 		this.data.sender = sender.data
 		this.isOwnMessage = sender.isOwn()
@@ -131,6 +132,18 @@ export class Message {
 	isBlocked = () =>
 		settings.isBlocked(this.data.sender.id)
 
+	hasFiles = () =>
+		this.data.files && this.data.files.length > 0
+
+	hasVoicemail = () =>
+		this.data.voicemails && this.data.voicemails.length > 0
+
+	hasText = () =>
+		this.data.text && this.data.text.length > 0
+
+	hasImages = () =>
+		this.data.images && this.data.images.length > 0
+
 	private prepareAttachments = () => {
 		return Bluebird.all([
 			Message.prepare(this.attachments.files),
@@ -139,7 +152,7 @@ export class Message {
 		])
 	}
 
-	static setAttachmentsInfo = (securedData, attachments: attachments) => {
+	static setAttachmentsInfo = (securedData: SecuredData, attachments: attachments) => {
 		return Bluebird.try(async function () {
 			const imagesInfo = await Message.prepare(attachments.images)
 			const voicemailsInfo = await Message.prepare(attachments.voicemails)
@@ -154,7 +167,7 @@ export class Message {
 
 				securedData.metaSetAttr("voicemails", voicemailsInfo.map((info) => info.meta))
 				securedData.contentSetAttr("voicemails", voicemailsInfo.map((info) => info.content))
-			} else {
+			} else if (typeof securedData.contentGet() !== "string") {
 				securedData.contentSet(securedData.contentGet().message)
 			}
 		})
@@ -175,15 +188,11 @@ export class Message {
 		}
 	}
 
-	getChatID = () => ChunkLoader.getLoaded(this.getChunkID()).getChatID()
-
 	getChunkID = () => {
 		return this.chunkID || this.chat.getLatestChunk()
 	}
 
-	hasBeenSent = () => {
-		return this.wasSent
-	}
+	hasBeenSent = () => this.wasSent
 
 	uploadAttachments = h.cacheResult<Bluebird<any>>((chunkKey) => {
 		return this.prepareAttachments().then(() => {
@@ -211,14 +220,6 @@ export class Message {
 		return Bluebird.try(async () => {
 			await socket.awaitConnection()
 
-			const chunk = await ChunkLoader.get(this.chat.getLatestChunk())
-
-			this.securedData.setParent(chunk.getSecuredData())
-
-			await Message.setAttachmentsInfo(this.securedData, this.attachments)
-
-			const chunkKey = chunk.getKey()
-
 			const messageIDs = this.chat.getMessages()
 
 			const messages = messageIDs.filter(({ id }) =>
@@ -227,14 +228,22 @@ export class Message {
 				MessageLoader.getLoaded(id)
 			)
 
-			const sentMessages = messages.filter((m) => m.hasBeenSent())
 			const unsentMessages = messages.filter((m) => !m.hasBeenSent())
-
 			const messageIndex = unsentMessages.findIndex((m) => m === this)
 
 			if (unsentMessages[messageIndex - 1]) {
 				await unsentMessages[messageIndex - 1].sendContinously()
 			}
+
+			const chunk = await ChunkLoader.get(this.chat.getLatestChunk())
+
+			this.securedData.setParent(chunk.getSecuredData())
+
+			await Message.setAttachmentsInfo(this.securedData, this.attachments)
+
+			const chunkKey = chunk.getKey()
+
+			const sentMessages = messages.filter((m) => m.hasBeenSent())
 
 			const newest = h.array.last(sentMessages)
 
@@ -242,31 +251,47 @@ export class Message {
 				this.securedData.setAfterRelationShip(newest.getSecuredData())
 			}
 
-			const signAndEncryptPromise = this.securedData._signAndEncrypt(userService.getOwn().getSignKey(), chunkKey)
-			const keys = await this.uploadAttachments(chunkKey)
+			const signAndEncryptPromise = this.securedData.signAndEncrypt(userService.getOwn().getSignKey(), chunkKey)
+			const keys = (await this.uploadAttachments(chunkKey)).map(keyStore.upload.getKey)
 			const request = await signAndEncryptPromise
+
+			if (this.chat.isDraft()) {
+				const {
+					receiverKeys, keys: chunkKeys, chunk: initialChunk
+				} = chunk.chunkData
+
+				const response = await socket.emit("chat.create", {
+					initialChunk,
+					firstMessage: request,
+					receiverKeys,
+					keys: [...chunkKeys, ...keys]
+				});
+
+				const chatInfo = response.chat.chat
+				const messageInfo = response.chat.messages[0]
+				const chunkInfo = response.chat.chunks[0]
+
+				chunk.create(chunkInfo)
+				this.chat.create(chatInfo)
+
+				this.sendSuccess()
+				this.setServerInfo(messageInfo.server)
+
+				return true
+			}
 
 			const response = await socket.emit("chat.message.create", {
 				chunkID: chunk.getID(),
 				message: request,
-				keys: keys.map(keyStore.upload.getKey)
+				keys
 			})
 
 			if (response.success) {
-				this.wasSent = true
-				this.data.sent = true
-
-				this.setAttachmentInfo("files")
-				this.setAttachmentInfo("voicemails")
-				this.setImagesInfo()
+				this.sendSuccess()
 			}
 
 			if (response.server) {
-				this.sendTime = h.parseDecimal(response.server.sendTime)
-				this.serverID = h.parseDecimal(response.server.id)
-				this.chunkID = h.parseDecimal(response.server.chunkID)
-				this.previousID = response.server.previousMessage
-				this.data.timestamp = this.getTime()
+				this.setServerInfo(response.server)
 			}
 
 			return response.success
@@ -276,6 +301,23 @@ export class Message {
 		}).catch(socket.errors.Server, () => {
 			return false
 		})
+	}
+
+	sendSuccess = () => {
+		this.wasSent = true
+		this.data.sent = true
+
+		this.setAttachmentInfo("files")
+		this.setAttachmentInfo("voicemails")
+		this.setImagesInfo()
+	}
+
+	setServerInfo = ({ sendTime, id, chunkID, previousMessage }) => {
+		this.sendTime = h.parseDecimal(sendTime)
+		this.serverID = h.parseDecimal(id)
+		this.chunkID = h.parseDecimal(chunkID)
+		this.previousID = previousMessage
+		this.data.timestamp = this.getTime()
 	}
 
 	getSecuredData = () => {
@@ -292,6 +334,10 @@ export class Message {
 
 	getClientID = () => {
 		return this.clientID
+	}
+
+	getTopicID = () => {
+		return this.chunkID
 	}
 
 	getTime = () => {
@@ -382,9 +428,7 @@ export class Message {
 	}
 
 	static createRawSecuredData(message, meta, chunk?: Chunk) {
-		const secured = SecuredData.createRaw({ message }, meta, {
-			type: "message",
-		})
+		const secured = new SecuredData({ message }, meta, { type: "message" }, true)
 
 		if (chunk) {
 			secured.setParent(chunk.getSecuredData())
@@ -419,11 +463,11 @@ const loadMessageSender = senderID =>
 export default class MessageLoader extends ObjectLoader<Message, MessageCache>({
 	cacheName: "message",
 	getID: ({ server }) => server.uuid,
-	download: id => socket.emit("chat.message.get", { id }),
+	download: id => socket.definitlyEmit("chat.message.get", { id }),
 	load: (messageResponse): Bluebird<MessageCache> => {
 		const { content, meta, server } = messageResponse
 
-		const securedData = SecuredData.load(content, meta, { type: "message" })
+		const securedData = SecuredDataApi.load(content, meta, { type: "message" })
 		const senderID = server.sender
 
 		// !! Typescript is broken for async arrow functions without a this context !!

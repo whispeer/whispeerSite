@@ -1,5 +1,5 @@
 import RequestKeyService from "./requestKey.service";
-import * as keyStore from "../crypto/keyStore.js";
+const keyStore = require("../crypto/keyStore.js");
 
 keyStore.upload.setKeyGet(RequestKeyService.getKey);
 
