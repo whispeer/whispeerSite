@@ -67,7 +67,7 @@ const userService = {
 	* @param identifiers identifier of users to load
 	* @param cb called with users data.
 	*/
-	getMultipleFormatted: function (identifiers, cb) {
+	getMultipleFormatted: function (identifiers, cb?) {
 		return Bluebird.try(function () {
 			return userService.getMultiple(identifiers)
 		}).map(function (user: any) {
