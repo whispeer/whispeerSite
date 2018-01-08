@@ -17,7 +17,7 @@ Bluebird.config({
 	monitoring: false
 })
 
-require("config/routesConfig")
+require("./config/routesConfig")
 require("i18n/localizationConfig")
 
 require("asset/toBlobPolyfill")

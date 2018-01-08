@@ -18,7 +18,7 @@ import FeatureToggles from "../services/featureToggles"
 
 const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
-const messageService = require("messages/messageService").default;
+import messageService from "../messages/messageService"
 const State = require("asset/state");
 
 const initService = require("services/initService");

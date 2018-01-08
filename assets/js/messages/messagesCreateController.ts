@@ -1,14 +1,15 @@
 "use strict";
 
-const ImageUpload = require("services/imageUpload.service").default
-const errorService = require("services/error.service").errorServiceInstance;
-const messageService = require("messages/messageService").default
-const userService = require("users/userService").default;
+import ImageUpload from "../services/imageUpload.service"
+import errorService from "../services/error.service"
+import messageService from "../messages/messageService"
+import userService from "../users/userService"
+
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
 
-function messagesController($scope, $state, $stateParams) {
+const messagesController: any = function($scope, $state, $stateParams) {
 	$scope.canSend = false;
 	$scope.topicLoaded = false;
 
@@ -87,7 +88,6 @@ function messagesController($scope, $state, $stateParams) {
 	};
 
 }
-
 
 messagesController.$inject = ["$scope", "$state", "$stateParams"];
 
