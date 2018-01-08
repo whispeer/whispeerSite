@@ -5,9 +5,58 @@ import errorService from "../services/error.service"
 import messageService from "../messages/messageService"
 import userService from "../users/userService"
 
+import ChatLoader, { Chat } from "../messages/chat"
+import ChunkLoader, { Chunk } from "../messages/chatChunk"
+
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
+
+const sendToUserTopic = (users: number[]) => {
+	if (users.length > 1) {
+		return Bluebird.resolve();
+	}
+
+	return messageService.getUserChat(users[0]);
+}
+
+const sendNewChat = (receiver: number[], text, attachments) => {
+	return Bluebird.coroutine(function*() {
+		const chatID = yield sendToUserTopic(receiver)
+
+		if (chatID) {
+			return ChatLoader.get(chatID)
+				.then((chat) => {
+					chat.sendMessage(text, attachments)
+					return null
+				}).thenReturn(chatID)
+		}
+
+		receiver.sort()
+
+		const chunkData = yield Chunk.createRawData(receiver, { content: {} })
+		const receiverObjects = yield userService.getMultiple(receiver)
+
+		const chunk = new Chunk({
+			content: {},
+			server: {
+				id: -1,
+				chatID: -1,
+				createTime: Date.now()
+			},
+			meta: chunkData.chunk.meta,
+			receiverObjects: receiverObjects.map((u) => u.data)
+		}, chunkData)
+		const chat = new Chat({ id: -1, latestMessage: null, latestChunk: chunk, unreadMessageIDs: [] }, true)
+
+		ChunkLoader.addLoaded(-1, chunk)
+		ChatLoader.addLoaded(-1, chat)
+
+		yield chat.sendMessage(text, attachments)
+
+		return chat.getID()
+	})()
+}
 
 const messagesController: any = function($scope, $state, $stateParams) {
 	$scope.canSend = false;
@@ -41,7 +90,7 @@ const messagesController: any = function($scope, $state, $stateParams) {
 				return;
 			}
 
-			var newTopicPromise = messageService.sendNewChat(receiver, text, images).then(function (id) {
+			var newTopicPromise = sendNewChat(receiver, text, { images, files: [], voicemails: [] }).then(function (id) {
 				$scope.create.text = "";
 				$scope.create.selectedElements = [];
 				$scope.goToShow(id);

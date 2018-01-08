@@ -126,10 +126,10 @@ const messageService = {
 			return ChatLoader.get(chatID);
 		}).nodeify(cb);
 	},
-	getUserChat: function (uid, cb?) {
+	getUserChat: function (userID, cb?) {
 		return initService.awaitLoading().then(function () {
 			return socket.definitlyEmit("chat.getChatWithUser", {
-				userID: uid
+				userID
 			});
 		}).then(function (data) {
 			if (data.chatID) {
