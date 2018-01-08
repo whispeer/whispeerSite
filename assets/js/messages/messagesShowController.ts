@@ -131,7 +131,7 @@ namespace BurstHelper {
 	}
 }
 
-function messagesController($scope: myScope, $element, $stateParams, $timeout, localize) {
+function messagesController($scope: myScope, $element, $stateParams, localize) {
 	var topicLoadingState = new State.default();
 	$scope.topicLoadingState = topicLoadingState.data;
 
@@ -276,23 +276,14 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout, l
 			return;
 		}
 
-		$scope.canSend = false;
+		$scope.activeChat.sendMessage(text, { images, files, voicemails: [] })
 
-		var sendMessagePromise = messageService.sendMessage($scope.activeChat.getID(), text, { images, files, voicemails: [] }).then(function() {
-			$scope.activeChat.newMessage = "";
-			$scope.attachments.imageUploads = []
-			$scope.attachments.fileUploads = []
-			$scope.markRead(errorService.criticalError);
-			$timeout(function() {
-				sendMessageState.reset();
-			}, 2000);
-		});
+		$scope.activeChat.newMessage = "";
+		$scope.attachments.imageUploads = []
+		$scope.attachments.fileUploads = []
+		$scope.markRead(errorService.criticalError);
 
-		sendMessagePromise.finally(function() {
-			$scope.canSend = true;
-		});
-
-		errorService.failOnErrorPromise(sendMessageState, sendMessagePromise);
+		sendMessageState.reset();
 	};
 
 	let bursts = [], burstTopic;
@@ -346,6 +337,6 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout, l
 	};
 }
 
-(<any>messagesController).$inject = ["$scope", "$element", "$stateParams", "$timeout", "localize"];
+(<any>messagesController).$inject = ["$scope", "$element", "$stateParams", "localize"];
 
 messagesModule.controller("ssn.messagesShowController", messagesController);

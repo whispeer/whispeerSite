@@ -642,6 +642,9 @@ export class Chat extends Observer {
 	sendMessage = (message, attachments, id?) => {
 		var messageObject = new Message(message, this, attachments, id)
 
+		MessageLoader.addLoaded(messageObject.getClientID(), messageObject)
+		this.addMessageID(messageObject.getClientID(), Number.MAX_SAFE_INTEGER)
+
 		return this.storeMessage(messageObject, message, id).finally(() => {
 			var sendMessagePromise = messageObject.sendContinously();
 
@@ -656,9 +659,6 @@ export class Chat extends Observer {
 				console.error(e);
 				alert("An error occured sending a message!" + e.toString());
 			});
-
-			MessageLoader.addLoaded(messageObject.getClientID(), messageObject)
-			this.addMessageID(messageObject.getClientID(), Number.MAX_SAFE_INTEGER)
 
 			return sendMessagePromise
 		})
