@@ -76,7 +76,6 @@ function run() {
 	var router = express.Router();
 	var webpack = require("webpack");
 	var webpackConfig = require("./webpack.config.js");
-	var webpackWorkerConfig = require("./webpack.worker.config.js");
 
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 8080;
 
@@ -120,10 +119,6 @@ function run() {
 
 	var webpackMiddleware = require("webpack-dev-middleware");
 	app.use(webpackMiddleware(webpack(webpackConfig), {
-		publicPath: "/assets/js/build/",
-	}));
-
-	app.use(webpackMiddleware(webpack(webpackWorkerConfig), {
 		publicPath: "/assets/js/build/",
 	}));
 
