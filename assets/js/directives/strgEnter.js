@@ -5,9 +5,8 @@ var strgEnterDirective = function () {
 		link: function (scope, element, attrs) {
 			element.bind("keydown keypress", function (event) {
 				if(event.which === 13 && event.ctrlKey) {
-					scope.$apply(function (){
-						scope.$eval(attrs.strgEnter);
-					});
+					scope.$eval(attrs.strgEnter)
+					scope.$applyAsync()
 
 					event.preventDefault();
 				}

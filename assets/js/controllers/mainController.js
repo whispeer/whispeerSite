@@ -63,7 +63,7 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 		textarea.focus();
 		scope.newPost.text = localize.getLocalizedString("general.zeroContent.firstPostText", {});
-		scope.$apply();
+		scope.$applyAsync();
 	};
 
 	$scope.setTimelineFilter = function (newSelection) {
