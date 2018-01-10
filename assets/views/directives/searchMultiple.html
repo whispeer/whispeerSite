@@ -14,7 +14,12 @@
 			</li>
 		</ul>
 	</div>
-	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': results.length > 0}" data-ng-include="'search/' + searchTemplate + 'Search.html'">
+	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': results.length > 0}">
+		<div class="search-resultsDrop-spinner" data-ng-if="searching">
+			<loadingindicator></loadingindicator>
+			<p class="noMargin-bottom" data-i18n="search.searching"></p>
+		</div>
+		<div class="search-resultsDrop-content" data-ng-include="'search/' + searchTemplate + 'Search.html'"></div>
 	</div>
 	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'search/' + selectDropTemplate  +'SelectDrop.html'">
 	</div>
