@@ -13,7 +13,6 @@ grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-clean");
-grunt.loadNpmTasks("grunt-angular-templates");
 
 grunt.initConfig({
 	assetHash: {
@@ -75,7 +74,7 @@ grunt.initConfig({
 	},
 	autoprefixer: {
 		options: {
-			browsers: ["last 2 versions", "ie >= 9", "> 0.5% in DE", "iOS > 7"],
+			browsers: ["last 2 versions", "ie >= 11", "> 0.5% in DE", "iOS > 7"],
 			remove: true
 		},
 		style: {
