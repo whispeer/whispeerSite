@@ -9,7 +9,7 @@ const h = require("whispeerHelper").default;
 module.exports = function () {
 	angular.module("ssn.search").factory("userSearchSupplier", [function () {
 		var Search = function () {
-			this.debouncedAction = h.debouncePromise(Bluebird, this.debouncedSearch.bind(this), 500);
+			this.debouncedAction = h.debouncePromise(Bluebird, this.debouncedSearch.bind(this), 2000);
 		};
 
 		Search.prototype.search = function (query) {
