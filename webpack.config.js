@@ -162,6 +162,14 @@ var config = {
 					use: [{
 						loader: "css-loader" // translates CSS into CommonJS
 					}, {
+						loader: "postcss-loader",
+						options: {
+							ident: 'postcss',
+							plugins: () => [
+								require("autoprefixer")()
+							]
+						}
+					}, {
 						loader: "less-loader" // compiles Less to CSS
 					}],
 					fallback: "style-loader" // creates style nodes from JS strings

@@ -20,32 +20,6 @@ grunt.initConfig({
 			}
 		}
 	},
-	less: {
-		development: {
-			options: {
-				paths: ["assets/less"],
-				sourceMap: true,
-				sourceMapFilename: "assets/css/style.css.map",
-				sourceMapRootpath: "/"
-			},
-			files: {
-				"assets/css/style.css": business ? "assets/less/business.less" : "assets/less/style.less",
-				"assets/css/static.css": business ? "assets/less/static_business.less" : "assets/less/static.less",
-			}
-		}
-	},
-	autoprefixer: {
-		options: {
-			browsers: ["last 2 versions", "ie >= 11", "> 0.5% in DE", "iOS > 7"],
-			remove: true
-		},
-		style: {
-			expand: true,
-			flatten: true,
-			src: "assets/css/*.css",
-			dest: "assets/css/"
-		}
-	},
 	copy: {
 		vendor: {
 			files: [
