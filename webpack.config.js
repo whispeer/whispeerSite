@@ -43,7 +43,8 @@ const staticIncludes = {
 	loginframe: "login",
 	recovery: "recovery",
 	verifyMail: "verifyMail",
-	token: "token"
+	token: "token",
+	sales: "sales",
 }
 
 const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
