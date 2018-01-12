@@ -119,17 +119,17 @@ function imageGallery() {
 
 			jQuery(document).keyup(function (e) {
 				if (scope.modal) {
-					scope.$apply(function () {
-						if (NEXTKEYS.indexOf(e.keyCode) > -1) {
-							scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1);
-							e.preventDefault();
-						}
-						if (PREVKEYS.indexOf(e.keyCode) > -1) {
-							scope.imageIndex = Math.max(scope.imageIndex - 1, 0);
-							e.preventDefault();
-						}
-						scope.viewImage(scope.imageIndex);
-					});
+					if (NEXTKEYS.indexOf(e.keyCode) > -1) {
+						scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1)
+						e.preventDefault()
+					}
+					if (PREVKEYS.indexOf(e.keyCode) > -1) {
+						scope.imageIndex = Math.max(scope.imageIndex - 1, 0)
+						e.preventDefault()
+					}
+					scope.viewImage(scope.imageIndex)
+
+					scope.$applyAsync()
 				}
 			});
 		}

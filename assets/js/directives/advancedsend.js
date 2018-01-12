@@ -10,9 +10,8 @@ var advancedsendDirective = function () {
 			Bluebird.try(function () {
 				var messages = settingsService.getBranch("messages");
 				function send() {
-					scope.$apply(function (){
-						scope.$eval(attrs.advancedsend);
-					});
+					scope.$eval(attrs.advancedsend)
+					scope.$applyAsync()
 				}
 
 				element.bind("keydown keypress", function (event) {

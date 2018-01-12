@@ -36,7 +36,7 @@ function newPostDirective() {
 						$scope.newPost.images.splice(index, 1);
 					},
 					addImages: ImageUpload.fileCallback(function (files) {
-						$scope.$apply(() => {
+						$scope.$applyAsync(() => {
 							$scope.newPost.images = $scope.newPost.images.concat(files.map((file) => new ImageUpload(file)));
 						});
 					})

@@ -1,3 +1,29 @@
+.search-full {
+	display: flex;
+	flex-direction: column;
+
+	.search {
+		display: flex;
+		flex-direction: column;
+
+		height: auto;
+	}
+
+	.search-form {
+		height: 50px;
+	}
+
+	.search-suggestions {
+		max-height: none;
+	}
+
+	.search-resultsDrop {
+		position: relative;
+		top: auto;
+		left: auto
+	}
+}
+
 .search {
 	height: 50px;
 	position: relative;
@@ -31,6 +57,9 @@
 
 	background: @white;
 
+	display: flex;
+	flex-direction: row;
+
 	&:extend(.box-fix);
 }
 .search-result {
@@ -62,13 +91,15 @@
 	height: 100%;
 
 	position: relative;
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 
 	white-space: nowrap;
 }
 .search-query {
 	height: 100% !important;
-	width: 100%;
+	flex-grow: 1;
 
 	background-color: white;
 
@@ -84,7 +115,7 @@
 	left: 0;
 	z-index: @zIndex-dropdown;
 
-	overflow: hidden;
+	overflow: auto;
 
 	background-color: @white;
 	border: none;
@@ -107,8 +138,6 @@
 	padding: 0;
 	float: left; // this float prevents the drop to be 5px larger than it should be!
 
-	overflow-y: scroll;
-	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 
 	display: inline-block;

@@ -33,7 +33,7 @@ interface myScope {
 	hideOverlay: boolean,
 	doHideOverlay: Function,
 	downloadFile: Function,
-	$apply: Function,
+	$applyAsync: Function,
 	$on: Function,
 	attachments: any
 	markRead: Function,
@@ -182,7 +182,7 @@ function messagesController($scope: myScope, $element, $stateParams, $timeout, l
 			$scope.attachments.fileUploads.splice(index, 1);
 		},
 		addFiles: ImageUpload.fileCallback((files: File[]) => {
-			$scope.$apply(() => {
+			$scope.$applyAsync(() => {
 				const imageUploads = files
 					.filter((file) => ImageUpload.isImage(file))
 					.map((file) => new ImageUpload(file))

@@ -21,7 +21,7 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 	}
 })
 
-const SENTRY_KEY_DEV = "https://9f1870e5f93a4592b815ca8f1a35e4a9@errors.whispeer.de/10"
+const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
 
 const getSentryKey = () => {
 	if (process.env.WHISPEER_BUSINESS) {

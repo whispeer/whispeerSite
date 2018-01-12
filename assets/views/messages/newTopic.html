@@ -8,7 +8,17 @@
 		</div>
 	</span>
 	<div id="topicWrap" class="newMessage">
-		<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
+		<search
+			class="search-full"
+			data-supplier="userSearchSupplier"
+			callback="create.setUsers(selected)"
+			data-search-template="userSimple"
+			data-multiple
+			data-keep-open-on-blur
+			data-input-i18n-attr="messages.search|placeholder"
+			data-base="user"
+			data-initial-values="getInitialUser()">
+		</search>
 		<form id="inputWrap">
 			<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
 				<div class="uploadForm annotatedInput-button">

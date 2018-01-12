@@ -16,12 +16,11 @@ function searchDirective($injector) {
 			"inputI18nAttr": "@",
 			"searchTemplate": "@",
 			"addClasses": "@",
-            //multi-search
+			//multi-search
 			"selectDropTemplate": "@",
 			"base": "@",
 			"initialValues": "&"
 		},
-        /* this is an element */
 		restrict: "E",
 		templateUrl: function (iElement, iAttrs) {
 			if (typeof iAttrs.multiple !== "undefined") {
@@ -75,17 +74,16 @@ function searchDirective($injector) {
 				}
 			}
 
-            /* close on body click */
-			jQuery(document.body).click(function () {
-				scope.$apply(function () {
-					scope.hide();
+			if (typeof iAttrs.keepOpenOnBlur === "undefined") {
+				/* close on body click */
+				jQuery(document.body).click(function () {
+					scope.hide()
+					scope.$applyAsync()
 				});
-			});
-
-			var noAutoClose = typeof iAttrs.noAutoClose !== "undefined";
+			}
 
 			scope.isVisible = function () {
-				return isVisible && (noAutoClose || lastSearchOpened === thisSearchOpened);
+				return isVisible && (lastSearchOpened === thisSearchOpened);
 			};
 
 			scope.hide = function () {
@@ -99,9 +97,9 @@ function searchDirective($injector) {
 					$event.stopPropagation();
 				}
 
-				if (!noAutoClose) {
-					lastSearchOpened = thisSearchOpened = new Date().getTime();
-				}
+
+				lastSearchOpened = thisSearchOpened = new Date().getTime();
+
 				isVisible = true;
 				initialize();
 			};
@@ -184,7 +182,7 @@ function searchDirective($injector) {
 					e.preventDefault();
 				}
 
-				if (SELECT.indexOf(e.keyCode) > -1) {
+				if (SELECT.indexOf(e.keyCode) > -1 && scope.results[scope.current]) {
 					scope.selectResult(scope.results[scope.current]);
 					e.preventDefault();
 				}

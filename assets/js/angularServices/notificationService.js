@@ -13,10 +13,10 @@ function service(localize, $state, $rootScope) {
 
 				notification.onclick = function () {
 					if (new Date().getTime() - lastTimeNotificationClick > 50) {
-						$rootScope.$apply(function () {
-							$state.go(state, stateParams);
-							window.focus();
-						});
+						$state.go(state, stateParams)
+						window.focus()
+
+						$rootScope.$applyAsync()
 					}
 
 					this.close();
