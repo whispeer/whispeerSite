@@ -144,8 +144,7 @@ grunt.initConfig({
 		serve: {
 			cmd: "npm",
 			args: [
-				"run",
-				"serve"
+				"start"
 			]
 		},
 		webpackProduction: {

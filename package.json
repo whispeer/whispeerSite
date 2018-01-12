@@ -96,7 +96,6 @@
     "test": "karma start --single-run --browsers PhantomJS",
     "lint": "eslint assets/js",
     "clean": "rimraf assets/js/build/*.js manifest.mf assets/commit.sha assets/files.json",
-    "lint:fix": "eslint --fix assets/js",
-    "serve": "node webserver"
+    "lint:fix": "eslint --fix assets/js"
   }
 }
