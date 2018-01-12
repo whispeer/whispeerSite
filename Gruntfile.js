@@ -1,6 +1,5 @@
 "use strict";
 
-var Bluebird = require("bluebird");
 var grunt = require("grunt");
 
 var business = !!process.env.WHISPEER_BUSINESS
@@ -8,7 +7,6 @@ var business = !!process.env.WHISPEER_BUSINESS
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
-grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
@@ -129,23 +127,19 @@ grunt.initConfig({
 			}
 		}
 	},
-	browserSync: {
-		dev: {
-			bsFiles: {
-				src: "assets/css/*.css"
-			},
-			options: {
-				port: 3001,
-				watchTask: true
-			}
-		}
-	},
 	run: {
 		lint: {
 			cmd: "npm",
 			args: [
 				"run",
 				"lint"
+			]
+		},
+		clean: {
+			cmd: "npm",
+			args: [
+				"run",
+				"clean"
 			]
 		},
 		webpackProduction: {
@@ -163,9 +157,6 @@ grunt.initConfig({
 				"--watch"
 			]
 		}
-	},
-	clean: {
-		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
 	}
 });
 
@@ -203,10 +194,10 @@ grunt.task.registerMultiTask("includes", "Add the correct script include to the 
 	});
 });
 
-grunt.registerTask("default", ["build:pre", "browserSync", "concurrent:development"]);
+grunt.registerTask("default", ["build:pre", "concurrent:development"]);
 
 grunt.registerTask("build:pre", [
-	"clean",
+	"run:clean",
 	"copy",
 	"less",
 	"autoprefixer",
@@ -219,7 +210,7 @@ grunt.registerTask("build:development", [
 ]);
 
 grunt.registerTask("build:production",  [
-	"clean",
+	"run:clean",
 	"run:lint",
 	"copy",
 	"less",
