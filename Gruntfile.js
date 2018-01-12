@@ -2,11 +2,6 @@
 
 var grunt = require("grunt");
 
-var business = !!process.env.WHISPEER_BUSINESS
-
-grunt.loadNpmTasks("grunt-contrib-less");
-grunt.loadNpmTasks("grunt-autoprefixer");
-grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
@@ -14,7 +9,7 @@ grunt.loadNpmTasks("grunt-run");
 grunt.initConfig({
 	concurrent: {
 		development: {
-			tasks: ["run:serve", "watch", "run:jekyllWatch"],
+			tasks: ["run:serve", "run:jekyllWatch"],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -69,15 +64,6 @@ grunt.initConfig({
 			]
 		}
 	},
-	watch: {
-		scripts: {
-			files: ["assets/less/**/*.less"],
-			tasks: ["less", "autoprefixer"],
-			options: {
-				spawn: false
-			}
-		}
-	},
 	run: {
 		lint: {
 			cmd: "npm",
@@ -109,7 +95,7 @@ grunt.initConfig({
 			cmd: "npm",
 			args: [
 				"run",
-				"jekyll:watch",
+				"build:static:watch",
 			]
 		}
 	}
@@ -120,8 +106,6 @@ grunt.registerTask("default", ["build:pre", "concurrent:development"]);
 grunt.registerTask("build:pre", [
 	"run:clean",
 	"copy",
-	"less",
-	"autoprefixer",
 ]);
 
 grunt.registerTask("build:production",  [
