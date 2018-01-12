@@ -12,28 +12,6 @@ grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
 
 grunt.initConfig({
-	includes: {
-		compile: {
-			scripts: ["commons.bundle", "main.bundle"],
-			sources: ["index.html"]
-		},
-		register: {
-			scripts: ["commons.bundle", "register.bundle"],
-			sources: ["static/en/register/index.html", "static/de/register/index.html"]
-		},
-		login: {
-			scripts: ["commons.bundle", "login.bundle"],
-			sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
-		},
-		recovery: {
-			scripts: ["commons.bundle", "recovery.bundle"],
-			sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
-		},
-		verify: {
-			scripts: ["commons.bundle", "verifyMail.bundle"],
-			sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
-		}
-	},
 	concurrent: {
 		development: {
 			tasks: ["run:serve", "watch", "run:jekyllWatch"],
@@ -163,30 +141,7 @@ grunt.initConfig({
 			]
 		}
 	}
-});
-
-grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
-	var scripts = grunt.file.expand("assets/js/build/*.js");
-
-	var files = this.data.sources;
-	var scriptNames = this.data.scripts;
-
-	files.forEach(function (file) {
-		var fileContent = grunt.file.read(file);
-
-		scriptNames.forEach(function (script) {
-			var scriptPath = scripts.filter(function (fileName) {
-				return fileName.replace("assets/js/build", "").indexOf(script) > -1;
-			})[0];
-
-			var regex = new RegExp("assets/js/build/" + script + "[^>]*\.js");
-
-			fileContent = fileContent.replace(regex, scriptPath);
-		});
-
-		grunt.file.write(file, fileContent);
-	});
-});
+})
 
 grunt.registerTask("default", ["build:pre", "concurrent:development"]);
 
@@ -201,7 +156,5 @@ grunt.registerTask("build:production",  [
 	"run:lint",
 	"build:pre",
 
-	"run:webpackProduction",
-
-	"includes"
+	"run:webpackProduction"
 ]);

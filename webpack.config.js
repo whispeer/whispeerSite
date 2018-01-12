@@ -43,19 +43,19 @@ const includes = [
 	},
 	{
 		chunks: ["commons", "register"],
-		sources: ["static/en/register/index.html", "static/de/register/index.html"]
+		sources: ["static/postprocess/en/register/index.html", "static/postprocess/de/register/index.html"]
 	},
 	{
 		chunks: ["commons", "login"],
-		sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
+		sources: ["static/postprocess/en/loginframe/index.html", "static/postprocess/de/loginframe/index.html", "static/postprocess/en/login/index.html", "static/postprocess/de/login/index.html"]
 	},
 	{
 		chunks: ["commons", "recovery"],
-		sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
+		sources: ["static/postprocess/en/recovery/index.html", "static/postprocess/de/recovery/index.html"]
 	},
 	{
 		chunks: ["commons", "verifyMail"],
-		sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
+		sources: ["static/postprocess/en/verifyMail/index.html", "static/postprocess/de/verifyMail/index.html"]
 	}
 ]
 
@@ -76,7 +76,7 @@ const getHtmlPlugins = () =>
 			sources.map((src) =>
 				new HtmlWebpackPlugin({
 					template: `../${src}`,
-					filename: `../${src.replace("static", "")}`,
+					filename: `../${src.replace("static/postprocess/", "")}`,
 					chunks
 				})
 			)

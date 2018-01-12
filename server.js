@@ -4,7 +4,6 @@ const webpackConfig = require("./webpack.config.js");
 const webpackMiddleware = require("webpack-dev-middleware");
 
 const locales = ["en", "de"];
-const dir = __dirname // eslint-disable-line no-undef
 
 const angular = [
 	"user",
@@ -61,12 +60,12 @@ process.argv.forEach(function(val, index, array) {
 
 log("Starting webserver...");
 
-app.use(webpackMiddleware(webpack(webpackConfig), {
-	publicPath: "/assets/js/build/",
-}));
+const mid = webpackMiddleware(webpack(webpackConfig), {
+	publicPath: "/assets",
+})
 
-router.use("/assets", express.static("assets"))
 router.use("/", express.static("static"))
+router.use("/assets", express.static("assets"))
 router.all("*", function (req, res, next) {
 	const paths = req.originalUrl.split(/\/|\?/).filter((path) => path !== "")
 
@@ -82,17 +81,21 @@ router.all("*", function (req, res, next) {
 	paths.shift()
 
 	if (ownIndexFile.indexOf(paths[0]) > -1) {
-		return res.sendFile(`${dir}/static/${possibleLocale}/${paths[0]}/index.html`)
+		req.url = `/assets/../${possibleLocale}/${paths[0]}/index.html`
+		console.log(req.url)
+		return mid(req, res, next)
 	}
 
 	if (angular.indexOf(paths[0]) > -1) {
-		return res.sendFile(`${dir}/index.html`)
+		req.url = "/assets/../index.html"
+		return mid(req, res, next)
 	}
 
 	next();
-});
+})
 
-app.use(router);
+app.use(mid)
+app.use(router)
 app.listen(WHISPEER_PORT);
 
 log("Whispeer web server started on port " + WHISPEER_PORT);
