@@ -160,17 +160,6 @@ grunt.initConfig({
 	}
 });
 
-
-grunt.task.registerTask("buildDate", function () {
-	var buildTime = new Date();
-	var buildDate = buildTime.getFullYear().toString() + (buildTime.getMonth() + 1) + buildTime.getDate().toString();
-
-	var fs = require("fs");
-	var rootController = fs.readFileSync("./assets/js/config.js").toString();
-	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
-	fs.writeFileSync("./assets/js/config.js", rootController);
-});
-
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
 	var scripts = grunt.file.expand("assets/js/build/*.js");
 
@@ -203,18 +192,9 @@ grunt.registerTask("build:pre", [
 	"autoprefixer",
 ]);
 
-grunt.registerTask("build:development", [
-	"build:pre",
-	"run:webpack",
-	"includes",
-]);
-
 grunt.registerTask("build:production",  [
-	"run:clean",
 	"run:lint",
-	"copy",
-	"less",
-	"autoprefixer",
+	"build:pre",
 
 	"run:webpackProduction",
 
