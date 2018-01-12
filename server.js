@@ -81,7 +81,6 @@ router.all("*", function (req, res, next) {
 
 	if (ownIndexFile.indexOf(paths[0]) > -1) {
 		req.url = `/assets/../${possibleLocale}/${paths[0]}/index.html`
-		console.log(req.url)
 		return mid(req, res, next)
 	}
 
