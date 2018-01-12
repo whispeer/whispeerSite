@@ -56,46 +56,14 @@ grunt.initConfig({
 		}
 	},
 	run: {
-		lint: {
-			cmd: "npm",
-			args: [
-				"run",
-				"lint"
-			]
-		},
-		clean: {
-			cmd: "npm",
-			args: [
-				"run",
-				"clean"
-			]
-		},
 		development: {
 			cmd: "npm",
 			args: [
 				"run",
 				"development"
 			]
-		},
-		webpackProduction: {
-			cmd: "webpack",
-			args: [
-				"-p"
-			]
-		},
+		}
 	}
 })
 
 grunt.registerTask("default", ["run:development"]);
-
-grunt.registerTask("build:pre", [
-	"run:clean",
-	"copy",
-]);
-
-grunt.registerTask("build:production",  [
-	"run:lint",
-	"build:pre",
-
-	"run:webpackProduction"
-]);

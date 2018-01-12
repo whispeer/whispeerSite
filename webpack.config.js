@@ -1,20 +1,21 @@
 const path = require("path")
 const webpack = require("webpack")
+const fs = require("fs")
 
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
 const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"]
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const fs = require("fs")
+const SriPlugin = require("webpack-subresource-integrity")
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
-const development = process.env.WHISPEER_ENV === "development";
+const production = process.env.NODE_ENV === "production"
 
 const extractLess = new ExtractTextPlugin({
 	filename: "[name].[contenthash].css",
-	disable: development
+	disable: !production
 });
 
 
@@ -89,7 +90,7 @@ const entryPoint = (entry, angular) => {
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
-		filename: "commons.bundle.js",
+		filename: production ? "commons.[hash:7].js" : "commons.bundle.js",
 
 		minChunks: 2,
 		chunks: ["login", "register", "main", "recovery", "verifyMail"]
@@ -113,23 +114,23 @@ var plugins = [
 		openAnalyzer: false
 	}),
 	new WebpackBundleSizeAnalyzerPlugin("./report-size.txt"),
+	new SriPlugin({
+		hashFuncNames: ["sha256", "sha384"],
+		enabled: production,
+	}),
 	unusedFiles,
 	extractLess,
 ].concat(flatten(getHtmlPlugins()))
 
-var bail = false;
-var devtool = "cheap-inline-source-map";
-
-if (process.env.WHISPEER_ENV !== "development") {
-	bail = true;
-	devtool = "source-map";
+if (production) {
+	plugins.push(new webpack.HashedModuleIdsPlugin())
 }
 
-var config = {
+const config = {
 	context: path.resolve("./assets"),
 	plugins,
-	devtool,
-	bail,
+	devtool: production ? "source-map" : "cheap-inline-source-map",
+	bail: production,
 	resolve: {
 		modules: [
 			path.resolve("./assets/js"),
@@ -160,7 +161,7 @@ var config = {
 					}, {
 						loader: "postcss-loader",
 						options: {
-							ident: 'postcss',
+							ident: "postcss",
 							plugins: () => [
 								require("autoprefixer")()
 							]
@@ -195,9 +196,10 @@ var config = {
 		sales: entryPoint("sales/salesMain.ts", false)
 	},
 	output: {
+		crossOriginLoading: "anonymous",
 		path: path.resolve("./dist/assets"),
 		publicPath: "/assets",
-		filename: "[name].bundle.js"
+		filename: production ? "[name].[hash:7].js" : "[name].bundle.js"
 	}
 };
 

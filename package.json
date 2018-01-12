@@ -55,6 +55,7 @@
     "socket.io-client": "~2.0.0",
     "ts-loader": "^3.1.1",
     "webpack": "^3.8.1",
+    "webpack-subresource-integrity": "^1.0.3",
     "whatwg-fetch": "^2.0.1",
     "worker-loader": "^1.1.0"
   },
@@ -104,14 +105,15 @@
     "webpack-dev-middleware": "^2.0.2"
   },
   "scripts": {
-    "development": "npm-run-all --parallel build:static:watch serve",
+    "development": "npm-run-all --parallel static:watch serve",
     "serve": "wait-on static && node server.js",
-    "build": "grunt build:production",
     "test": "karma start --single-run --browsers PhantomJS",
     "lint": "eslint assets/js",
     "clean": "rimraf dist static",
     "lint:fix": "eslint --fix assets/js",
-    "build:static:watch": "npm run build:static -- --watch",
-    "build:static": "bundle exec jekyll build"
+    "static:watch": "npm run build:static -- --watch",
+    "build:static": "bundle exec jekyll build",
+    "build:webpack": "NODE_ENV=production webpack -p",
+    "build": "npm-run-all clean build:static build:webpack"
   }
 }
