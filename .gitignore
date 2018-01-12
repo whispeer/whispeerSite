@@ -28,7 +28,6 @@ codekit-config.json
 # dependencies
 
 node_modules/*
-assets/vendor
 staticRaw/_sass/normalize.scss
 staticRaw/_sass/font-awesome.scss
 assets/less/base/addons/font-awesome.less
