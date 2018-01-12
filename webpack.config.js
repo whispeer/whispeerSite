@@ -15,8 +15,6 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 			"**/*.md",
 			"**/*.markdown",
 			"build/*",
-			"crypto/sjclWorker.js",
-			"worker/worker.js",
 			"helper/helper.d.ts",
 			"helper/helper.js"
 		]

@@ -15,19 +15,6 @@ grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-clean");
 
 grunt.initConfig({
-	assetHash: {
-		bundles: [
-			"assets/js/build/commons.bundle.js",
-			"assets/js/build/login.bundle.js",
-			"assets/js/build/main.bundle.js",
-			"assets/js/build/register.bundle.js",
-			"assets/js/build/recovery.bundle.js",
-			"assets/js/build/verifyMail.bundle.js"
-		],
-		worker: [
-			"assets/js/build/worker.bundle.js",
-		]
-	},
 	includes: {
 		compile: {
 			scripts: ["commons.bundle", "main.bundle"],
@@ -175,13 +162,6 @@ grunt.initConfig({
 				"build",
 				"--watch"
 			]
-		},
-		webpackWorker: {
-			cmd: "webpack",
-			args: [
-				"--config",
-				"webpack.worker.config.js"
-			]
 		}
 	},
 	clean: {
@@ -198,24 +178,6 @@ grunt.task.registerTask("buildDate", function () {
 	var rootController = fs.readFileSync("./assets/js/config.js").toString();
 	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
 	fs.writeFileSync("./assets/js/config.js", rootController);
-});
-
-grunt.task.registerTask("workerInclude", function () {
-	var workerScriptPath = grunt.file.expand("assets/js/build/*.js").filter(function (script) {
-		return script.indexOf("worker") > -1;
-	})[0];
-
-	var environments = ["production", "staging"];
-
-	environments.forEach(function (environment) {
-		var path = "assets/js/conf/" + environment + ".config.json";
-
-		var conf = JSON.parse(grunt.file.read(path));
-
-		conf.workerScript = workerScriptPath;
-
-		grunt.file.write(path, JSON.stringify(conf, null, "	"));
-	});
 });
 
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
@@ -241,141 +203,6 @@ grunt.task.registerMultiTask("includes", "Add the correct script include to the 
 	});
 });
 
-function getCurrentCommitHash() {
-	var git = require("git-rev-sync");
-	return git.long();
-}
-
-grunt.task.registerTask("workerCache", "Write worker cache and commit sha", function () {
-	var cacheFiles = [
-		"assets/js/build/commons*",
-		"assets/js/build/main*",
-		"assets/js/build/login*",
-		"assets/js/build/worker*",
-	];
-
-	var preload = [
-		"assets/img/logo/grey.svg",
-		"assets/img/logo/white.svg",
-		"assets/img/logo/white_darker.svg",
-		"assets/data/newMessage.ogg",
-
-		"assets/css/style.css",
-		"index.html",
-		"assets/img/loader.gif",
-		"assets/img/user.png",
-		"assets/img/circle.png",
-
-		"assets/js/i18n/l_en.json",
-		"assets/js/i18n/l_de.json",
-
-		"assets/fonts/fontawesome-webfont.ttf?v=4.6.3",
-		"assets/fonts/fontawesome-webfont.woff2?v=4.6.3",
-		"assets/fonts/SourceSansPro-Semibold.ttf",
-		"assets/fonts/SourceSansPro-Regular.ttf",
-		"assets/img/favicons/favicon.png",
-
-		"en",
-		"de",
-		"en/loginframe/",
-		"de/loginframe/",
-
-		"assets/images/videoThumb.jpg",
-
-		"en/login",
-		"de/login",
-
-		"assets/views/directives/saveButton.html",
-
-		"assets/js/b2c.js",
-		"assets/css/b2c.css",
-		"assets/css/static.css",
-	];
-
-	var indexRedirects = [
-		//basic routes
-		"setup",
-		"backup",
-		"main",
-		"friends",
-		"acceptInvite",
-		"search",
-
-		//complex routes
-		"post",
-		"settings",
-		"invite",
-		"fund",
-		"logout",
-		"messages",
-		"circles",
-		"user"
-	];
-
-	var filesJSON = {
-		preload: preload.concat.apply(preload, cacheFiles.map(function (cacheFile) {
-			return grunt.file.expand(cacheFile);
-		})).map(function (cacheFile) {
-			return "/" + cacheFile;
-		}),
-		redirect: indexRedirects.map(function (redir) {
-			return {
-				from: "^/[^/]*/" + redir + "(\/.*)?$",
-				to: "index.html"
-			};
-		}).concat([
-			{
-				from: "^/en/$",
-				to: "/en"
-			},
-			{
-				from: "/de/$",
-				to: "/de"
-			}
-		])
-	};
-
-	grunt.file.write("assets/files.json", JSON.stringify(filesJSON));
-	grunt.file.write("assets/commit.sha", getCurrentCommitHash());
-});
-
-function sha1File(filename) {
-	var crypto = require("crypto");
-	var fs = require("fs");
-
-	return new Bluebird(function (resolve) {
-		var shasum = crypto.createHash("sha1");
-		var s = fs.ReadStream(filename);
-
-		s.on("data", function(d) {
-			shasum.update(d);
-		});
-
-		s.on("end", function() {
-			var hash = shasum.digest("hex");
-
-			resolve(hash);
-		});
-	});
-}
-
-grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to the hash", function () {
-	var done = this.async();
-
-	var fs = require("fs");
-
-	return Bluebird.resolve(this.data).map(function (filename) {
-		return sha1File(filename).then(function (hash) {
-			var newFileName = filename.replace(/\/([^\/]*).js/, "/$1-" + hash + ".js");
-
-			console.log("Renaming " + filename + " to " + newFileName);
-
-			fs.renameSync(filename, newFileName);
-		});
-	}).then(done);
-});
-
-
 grunt.registerTask("default", ["build:pre", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:pre", [
@@ -387,7 +214,6 @@ grunt.registerTask("build:pre", [
 
 grunt.registerTask("build:development", [
 	"build:pre",
-	"run:webpackWorker",
 	"run:webpack",
 	"includes",
 ]);
@@ -399,15 +225,9 @@ grunt.registerTask("build:production",  [
 	"less",
 	"autoprefixer",
 
-	"run:webpackWorker",
-	"assetHash:worker",
-	"workerInclude",
-
 	"run:webpackProduction",
-	"assetHash:bundles",
 
-	"includes",
-	"workerCache",
+	"includes"
 ]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
