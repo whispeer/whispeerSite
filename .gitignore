@@ -46,3 +46,4 @@ assets/js/build/*.js
 assets/js/build/*.js.map
 
 assets/js/i18n/companies
+dist

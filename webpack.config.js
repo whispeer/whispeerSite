@@ -5,15 +5,22 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
 const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"]
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
 const development = process.env.WHISPEER_ENV === "development";
 
 const extractLess = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: development
+	filename: "[name].[contenthash].css",
+	disable: development
 });
+
+
+const flatten = (arr) =>
+	arr.reduce((flat, toFlatten) =>
+		flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten)
+	, []);
 
 const unusedFiles = new UnusedFilesWebpackPlugin({
 	globOptions: {
@@ -29,6 +36,29 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 	}
 })
 
+const includes = [
+	{
+		chunks: ["commons", "main"],
+		sources: ["index.html"]
+	},
+	{
+		chunks: ["commons", "register"],
+		sources: ["static/en/register/index.html", "static/de/register/index.html"]
+	},
+	{
+		chunks: ["commons", "login"],
+		sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
+	},
+	{
+		chunks: ["commons", "recovery"],
+		sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
+	},
+	{
+		chunks: ["commons", "verifyMail"],
+		sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
+	}
+]
+
 const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
 
 const getSentryKey = () => {
@@ -41,11 +71,22 @@ const getSentryKey = () => {
 
 const packageJSON = require(path.resolve("package.json"))
 
+const getHtmlPlugins = () =>
+	includes.map(({ chunks, sources }) =>
+			sources.map((src) =>
+				new HtmlWebpackPlugin({
+					template: `../${src}`,
+					filename: `../${src.replace("static", "")}`,
+					chunks
+				})
+			)
+		)
+
 const entryPoint = (entry, angular) => {
 	return [
 		"es6-shim",
-		angular ? "./ravenConfigAngular.ts" : "./ravenConfig.ts",
-		entry,
+		angular ? "./js/ravenConfigAngular.ts" : "./js/ravenConfig.ts",
+		`./js/${entry}`,
 	]
 }
 
@@ -78,7 +119,7 @@ var plugins = [
 	new WebpackBundleSizeAnalyzerPlugin("./report-size.txt"),
 	unusedFiles,
 	extractLess,
-];
+].concat(flatten(getHtmlPlugins()))
 
 var bail = false;
 var devtool = "cheap-inline-source-map";
@@ -89,7 +130,7 @@ if (process.env.WHISPEER_ENV !== "development") {
 }
 
 var config = {
-	context: path.resolve("./assets/js"),
+	context: path.resolve("./assets"),
 	plugins,
 	devtool,
 	bail,
@@ -111,7 +152,7 @@ var config = {
 	},
 	module: {
 		rules: [
-			{ test: /\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
+			{ test: /views\/.*\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
 			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
 			{ test: /\.js$/, loader: "babel-loader", exclude: /(node_modules|bower_components)/ },
@@ -141,17 +182,17 @@ var config = {
 		]
 	},
 	entry: {
-		login: entryPoint("./login/loginMain.js", true),
-		register: entryPoint("./register/registerMain.js", true),
-		main: entryPoint("./main.js", true),
-		recovery: entryPoint("./recovery/recoveryMain.js", true),
-		verifyMail: entryPoint("./verifyMail/verifyMailMain.js", true),
-		token: entryPoint("./token/tokenMain.ts", false),
-		sales: entryPoint("./sales/salesMain.ts", false)
+		login: entryPoint("login/loginMain.js", true),
+		register: entryPoint("register/registerMain.js", true),
+		main: entryPoint("main.js", true),
+		recovery: entryPoint("recovery/recoveryMain.js", true),
+		verifyMail: entryPoint("verifyMail/verifyMailMain.js", true),
+		token: entryPoint("token/tokenMain.ts", false),
+		sales: entryPoint("sales/salesMain.ts", false)
 	},
 	output: {
-		path: path.resolve("./assets/js/build/"),
-		publicPath: "/assets/js/build/",
+		path: path.resolve("./dist/assets"),
+		publicPath: "/assets",
 		filename: "[name].bundle.js"
 	}
 };
