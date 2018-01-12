@@ -4,8 +4,16 @@ const webpack = require("webpack")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
 const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"]
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
+
+const development = process.env.WHISPEER_ENV === "development";
+
+const extractLess = new ExtractTextPlugin({
+    filename: "[name].[contenthash].css",
+    disable: development
+});
 
 const unusedFiles = new UnusedFilesWebpackPlugin({
 	globOptions: {
@@ -69,6 +77,7 @@ var plugins = [
 	}),
 	new WebpackBundleSizeAnalyzerPlugin("./report-size.txt"),
 	unusedFiles,
+	extractLess,
 ];
 
 var bail = false;
@@ -97,6 +106,7 @@ var config = {
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
+			whispeerStyle: path.resolve(__dirname, `./assets/less/${process.env.WHISPEER_BUSINESS ? "business" : "style"}.less`),
 		}
 	},
 	module: {
@@ -105,6 +115,24 @@ var config = {
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
 			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
 			{ test: /\.js$/, loader: "babel-loader", exclude: /(node_modules|bower_components)/ },
+			{
+				test: /\.less$/,
+				use: extractLess.extract({
+					use: [{
+						loader: "css-loader" // translates CSS into CommonJS
+					}, {
+						loader: "less-loader" // compiles Less to CSS
+					}],
+					fallback: "style-loader" // creates style nodes from JS strings
+				})
+			},
+			{
+				test: /\.(png|jpg|gif|svg|woff|woff2|ttf|eot)$/,
+				use: [{
+					loader: "file-loader",
+					options: {}
+				}]
+			}
 		],
 		noParse: [
 			/sjcl\.js$/,
