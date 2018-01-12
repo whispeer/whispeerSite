@@ -10,7 +10,6 @@ grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
-grunt.loadNpmTasks("grunt-contrib-clean");
 
 grunt.initConfig({
 	includes: {
@@ -37,7 +36,7 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch", "run:jekyllWatch"],
+			tasks: ["run:serve", "watch", "run:jekyllWatch"],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -142,6 +141,13 @@ grunt.initConfig({
 				"clean"
 			]
 		},
+		serve: {
+			cmd: "npm",
+			args: [
+				"run",
+				"serve"
+			]
+		},
 		webpackProduction: {
 			cmd: "webpack",
 			args: [
@@ -200,5 +206,3 @@ grunt.registerTask("build:production",  [
 
 	"includes"
 ]);
-
-grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
