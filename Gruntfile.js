@@ -1,20 +1,11 @@
 "use strict";
 
-var grunt = require("grunt");
+const grunt = require("grunt");
 
 grunt.loadNpmTasks("grunt-contrib-copy");
-grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
 
 grunt.initConfig({
-	concurrent: {
-		development: {
-			tasks: ["run:serve", "run:jekyllWatch"],
-			options: {
-				logConcurrentOutput: true
-			}
-		}
-	},
 	copy: {
 		vendor: {
 			files: [
@@ -79,10 +70,11 @@ grunt.initConfig({
 				"clean"
 			]
 		},
-		serve: {
+		development: {
 			cmd: "npm",
 			args: [
-				"start"
+				"run",
+				"development"
 			]
 		},
 		webpackProduction: {
@@ -91,17 +83,10 @@ grunt.initConfig({
 				"-p"
 			]
 		},
-		jekyllWatch: {
-			cmd: "npm",
-			args: [
-				"run",
-				"build:static:watch",
-			]
-		}
 	}
 })
 
-grunt.registerTask("default", ["build:pre", "concurrent:development"]);
+grunt.registerTask("default", ["run:development"]);
 
 grunt.registerTask("build:pre", [
 	"run:clean",

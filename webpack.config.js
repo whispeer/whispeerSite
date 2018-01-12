@@ -30,9 +30,11 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 			"**/*.json",
 			"**/*.md",
 			"**/*.markdown",
-			"build/*",
-			"helper/helper.d.ts",
-			"helper/helper.js"
+			"js/helper/helper.d.ts",
+			"js/helper/helper.js",
+			"less/**/*",
+			"img/**/*",
+			"fonts/**/*",
 		]
 	}
 })
