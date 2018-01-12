@@ -6,6 +6,7 @@ const WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").
 const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"]
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const fs = require("fs")
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
@@ -36,28 +37,14 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 	}
 })
 
-const includes = [
-	{
-		chunks: ["commons", "main"],
-		sources: ["index.html"]
-	},
-	{
-		chunks: ["commons", "register"],
-		sources: ["static/postprocess/en/register/index.html", "static/postprocess/de/register/index.html"]
-	},
-	{
-		chunks: ["commons", "login"],
-		sources: ["static/postprocess/en/loginframe/index.html", "static/postprocess/de/loginframe/index.html", "static/postprocess/en/login/index.html", "static/postprocess/de/login/index.html"]
-	},
-	{
-		chunks: ["commons", "recovery"],
-		sources: ["static/postprocess/en/recovery/index.html", "static/postprocess/de/recovery/index.html"]
-	},
-	{
-		chunks: ["commons", "verifyMail"],
-		sources: ["static/postprocess/en/verifyMail/index.html", "static/postprocess/de/verifyMail/index.html"]
-	}
-]
+const staticIncludes = {
+	register: "register",
+	login: "login",
+	loginframe: "login",
+	recovery: "recovery",
+	verifyMail: "verifyMail",
+	token: "token"
+}
 
 const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
 
@@ -71,16 +58,22 @@ const getSentryKey = () => {
 
 const packageJSON = require(path.resolve("package.json"))
 
+const staticPath = "static/postprocess"
+
 const getHtmlPlugins = () =>
-	includes.map(({ chunks, sources }) =>
-			sources.map((src) =>
-				new HtmlWebpackPlugin({
-					template: `../${src}`,
-					filename: `../${src.replace("static/postprocess/", "")}`,
-					chunks
-				})
-			)
-		)
+	fs.readdirSync(`${staticPath}/de`).map((dir) => {
+		if (!staticIncludes[dir]) {
+			throw new Error(`No postprocess for static dir ${dir}`)
+		}
+
+		const path = `${dir}/index.html`
+		const chunks = ["commons", staticIncludes[dir]]
+
+		return [
+			new HtmlWebpackPlugin({ template: `../${staticPath}/de/${path}`, filename: `../de/${path}`, chunks }),
+			new HtmlWebpackPlugin({ template: `../${staticPath}/en/${path}`, filename: `../en/${path}`, chunks })
+		]
+	}).concat(new HtmlWebpackPlugin({ template: "../index.html", filename: "../index.html", chunks: ["commons", "main"] }))
 
 const entryPoint = (entry, angular) => {
 	return [

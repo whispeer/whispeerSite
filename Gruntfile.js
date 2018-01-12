@@ -106,12 +106,10 @@ grunt.initConfig({
 			]
 		},
 		jekyllWatch: {
-			cmd: "bundle",
+			cmd: "npm",
 			args: [
-				"exec",
-				"jekyll",
-				"build",
-				"--watch"
+				"run",
+				"jekyll:watch",
 			]
 		}
 	}

@@ -105,10 +105,12 @@
     "webpack-dev-middleware": "^2.0.2"
   },
   "scripts": {
-    "build": "grunt build:development",
+    "build": "grunt build:production",
     "test": "karma start --single-run --browsers PhantomJS",
     "lint": "eslint assets/js",
-    "clean": "rimraf assets/js/build/*.js manifest.mf assets/commit.sha assets/files.json",
-    "lint:fix": "eslint --fix assets/js"
+    "clean": "rimraf dist static",
+    "lint:fix": "eslint --fix assets/js",
+    "build:static:watch": "npm run build:static -- --watch",
+    "build:static": "bundle exec jekyll build"
   }
 }

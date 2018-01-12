@@ -1,3 +1,4 @@
+const fs = require("fs")
 const express = require("express");
 const webpack = require("webpack");
 const webpackConfig = require("./webpack.config.js");
@@ -22,11 +23,9 @@ const angular = [
 	"search",
 ]
 
-const ownIndexFile = [
-	"recovery",
-	"token",
-	"verifyMail"
-]
+const staticPath = "static/postprocess"
+
+const ownIndexFile = fs.readdirSync(`${staticPath}/de`)
 
 const log = (line) => {
 	console.log(line)
