@@ -48,7 +48,7 @@ var plugins = [
 		names: "commons",
 		filename: "commons.bundle.js",
 
-		minChunks: 2,
+		minChunks: module => /node_modules/.test(module.resource),
 		chunks: ["login", "register", "main", "recovery", "verifyMail"]
 	}),
 	new webpack.optimize.MinChunkSizePlugin({
