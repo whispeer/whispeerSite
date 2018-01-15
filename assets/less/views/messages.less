@@ -77,7 +77,7 @@
 			left: 0;
 			bottom: 0;
 
-			overflow-y: scroll;
+			overflow-y: auto;
 			overflow-x: hidden;
 
 			// nice scrolling for iOS.
@@ -199,6 +199,10 @@
 			bottom: 0;
 			right: 0;
 			left: 0;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 		}
 
 		.newMessage .search-wrapper {
@@ -209,6 +213,8 @@
 
 		#messageWrap {
 			height: 100%;
+			display: flex;
+			flex-direction: column;
 			// this makes absolute positioned elements adopt the padding.
 			position: relative;
 		}
@@ -220,13 +226,9 @@
 		#messageList {
 			width: 100%;
 			overflow-x: hidden;
-			overflow-y: scroll;
+			overflow-y: auto;
 
-			// this is for well-behaving w/ the form at the bottom.
-			position: absolute;
-			top: 0;
-			bottom: (@form-height + 2 * @form-margin);
-			left: 0;
+			flex-grow: 1;
 			margin: 0;
 			padding: 0;
 
@@ -399,9 +401,7 @@
 
 		#inputWrap { // this is the form
 			display: block;
-			position: absolute;
 			width: ~"calc(100% + 2px)";
-			bottom: 0;
 			margin-bottom: @form-margin;
 			margin-left: -1px;
 
