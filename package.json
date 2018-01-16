@@ -75,9 +75,6 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "git-rev-sync": "^1.4.0",
-    "grunt": "~1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-run": "^0.6.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.30.1",
     "jasmine": "^2.4.1",
@@ -114,6 +111,10 @@
     "static:watch": "npm run build:static -- --watch",
     "build:static": "bundle exec jekyll build",
     "build:webpack": "NODE_ENV=production webpack -p",
-    "build": "npm-run-all clean build:static build:webpack"
+    "build": "npm-run-all clean build:static build:webpack",
+    "copy": "npm-run-all copy:*",
+    "copy:fontAwesome": "cp node_modules/font-awesome/css/font-awesome.min.css staticRaw/_sass/font-awesome.scss",
+    "copy:fonts": "cp -r node_modules/font-awesome/fonts/ assets/fonts/",
+    "copy:normalize": "cp node_modules/normalize.css/normalize.css staticRaw/_sass/normalize.scss"
   }
 }
