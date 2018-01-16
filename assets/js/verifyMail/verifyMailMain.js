@@ -1,5 +1,4 @@
-window.startup = new Date().getTime();
-window.globalErrors = [];
+window.startup = new Date().getTime()
 
 window.jQuery = require("jquery");
 

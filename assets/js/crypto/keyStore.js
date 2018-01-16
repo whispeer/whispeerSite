@@ -33,6 +33,7 @@ var ObjectHasher = require("crypto/objectHasher");
 var errors = require("asset/errors");
 var Bluebird = require("bluebird");
 var debug = require("debug");
+var Raven = require("raven-js")
 
 var keyStoreDebug = debug("whispeer:keyStore");
 
@@ -360,7 +361,7 @@ Key = function keyConstructor(superKey, realid, decryptors, optionals) {
 				preSecret = internalSecret;
 				internalSecret = pastProcessedSecret;
 			}).catch(function (err) {
-				globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+				Raven.captureException(err || { err: "internaldecryptor returned false for realid: " + realid });
 				keyStoreDebug(err);
 				keyStoreDebug("decryptor failed for key: " + realid);
 
