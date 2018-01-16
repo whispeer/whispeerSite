@@ -8,13 +8,14 @@ const UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const SriPlugin = require("webpack-subresource-integrity")
+const WebpackSHAHash = require("webpack-sha-hash")
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
 const production = process.env.NODE_ENV === "production"
 
 const extractLess = new ExtractTextPlugin({
-	filename: "[name].[contenthash].css",
+	filename: "[name].[chunkhash:8].css",
 	disable: !production
 });
 
@@ -90,7 +91,7 @@ const entryPoint = (entry, angular) => {
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
-		filename: production ? "commons.[hash:7].js" : "commons.bundle.js",
+		filename: production ? "commons.[chunkhash:8].js" : "commons.bundle.js",
 
 		minChunks: 2,
 		chunks: ["login", "register", "main", "recovery", "verifyMail"]
@@ -118,6 +119,7 @@ var plugins = [
 		hashFuncNames: ["sha256", "sha384"],
 		enabled: production,
 	}),
+	new WebpackSHAHash(),
 	unusedFiles,
 	extractLess,
 ].concat(flatten(getHtmlPlugins()))
@@ -199,7 +201,7 @@ const config = {
 		crossOriginLoading: "anonymous",
 		path: path.resolve("./dist/assets"),
 		publicPath: "/assets",
-		filename: production ? "[name].[hash:7].js" : "[name].bundle.js"
+		filename: production ? "[name].[chunkhash:8].js" : "[name].bundle.js"
 	}
 };
 

@@ -20,11 +20,6 @@
     "iOS > 7"
   ],
   "dependencies": {
-    "@types/bluebird": "=3.0.36",
-    "@types/jquery": "^2.0.39",
-    "@types/node": "^6.0.52",
-    "@types/socket.io-client": "^1.4.29",
-    "@types/webpack": "^2.0.0",
     "amanda": "~0.4.7",
     "angular": "1.6.5",
     "angular-touch": "1.6.5",
@@ -33,7 +28,6 @@
     "blueimp-load-image": "~2.6.2",
     "debug": "~2.6.7",
     "deepmerge": "^1.3.0",
-    "dexie": "~1.4.2",
     "emoji-js": "^3.2.2",
     "es6-shim": "^0.35.3",
     "exports-loader": "^0.6.3",
@@ -42,8 +36,6 @@
     "imports-loader": "^0.6.5",
     "jquery": "~3.1.0",
     "json-loader": "^0.5.4",
-    "lazy": "^1.0.11",
-    "node-static": "0.7.x",
     "normalize.css": "^4.2.0",
     "progressbar.js": "^1.0.1",
     "qtip2": "~2.2.0",
@@ -61,6 +53,11 @@
   },
   "devDependencies": {
     "@sentry/cli": "^1.26.1",
+    "@types/bluebird": "=3.0.36",
+    "@types/jquery": "^2.0.39",
+    "@types/node": "^6.0.52",
+    "@types/socket.io-client": "^1.4.29",
+    "@types/webpack": "^2.0.0",
     "autoprefixer": "^7.2.5",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
@@ -99,7 +96,8 @@
     "wait-on": "^2.1.0",
     "webpack-bundle-analyzer": "^2.6.0",
     "webpack-bundle-size-analyzer": "^2.6.0",
-    "webpack-dev-middleware": "^2.0.2"
+    "webpack-dev-middleware": "^2.0.2",
+    "webpack-sha-hash": "^2.0.0"
   },
   "scripts": {
     "development": "npm-run-all --parallel static:watch serve",
@@ -108,10 +106,11 @@
     "lint": "eslint assets/js",
     "clean": "rimraf dist static",
     "lint:fix": "eslint --fix assets/js",
+    "less:static": "lessc assets/less/static.less dist/assets/static.css",
     "static:watch": "npm run build:static -- --watch",
     "build:static": "bundle exec jekyll build",
     "build:webpack": "NODE_ENV=production webpack -p",
-    "build": "npm-run-all clean build:static build:webpack",
+    "build": "npm-run-all clean copy build:static build:webpack",
     "copy": "npm-run-all copy:*",
     "copy:fontAwesome": "cp node_modules/font-awesome/css/font-awesome.min.css staticRaw/_sass/font-awesome.scss",
     "copy:fonts": "cp -r node_modules/font-awesome/fonts/ assets/fonts/",
