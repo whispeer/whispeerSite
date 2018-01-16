@@ -6,7 +6,7 @@ title: Impressum
 ### Angaben gemäß § 5 TMG:
 mindpost GmbH<br>
 Handelsregister: AG Charlottenburg, HRB 162914 B<br>
-Geschäftsführer: Nils Kenneweg, Sebastian Reck
+Geschäftsführer: Nils Thenhausen, Sebastian Reck
 
 ### Anschrift
 Schmargendorfer Straße 34<br>

@@ -93,7 +93,7 @@ var plugins = [
 		names: "commons",
 		filename: production ? "commons.[chunkhash:8].js" : "commons.bundle.js",
 
-		minChunks: 2,
+		minChunks: module => /node_modules/.test(module.resource),
 		chunks: Object.keys(staticIncludes).concat(["main"])
 	}),
 	new webpack.optimize.MinChunkSizePlugin({

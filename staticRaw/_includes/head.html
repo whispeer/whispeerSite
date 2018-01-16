@@ -27,4 +27,7 @@
 <!-- End Meta -->
 
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: 'https://whispeer.de' }}">
-<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
+
+{% if include.business != true %}
+	{% include favicons.html %}
+{% endif %}

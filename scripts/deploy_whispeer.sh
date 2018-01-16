@@ -1,19 +1,21 @@
 #!/bin/bash
 set -e
 
-if [[ -z "${SENTRY_KEY_PROD}" ]]; then
-	echo "SENTRY_KEY_PROD not set. Exiting build"
-	exit 1
-fi
+if [[ "${WHISPEER_ENV}" == "production" ]]; then
+	if [[ -z "${SENTRY_KEY_PROD}" ]]; then
+		echo "SENTRY_KEY_PROD not set. Exiting build"
+		exit 1
+	fi
 
-if [[ -z "${SENTRY_KEY_BUSINESS}" ]]; then
-	echo "SENTRY_KEY_BUSINESS not set. Exiting build"
-	exit 1
-fi
+	if [[ -z "${SENTRY_KEY_BUSINESS}" ]]; then
+		echo "SENTRY_KEY_BUSINESS not set. Exiting build"
+		exit 1
+	fi
 
-if [[ -z "${SENTRY_AUTH_TOKEN}" ]]; then
-	echo "SENTRY_AUTH_TOKEN not set. Exiting build"
-	exit 1
+	if [[ -z "${SENTRY_AUTH_TOKEN}" ]]; then
+		echo "SENTRY_AUTH_TOKEN not set. Exiting build"
+		exit 1
+	fi
 fi
 
 set -x
@@ -57,14 +59,16 @@ cp -r ./assets ../b2b
 cp -r ./static ../b2b
 cp -r ./node_modules/bluebird/js/browser ../b2b/assets/bluebird
 
-# upload sourcemaps to sentry
-VERSION=$(./scripts/getVersion.js)
+if [[ "${WHISPEER_ENV}" == "production" ]]; then
+	# upload sourcemaps to sentry
+	VERSION=$(./scripts/getVersion.js)
 
-sentry-cli releases -o sentry -p web new "$VERSION"
-sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
+	sentry-cli releases -o sentry -p web new "$VERSION"
+	sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
 
-sentry-cli releases -o sentry -p web-business new "$VERSION"
-sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
+	sentry-cli releases -o sentry -p web-business new "$VERSION"
+	sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
+fi
 
 # copy company extensions
 cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
