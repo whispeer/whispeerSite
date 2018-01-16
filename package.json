@@ -103,16 +103,21 @@
   "scripts": {
     "development": "npm-run-all --parallel static:watch less:static:watch serve",
     "serve": "wait-on static && node server.js",
+
     "test": "karma start --single-run --browsers PhantomJS",
+
     "lint": "eslint assets/js",
     "clean": "rimraf dist static",
     "lint:fix": "eslint --fix assets/js",
+
     "less:static": "lessc --include-path=node_modules assets/less/static.less staticRaw/assets/css/static.css",
     "less:static:watch": "watch 'npm run less:static' assets/less",
+
     "static:watch": "npm run build:static -- --watch",
     "build:static": "bundle exec jekyll build",
     "build:webpack": "NODE_ENV=production webpack -p",
     "build": "npm-run-all clean copy build:static build:webpack",
+
     "copy": "npm-run-all copy:*",
     "copy:fontAwesome": "cp node_modules/font-awesome/css/font-awesome.min.css staticRaw/_sass/font-awesome.scss",
     "copy:fonts": "cp -r node_modules/font-awesome/fonts/ assets/fonts/",
