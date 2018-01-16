@@ -146,7 +146,7 @@ const config = {
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
-			whispeerStyle: path.resolve(__dirname, `./assets/less/${process.env.WHISPEER_BUSINESS ? "business" : "style"}.less`),
+			whispeerStyle: path.resolve(__dirname, `./assets/less/${process.env.WHISPEER_BUSINESS ? "business" : "style"}.less`), //eslint-disable-line no-undef
 		}
 	},
 	module: {
