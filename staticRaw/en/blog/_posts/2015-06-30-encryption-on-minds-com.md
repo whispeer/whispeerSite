@@ -1,7 +1,7 @@
 ---
 title: Encryption on minds.com
 layout: blogarticle
-author: Nils Kenneweg
+author: Nils Thenhausen
 authorMail: nils@whispeer.de
 ---
 

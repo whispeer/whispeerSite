@@ -1,7 +1,6 @@
 "use strict";
 
 window.startup = new Date().getTime();
-window.globalErrors = [];
 
 const $ = require("jquery")
 const angular = require("angular")
