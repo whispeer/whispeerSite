@@ -6,7 +6,7 @@ title: Site notice
 ### Angaben gemäß § 5 TMG:
 mindpost GmbH<br>
 Register: AG Charlottenburg, HRB 162914 B<br>
-Director: Nils Kenneweg, Sebastian Reck
+Director: Nils Thenhausen, Sebastian Reck
 
 ### Address
 Schmargendorfer Straße 34<br>
