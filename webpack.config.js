@@ -94,7 +94,7 @@ var plugins = [
 		filename: production ? "commons.[chunkhash:8].js" : "commons.bundle.js",
 
 		minChunks: 2,
-		chunks: ["login", "register", "main", "recovery", "verifyMail"]
+		chunks: Object.keys(staticIncludes).concat(["main"])
 	}),
 	new webpack.optimize.MinChunkSizePlugin({
 		minChunkSize: 2048
