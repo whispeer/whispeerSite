@@ -4,15 +4,15 @@ import h from "../helper/helper"
 import Progress from "../asset/Progress"
 import blobService, { BlobType, unpath } from "./blobService"
 import blobCache from "../asset/blobCache"
-var Queue = require("asset/Queue");
+import Queue from '../asset/Queue'
+
+import { queue as fileTransferQueue } from './fileTransferQueue'
 
 const defaultUploadOptions = {
 	encrypt: true,
 	extraInfo: {}
 }
 
-const uploadQueue = new Queue(3);
-uploadQueue.start();
 
 const encryptionQueue = new Queue(500 * 1000);
 encryptionQueue.start();
@@ -53,7 +53,7 @@ class FileUpload {
 			throw new Error("usage error: prepare was not called!")
 		}
 
-		return uploadQueue.enqueue(1, () => {
+		return fileTransferQueue.enqueue(1, () => {
 			console.info("Uploading blob")
 			if (this.options.encrypt) {
 				return this.uploadAndEncryptPreparedBlob(encryptionKey, this.blob)

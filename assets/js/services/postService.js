@@ -7,7 +7,7 @@ var h = require("whispeerHelper").default;
 var Promise = require("bluebird");
 var validator = require("validation/validator");
 var Observer = require("asset/observer");
-var SecuredData = require("asset/securedDataWithMetaData");
+var SecuredData = require("../asset/securedDataWithMetaData").default
 var State = require("asset/state");
 
 var socket = require("services/socket.service").default;

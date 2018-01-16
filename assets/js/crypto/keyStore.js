@@ -1144,7 +1144,7 @@ SignKey = function (keyData) {
 				throw new errors.SecurityError("Private Actions are blocked (sign)");
 			}
 
-			var trustManager = require("./trustManager");
+			var trustManager = require("../crypto/trustManager").default;
 			var signatureCache = require("./signatureCache");
 
 			return Bluebird.try(function () {
@@ -1251,7 +1251,7 @@ SignKey = function (keyData) {
 
 	this.getFingerPrint = getFingerPrintF;
 	this.verify = function (signature, text, type, id) {
-		var trustManager = require("./trustManager");
+		var trustManager = require("../crypto/trustManager").default;
 		var signatureCache = require("./signatureCache");
 		var name = chelper.bits2hex(signature).substr(0, 10);
 

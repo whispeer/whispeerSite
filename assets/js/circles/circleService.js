@@ -4,7 +4,7 @@
 
 const h = require("../helper/helper").default;
 const Observer = require("asset/observer");
-const SecuredData = require("asset/securedDataWithMetaData");
+const SecuredData = require("../asset/securedDataWithMetaData").default;
 const Bluebird = require("bluebird");
 
 const socket = require("services/socket.service").default;
@@ -63,7 +63,7 @@ var Circle = function (data) {
 	};
 
 	this.remove = function (cb) {
-		return settingsService.privacy.removeCircle().then(function () {
+		return settingsService.removeCircle().then(function () {
 			return socket.emit("circle.delete", {
 				remove: {
 					circleid: id

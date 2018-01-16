@@ -1,6 +1,6 @@
 "use strict";
 
-const WorkerQueue = require("../worker/worker-queue");
+const WorkerPool = require("../worker/worker-pool");
 const bluebird = require("bluebird");
 const chelper = require("crypto/minimalHelper");
 const config = require("config");
@@ -46,7 +46,7 @@ if (navigator.hardwareConcurrency) {
 }
 
 //Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-var workers = new WorkerQueue(bluebird, workerCount, {
+var workers = new WorkerPool(bluebird, workerCount, {
 	setupMethod: addEntropy,
 	workerScriptOverride: config.workerScript || false
 });

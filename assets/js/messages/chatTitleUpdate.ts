@@ -1,4 +1,4 @@
-var SecuredData = require("asset/securedDataWithMetaData");
+import { SecuredData } from "../asset/securedDataWithMetaData"
 import h from "../helper/helper"
 
 export default class TopicUpdate {
@@ -12,7 +12,7 @@ export default class TopicUpdate {
 			meta = meta;
 
 		this._id = server.id;
-		this.securedData = SecuredData.createRaw(content, meta, { type: "topicUpdate" });
+		this.securedData = new SecuredData(content, meta, { type: "topicUpdate" }, true)
 		this.userID = meta.userID;
 
 		this.state = {
