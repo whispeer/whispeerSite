@@ -4,7 +4,6 @@
 	<base href="/" />
 	<meta charset="utf-8">
 
-	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 	{% if include.realStyle == true %}
 		<link rel="stylesheet" href="assets/css/style.css">
@@ -12,4 +11,6 @@
 		<link rel="stylesheet" href="assets/css/static.css">
 	{% endif %}
 	<title>whispeer{%if page.title%} - {{page.title}}{%endif%}</title>
+
+	{% include favicons.html %}
 </head>
