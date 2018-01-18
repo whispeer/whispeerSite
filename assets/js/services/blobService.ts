@@ -22,7 +22,7 @@ import socketService from "./socket.service"
 import BlobDownloader from "./blobDownloader.service"
 
 const initService = require("services/initService");
-const Queue = require("asset/Queue");
+import Queue from "../asset/Queue"
 const keyStore = require("crypto/keyStore");
 
 const knownBlobURLs = {};
