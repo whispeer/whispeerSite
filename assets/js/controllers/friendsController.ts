@@ -1,21 +1,15 @@
-/**
-* friendsController
-**/
-
-var cssService = require("services/css.service").default;
+import cssService from "../services/css.service"
 var friendsService = require("services/friendsService");
 var localize = require("i18n/localizationConfig");
-var userService = require("users/userService").default;
+import userService from "../users/userService"
 
-"use strict";
-
-const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
 
-function friendsController($scope)  {
+const friendsController: any = ($scope) => {
 	cssService.setClass("friendsView");
 	$scope.friends = [];
 	$scope.requests = [];
+	$scope.colleagues = []
 	$scope.friendsLoading = true;
 	$scope.friendsFilter = {
 		name: ""
@@ -28,22 +22,16 @@ function friendsController($scope)  {
 	};
 
 	function loadFriendsUsers() {
-		return Bluebird.try(function () {
-			var friends = friendsService.getFriends();
-			return userService.getMultipleFormatted(friends);
-		}).then(function (result) {
-			$scope.friends = result;
-			$scope.friendsLoading = false;
-		});
+		return userService.getMultipleFormatted(friendsService.getFriends())
+			.then((result) => {
+				$scope.friends = result;
+				$scope.friendsLoading = false;
+			})
 	}
 
 	function loadRequestsUsers() {
-		return Bluebird.try(function () {
-			var requests = friendsService.getRequests();
-			return userService.getMultipleFormatted(requests);
-		}).then(function (result) {
-			$scope.requests = result;
-		});
+		return userService.getMultipleFormatted(friendsService.getRequests())
+			.then((result) => $scope.requests = result)
 	}
 
 	friendsService.awaitLoading().then(function () {
@@ -62,6 +50,4 @@ function friendsController($scope)  {
 	};
 }
 
-friendsController.$inject = ["$scope"];
-
-controllerModule.controller("ssn.friendsController", friendsController);
+controllerModule.controller("ssn.friendsController", ["$scope", friendsController]);
