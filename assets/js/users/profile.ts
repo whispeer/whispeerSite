@@ -1,6 +1,6 @@
 import h from "../helper/helper";
 const validator = require("validation/validator");
-const SecuredData = require("asset/securedDataWithMetaData")
+import SecuredDataApi, { SecuredData } from "../asset/securedDataWithMetaData"
 
 import * as Bluebird from "bluebird"
 import ObjectLoader from "../services/cachedObjectLoader"
@@ -30,7 +30,7 @@ export default class Profile extends Observer {
 
 		this.isPublicProfile = options.isPublicProfile === true;
 
-		this.securedData = SecuredData.createRaw(data.content, data.meta, PROFILE_SECUREDDATA_OPTIONS);
+		this.securedData = new SecuredData(data.content, data.meta, PROFILE_SECUREDDATA_OPTIONS, true);
 
 		this.checkProfile();
 
@@ -73,7 +73,7 @@ export default class Profile extends Observer {
 			throw new Error("no encrypt for public profiles!");
 		}
 
-		return this.securedData._signAndEncrypt(signKey, cryptKey)
+		return this.securedData.signAndEncrypt(signKey, cryptKey)
 	};
 
 	updated = () => {
@@ -124,8 +124,8 @@ export class ProfileLoader extends ObjectLoader<Profile, ProfileCache>({
 	load: ({ content, meta, isPublic, signKey }): Bluebird<ProfileCache> => {
 
 		const securedData = isPublic ?
-			SecuredData.createRaw(content, meta, PROFILE_SECUREDDATA_OPTIONS) :
-			SecuredData.load(content, meta, PROFILE_SECUREDDATA_OPTIONS)
+			new SecuredData(content, meta, PROFILE_SECUREDDATA_OPTIONS, true) :
+			SecuredDataApi.load(content, meta, PROFILE_SECUREDDATA_OPTIONS)
 
 		return Bluebird.all([
 			securedData.verifyAsync(signKey),

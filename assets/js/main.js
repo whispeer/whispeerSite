@@ -1,7 +1,6 @@
 "use strict";
 
 window.startup = new Date().getTime();
-window.globalErrors = [];
 
 const $ = require("jquery")
 const angular = require("angular")
@@ -17,7 +16,7 @@ Bluebird.config({
 	monitoring: false
 })
 
-require("config/routesConfig")
+require("./config/routesConfig")
 require("i18n/localizationConfig")
 
 require("asset/toBlobPolyfill")

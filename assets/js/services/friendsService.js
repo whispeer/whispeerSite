@@ -4,7 +4,7 @@
 
 var h = require("../helper/helper").default;
 var Observer = require("asset/observer");
-var SecuredData = require("asset/securedDataWithMetaData");
+var SecuredData = require("../asset/securedDataWithMetaData").default;
 var Bluebird = require("bluebird");
 
 var socket = require("services/socket.service").default;

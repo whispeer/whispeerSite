@@ -1,22 +1,30 @@
 import * as Bluebird from "bluebird";
 
-import CacheServiceType from "./Cache";
-import socketService from "./socket.service";
-
 import CacheService from './Cache';
 
-import { errorServiceInstance } from "./error.service";
+import SecuredDataApi from "../asset/securedDataWithMetaData"
+const errors = require("asset/errors");
 import sessionService from "./session.service";
 
 const initService = require("services/initService");
 
-import h from "../helper/helper";
-const trustManager = require("crypto/trustManager");
+import trustManager, {
+	trustSet,
+	trustStates,
+
+	transformLegacy,
+	TrustStore,
+	userToDataSet,
+	TRUST_SECURED_OPTIONS,
+} from "../crypto/trustManager"
+import MutableObjectLoader, { SYMBOL_UNCHANGED } from "../services/mutableObjectLoader"
+import socketService from "../services/socket.service";
+import userService from "../users/userService"
 const signatureCache = require("crypto/signatureCache");
 
 const debug = require("debug");
 
-const THROTTLE = 20, STORESIGNATURECACHEINTERVAL = 30000;
+const STORESIGNATURECACHEINTERVAL = 30000;
 
 const debugName = "whispeer:trustService";
 const trustServiceDebug = debug(debugName);
@@ -33,50 +41,51 @@ function timeEnd(name: string) {
 	}
 }
 
-let resolveOwnKeys, resolveOwnUser
+const loadTrustInfo = (data) => {
+	return userService.getOwnAsync().then((ownUser) => {
+		const ownKey = ownUser.getSignKey()
+		if (!data) {
+			const userid = ownUser.getID()
+			const nickname = ownUser.getNickname()
 
-const ownKeysPromise = new Bluebird((resolve) => resolveOwnKeys = resolve)
-const ownUserPromise = new Bluebird<any>((resolve) => resolveOwnUser = resolve)
+			return {
+				nicknames: {
+					[nickname]: ownKey
+				},
+				ids: {
+					[userid]: ownKey
+				},
+				me: ownKey,
+				keys: {
+					[ownKey]: userToDataSet({ key: ownKey, userid, nickname }, trustStates.OWN)
+				},
+				signature: ""
+			}
+		}
+
+		if (data.me !== ownKey) {
+			throw new errors.SecurityError("not my trust database");
+		}
+
+		const givenDatabase = SecuredDataApi.load(undefined, data, TRUST_SECURED_OPTIONS);
+		return givenDatabase.verifyAsync(ownKey, "user")
+			.then(() => transformLegacy(givenDatabase.metaGet()))
+	})
+}
+
+const signatureCacheObject = new CacheService("signatureCache");
 
 class TrustService {
-	private signatureCacheObject: CacheServiceType;
-	private trustManagerCache: CacheServiceType;
-
-	private delay: any;
-
-	private loadCachePromise = Bluebird.resolve();
-
 	constructor() {
-		this.signatureCacheObject = new CacheService("signatureCache");
-		this.trustManagerCache = new CacheService("trustManager.get");
-
-		this.delay = h.aggregateOnce(THROTTLE, this.uploadDatabase);
 		window.setInterval(this.storeSignatureCache, STORESIGNATURECACHEINTERVAL);
 
-		initService.get("trustManager.get", this.onInit, {
-			cacheCallback: this.loadFromCache,
-			cache: true
-		});
-
-		socketService.channel("notify.trustManager", function (_e: any, data: any) {
-			trustManager.updateDatabase(data, errorServiceInstance.criticalError);
-		});
-
 		this.waitForLogin();
-	}
-
-	ownKeysLoaded() {
-		resolveOwnKeys()
-	}
-
-	ownUserLoaded(user) {
-		resolveOwnUser(user)
 	}
 
 	private waitForLogin() {
 		sessionService.awaitLogin().then(() => {
 			time("getSignatureCache");
-			return this.signatureCacheObject.get(sessionService.getUserID().toString()).catch(function () {
+			return signatureCacheObject.get(sessionService.getUserID().toString()).catch(function () {
 				return;
 			});
 		}).then((signatureCacheData: any) => {
@@ -90,57 +99,6 @@ class TrustService {
 		});
 	}
 
-	private onInit = (data: any) => {
-		trustServiceDebug("trustManager.get finished unchanged: " + data.unChanged);
-		return this.loadCachePromise.catch(function (e: any) {
-			trustServiceDebug("Could not load trust service from cache!");
-			console.error(e);
-		}).then(() => ownKeysPromise).then(() => {
-			if (data.unChanged) {
-				if (!trustManager.isLoaded()) {
-					throw new Error("cache loading seems to have failed but server is unchanged!");
-				}
-
-				trustServiceDebug("trustManager unChanged");
-				return;
-			}
-
-			trustServiceDebug("trustManager get loading");
-
-			if (trustManager.isLoaded()) {
-				trustServiceDebug("trustManager cache exists updating");
-
-				return trustManager.updateDatabase(data.content).then(function () {
-					return false;
-				});
-			}
-
-			if (data.content) {
-				trustServiceDebug("load content");
-				return this.loadDatabase(data.content);
-			}
-
-			trustServiceDebug("create new trust database!");
-			return this.createTrustDatabase();
-		});
-	}
-
-	private uploadDatabase = (cb?: Function) => {
-		return initService.awaitLoading().then(() => {
-			return trustManager.getUpdatedVersion();
-		}).then((newTrustContent: any) => {
-			this.trustManagerCache.store(sessionService.getUserID().toString(), newTrustContent);
-
-			return socketService.emit("trustManager.set", {
-				content: newTrustContent
-			});
-		}).then((response: any) => {
-			if (!response.success) {
-				errorServiceInstance.criticalError(response.error);
-			}
-		}).nodeify(cb);
-	}
-
 	private storeSignatureCache = () => {
 		if (signatureCache.isChanged()) {
 			trustServiceDebug("Storing signature cache!");
@@ -149,63 +107,45 @@ class TrustService {
 			signatureCache.resetChanged();
 
 			signatureCache.getUpdatedVersion().then((updatedVersion: any) => {
-				return this.signatureCacheObject.store(sessionService.getUserID().toString(), updatedVersion);
+				return signatureCacheObject.store(sessionService.getUserID().toString(), updatedVersion);
 			}).then(function () {
 				timeEnd("storedSignatureCache");
 			});
 		}
 	}
-
-	addNewUsers = (userInfo) => {
-		if (trustManager.isLoaded() && !trustManager.hasKeyData(userInfo.key)) {
-			trustManager.addUser(userInfo);
-			this.delay();
-		}
-	}
-
-	private loadDatabase = (database: any, cb?: Function) => {
-		return trustManager.loadDatabase(database).thenReturn(database).nodeify(cb);
-	}
-
-	private createTrustDatabase = () => {
-		ownUserPromise.then((ownUser) => {
-			const key = ownUser.getSignKey()
-			const userid = ownUser.getID()
-			const nickname = ownUser.getNickname()
-
-			trustManager.createDatabase({ key, userid, nickname });
-
-			this.uploadDatabase().catch(errorServiceInstance.criticalError);
-
-			return null;
-		})
-	}
-
-	private loadFromCache = (cacheEntry: any) => {
-		trustServiceDebug("trustManager cache get done");
-		this.loadCachePromise = ownKeysPromise.then(() => {
-			trustServiceDebug("trustManager cache loading");
-			return this.loadDatabase(cacheEntry.data);
-		});
-
-		return this.loadCachePromise;
-	}
-
-	hasKey = (keyid: string) => {
-		return trustManager.hasKeyData(keyid);
-	};
-
-	getKey = (keyid: string) => {
-		return trustManager.getKeyData(keyid);
-	};
-
-	verifyUser = (user: any, cb?: Function) => {
-		return Bluebird.try(() => {
-			var keyData = trustManager.getKeyData(user.getSignKey());
-			keyData.setTrust(trustManager.trustStates.VERIFIED);
-			return this.uploadDatabase();
-		}).nodeify(cb);
-	};
 }
 
-export default new TrustService();
+class TrustStoreLoader extends MutableObjectLoader<TrustStore, trustSet>({
+	download: (_id, previousInstance: TrustStore) =>
+		socketService.awaitConnection()
+			.then(() => socketService.definitlyEmit("trustManager.get", {
+				responseKey: "content",
+				cacheSignature: previousInstance && previousInstance.getSignature()
+			}))
+			.then((response) => response.content),
+	load: (response, previousInstance: TrustStore) => {
+		if (previousInstance && response.unChanged) {
+			return Bluebird.resolve(SYMBOL_UNCHANGED)
+		}
+
+		return loadTrustInfo(response.content)
+	},
+	restore: (content: trustSet, previousInstance: TrustStore) => {
+		if (previousInstance) {
+			previousInstance.update(content)
+			return previousInstance
+		}
+
+		return new TrustStore(content)
+	},
+	shouldUpdate: () => Bluebird.resolve(true),
+	getID: () => sessionService.getUserID(),
+	cacheName: "trustStore"
+}) {}
+
+initService.registerCallback(() =>
+	TrustStoreLoader.get(sessionService.getUserID())
+		.then((trustStore) => trustManager.setTrustStore(trustStore))
+)
+
+new TrustService()

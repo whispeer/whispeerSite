@@ -1,7 +1,7 @@
 var app = require("app");
-var sessionHelper = require("services/session.helper").default;
+import sessionHelper from "../services/session.helper"
 
-module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider) {
+app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider) {
 	"use strict";
 
 	var basicRoutes = [

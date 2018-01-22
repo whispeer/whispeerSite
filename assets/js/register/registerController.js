@@ -2,9 +2,9 @@
 * loginController
 **/
 
-var locationService = require("services/location.manager");
-var errorService = require("services/error.service.ts").default;
-var registerService = require("register/registerService");
+var locationService = require("../services/location.manager");
+var errorService = require("../services/error.service.ts").default;
+var registerService = require("../register/registerService").default
 
 "use strict";
 

@@ -7,16 +7,14 @@ import * as Bluebird from "bluebird"
 const initService = require("services/initService")
 import State from "../asset/state"
 const keyStoreService = require("crypto/keyStore")
-const signatureCache = require("crypto/signatureCache")
 
 import sessionService from "../services/session.service"
 import blobService from "../services/blobService"
 import Profile from "../users/profile"
-import trustService from "../services/trust.service"
 import settingsService from "../services/settings.service"
 import filterService from "../services/filter.service"
 import { reloadApp, isIOS } from "../services/location.manager"
-import MutableObjectLoader, { UpdateEvent } from "../services/mutableObjectLoader"
+import MutableObjectLoader, { UpdateEvent, SYMBOL_UNCHANGED } from "../services/mutableObjectLoader"
 
 import requestKeyService from "../services/requestKey.service"
 
@@ -24,10 +22,9 @@ import { ProfileLoader } from "../users/profile"
 import { SignedKeysLoader } from "../users/signedKeys"
 
 const friendsService = require("services/friendsService")
-const trustManager = require("crypto/trustManager")
+import trustManager from "../crypto/trustManager"
 
-const RELOAD_DELAY_MIN = 10 * 1000
-const RELOAD_DELAY_MAX = 60 * 1000
+const RELOAD_DELAY = 10 * 1000
 const RELOAD_OWN_DELAY = 5 * 1000
 const advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"]
 
@@ -115,7 +112,8 @@ function deleteCache() {
 	})
 }
 
-interface UserInterface {
+export interface UserInterface {
+	data: any
 	getID: () => number
 
 	generateNewFriendsKey: () => any
@@ -486,7 +484,7 @@ class User implements UserInterface {
 				throw new Error("wrong code")
 			}
 
-			return trustService.verifyUser(this)
+			return trustManager.verifyUser(this)
 		}).then(() => {
 			this.data.trustLevel = 2
 		})
@@ -518,7 +516,7 @@ class User implements UserInterface {
 	}
 
 	getTrustLevel = () => {
-		const trust = trustService.getKey(this.getSignKey())
+		const trust = trustManager.getKeyData(this.getSignKey())
 
 		if (trust.isOwn()) {
 			return -1
@@ -894,8 +892,6 @@ function enhanceOwnUser(userData) {
 
 	trustManager.setOwnSignKey(signKey)
 
-	trustService.ownKeysLoaded()
-
 	Bluebird.all([
 		requestKeyService.getKey(signKey),
 		requestKeyService.getKey(mainKey)
@@ -905,13 +901,65 @@ function enhanceOwnUser(userData) {
 	})
 }
 
+const loadUserInfo = (identifiers) =>
+	socketService.definitlyEmit("user.getMultiple", { identifiers })
+		.then(({ users }) => users)
+
+const getUserInfoDelayed = h.delayMultiplePromise(Bluebird, 1000, loadUserInfo, 20)
+const getUserInfoNow = h.delayMultiplePromise(Bluebird, 50, loadUserInfo, 10)
+
+const profilesLoaded = (signKey, profiles) => {
+	const pub = profiles.pub
+	const priv : any[] = profiles.priv || []
+
+	return ProfileLoader.isLoaded(`${signKey}-${pub.meta._signature}`) && priv.reduce<Boolean>((prev, privProfile) => {
+		return prev && ProfileLoader.isLoaded(`${signKey}-${privProfile.meta._signature}`)
+	}, true)
+}
+
+const isSameInfo = (userData, previousInstance) => {
+	if (previousInstance instanceof NotExistingUser || userData.userNotExisting) {
+		return false
+	}
+
+	const userID = previousInstance.getID()
+	const isMe = sessionService.isOwnUserID(userID)
+
+	if (isMe) {
+		return false
+	}
+
+	const signKey = previousInstance.getSignKey()
+	const { signedKeys, profile, ...rest } = userData
+
+	if (!SignedKeysLoader.isLoaded(`${signKey}-${signedKeys._signature}`)) {
+		return false
+	}
+
+	if (!profilesLoaded(signKey, profile)) {
+		return false
+	}
+
+	if (Object.keys(rest).length !== 3) {
+		return false
+	}
+
+	return rest.id === previousInstance.id &&
+		rest.nickname === previousInstance.nickname &&
+		h.deepEqual(rest.mutualFriends, previousInstance.mutualFriends)
+}
+
 export default class UserLoader extends MutableObjectLoader<UserInterface, CachedUser>({
-	download: (id) =>
+	download: (id, previousInstance) =>
 		socketService.awaitConnection()
-			.then(() => socketService.definitlyEmit("user.getMultiple", { identifiers: [id] }))
-			.then((response) => response.users[0]),
-	load: (userData) =>
-		Bluebird.resolve(userData),
+			.then(() => previousInstance ? getUserInfoDelayed(id) : getUserInfoNow(id)),
+	load: (userData, previousInstance) => {
+		if (previousInstance && isSameInfo(userData, previousInstance)) {
+			return Bluebird.resolve(SYMBOL_UNCHANGED)
+		}
+
+		return Bluebird.resolve(userData)
+	},
 	restore: (userData, previousInstance) => {
 		if (previousInstance) {
 			if (previousInstance instanceof NotExistingUser && userData.userNotExisting) {
@@ -953,25 +1001,20 @@ export default class UserLoader extends MutableObjectLoader<UserInterface, Cache
 
 			if (isMe) {
 				enhanceOwnUser(userData)
-				await signatureCache.awaitLoading()
 			}
 
 			const signKey = userData.signedKeys.sign
 			const nickname = userData.nickname
 
-			trustService.addNewUsers({ key: signKey, userid: userID, nickname })
+			if (!isMe) {
+				trustManager.addNewUsers({ key: signKey, userid: userID, nickname })
+			}
 
 			const signedKeys = await SignedKeysLoader.load({ signedKeys: userData.signedKeys, signKey })
 
 			const profiles = await getProfiles(userData, signKey, isMe)
 
-			const user = new User(userData, signedKeys, profiles)
-
-			if (isMe) {
-				trustService.ownUserLoaded(user)
-			}
-
-			return user
+			return new User(userData, signedKeys, profiles)
 		})
 	},
 	shouldUpdate: (event, instance) => {
@@ -980,7 +1023,7 @@ export default class UserLoader extends MutableObjectLoader<UserInterface, Cache
 		}
 
 		if (event === UpdateEvent.wake) {
-			return Bluebird.delay(h.randomIntFromInterval(RELOAD_DELAY_MIN, RELOAD_DELAY_MAX)).thenReturn(true)
+			return Bluebird.delay(RELOAD_DELAY).thenReturn(true)
 		}
 
 		return Bluebird.resolve(false)

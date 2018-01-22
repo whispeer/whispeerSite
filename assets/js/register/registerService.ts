@@ -1,22 +1,23 @@
-var keyStoreService = require("services/keyStore.service").default;
-var socketService = require("services/socket.service").default;
-var Profile = require("users/profile").default;
-var Storage = require("services/storage.service");
-var errorService = require("services/error.service").errorServiceInstance;
+import keyStoreService from "../services/keyStore.service"
+import socketService from "../services/socket.service"
+import Profile from "../users/profile"
+import { withPrefix } from "../services/storage.service"
+import errorService from "../services/error.service"
 
-var Bluebird = require("bluebird");
-var h = require("../helper/helper").default;
+import * as Bluebird from "bluebird"
+import h from "../helper/helper"
 
-var trustManager = require("crypto/trustManager");
-var SecuredData = require("asset/securedDataWithMetaData");
+import trustManager from "../crypto/trustManager"
+import SecuredData from "../asset/securedDataWithMetaData"
+
+const sessionStorage = withPrefix("whispeer.session")
+const tokenStorage = withPrefix("whispeer.token")
+const clientStorage = withPrefix("whispeer.client")
 
 var keyGenPromise
-const sessionStorage = Storage.withPrefix("whispeer.session")
-const tokenStorage = Storage.withPrefix("whispeer.token")
-const clientStorage = Storage.withPrefix("whispeer.client")
 var registerPromise;
 
-var registerService = {
+const registerService = {
 	register: function (nickname, mail, password, profile, settings, inviteCode) {
 		var keys;
 
@@ -45,7 +46,7 @@ var registerService = {
 					content: profile.pub || {}
 				}, { isPublicProfile: true });
 
-				var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+				var correctKeys : any = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 				var ownKeys = {main: correctKeys.main, sign: correctKeys.sign};
 				delete correctKeys.main;
 				delete correctKeys.profile;
@@ -74,7 +75,7 @@ var registerService = {
 				keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 				trustManager.disallow();
 
-				var registerData = {
+				var registerData : any = {
 					password: {
 						salt: salt,
 						hash: keyStoreService.hash.hashPW(password, salt),
@@ -225,4 +226,4 @@ var registerService = {
 	}
 };
 
-module.exports = registerService;
+export default registerService

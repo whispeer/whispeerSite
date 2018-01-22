@@ -4,24 +4,19 @@ import socketService from "../services/socket.service"
 import Cache from "../services/Cache"
 import errorService from "../services/error.service"
 
-// What do we want to achieve and how:
-
-// - Group multiple requests together -> download can do that for itself
-// - Add cache info so server does not resend full data (esp. for trustManager) -> activeInstance
-// - merge new and active -> restore has active and response
-// - cache first then update
-
 export enum UpdateEvent {
 	wake,
 	blink
 }
+
+export const SYMBOL_UNCHANGED = Symbol("UNCHANGED")
 
 const LONG_APP_PAUSE = 2 * 60 * 1000
 const LONG_DISCONNECT = 60 * 1000
 
 type hookType<ObjectType, CachedObjectType> = {
 	download: (id: string, activeInstance: Optional<ObjectType>) => Bluebird<any>,
-	load: (response: any, activeInstance: Optional<ObjectType>) => Bluebird<CachedObjectType>,
+	load: (response: any, activeInstance: Optional<ObjectType>) => Bluebird<CachedObjectType | Symbol>,
 	restore: (response: CachedObjectType, activeInstance: Optional<ObjectType>) => Bluebird<ObjectType> | ObjectType,
 	shouldUpdate: (event: UpdateEvent, activeInstance: ObjectType, lastUpdated: number) => Bluebird<boolean>,
 	getID: (response: any) => string,
@@ -67,18 +62,27 @@ function createLoader<ObjectType, CachedObjectType>({ download, load, restore, g
 	}
 
 	const serverResponseToInstance = (response, id, activeInstance: Optional<ObjectType>) =>
-		load(response, activeInstance)
-			.then((cacheableData) => cache.store(id, cacheableData).thenReturn(cacheableData))
-			.then((cachedData) => restore(cachedData, activeInstance))
-			.then((instance) => {
-				if (activeInstance && activeInstance !== instance) {
-					console.warn("Restore should update active instance")
-				}
-				cacheInMemory(id, instance, Date.now())
+		Bluebird.try(async function() {
+			const loadedData = await load(response, activeInstance)
 
-				return instance
-			})
-			.finally(() => considerLoaded(id))
+			if (loadedData === SYMBOL_UNCHANGED) {
+				return activeInstance
+			}
+
+			if (loadedData instanceof Symbol) {
+				throw new Error(`invalid symbol returned by load ${cacheName}`)
+			}
+
+			await cache.store(id, loadedData)
+			const instance = await restore(loadedData, activeInstance)
+
+			if (activeInstance && activeInstance !== instance) {
+				console.warn("Restore should update active instance")
+			}
+			cacheInMemory(id, instance, Date.now())
+
+			return instance
+		}).finally(() => considerLoaded(id))
 
 	const updateInstance = (id, instance: ObjectType) =>
 		download(id, instance).then((response) =>

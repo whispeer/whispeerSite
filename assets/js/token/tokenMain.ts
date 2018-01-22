@@ -2,8 +2,7 @@
 
 const w : any = window
 
-w.startup = new Date().getTime();
-w.globalErrors = [];
+w.startup = new Date().getTime()
 
 import * as Bluebird from "bluebird"
 import { withPrefix } from "../services/storage.service";

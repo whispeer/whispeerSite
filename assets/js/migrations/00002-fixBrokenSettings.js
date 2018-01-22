@@ -59,6 +59,10 @@ module.exports = function () {
 
 		checkAndFixObject(content);
 
+		if (h.deepEqual(content, settings.getContent())) {
+			return Bluebird.resolve(true)
+		}
+
 		settings.setContent(content);
 		return settings.uploadChangedData().thenReturn(true);
 	});

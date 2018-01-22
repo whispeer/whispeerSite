@@ -1,14 +1,14 @@
 "use strict";
 
-const messageService = require("messages/messageService").default;
+import messageService from "../messages/messageService"
 const jQuery = require("jquery");
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");
 
-const ChatLoader = require("messages/chat").default
-const ChunkLoader = require("messages/chatChunk").default
-const MessageLoader = require("messages/message").default
+import ChatLoader from "../messages/chat"
+import ChunkLoader from "../messages/chatChunk"
+import MessageLoader from "../messages/message"
 
 const Chat = require("messages/chat").Chat
 
@@ -71,7 +71,7 @@ const memoizer = new Memoizer([
 
 const chatList = new SameArray()
 
-function messagesController($scope, $state, $stateParams, $element) {
+const messagesController: any = function($scope, _$state, _$stateParams, $element) {
 	const chatsLoadingState = new State.default();
 	$scope.chatsLoadingState = chatsLoadingState.data;
 

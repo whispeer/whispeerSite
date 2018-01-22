@@ -33,6 +33,7 @@ var ObjectHasher = require("crypto/objectHasher");
 var errors = require("asset/errors");
 var Bluebird = require("bluebird");
 var debug = require("debug");
+var Raven = require("raven-js")
 
 var keyStoreDebug = debug("whispeer:keyStore");
 
@@ -360,7 +361,7 @@ Key = function keyConstructor(superKey, realid, decryptors, optionals) {
 				preSecret = internalSecret;
 				internalSecret = pastProcessedSecret;
 			}).catch(function (err) {
-				globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+				Raven.captureException(err || { err: "internaldecryptor returned false for realid: " + realid });
 				keyStoreDebug(err);
 				keyStoreDebug("decryptor failed for key: " + realid);
 
@@ -1143,7 +1144,7 @@ SignKey = function (keyData) {
 				throw new errors.SecurityError("Private Actions are blocked (sign)");
 			}
 
-			var trustManager = require("./trustManager");
+			var trustManager = require("../crypto/trustManager").default;
 			var signatureCache = require("./signatureCache");
 
 			return Bluebird.try(function () {
@@ -1250,7 +1251,7 @@ SignKey = function (keyData) {
 
 	this.getFingerPrint = getFingerPrintF;
 	this.verify = function (signature, text, type, id) {
-		var trustManager = require("./trustManager");
+		var trustManager = require("../crypto/trustManager").default;
 		var signatureCache = require("./signatureCache");
 		var name = chelper.bits2hex(signature).substr(0, 10);
 

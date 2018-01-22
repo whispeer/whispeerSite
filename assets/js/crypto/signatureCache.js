@@ -41,14 +41,6 @@ var types = {
 		maxCount: 500,
 		saveID: true
 	},
-	topic: {
-		maxCount: 30,
-		saveID: false
-	},
-	message: {
-		maxCount: 200,
-		saveID: false
-	},
 	post: {
 		maxCount: 100,
 		saveID: false
@@ -61,8 +53,8 @@ var cacheTypes = {
 	signedFriendList: "user",
 
 	circle: "me",
-	trustManager: "me",
-	settings: "me",
+	trustManager: "noCache",
+	settings: "noCache",
 
 	topicUpdate: "noCache",
 
@@ -242,6 +234,10 @@ var signatureCache = {
 		}
 
 		signatureCacheData.databases.forEach(function(db) {
+			if (!types[db.type]) {
+				return
+			}
+
 			types[db.type].joinEntries(db.entries);
 		});
 
