@@ -1,6 +1,6 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
-{% include whispeerHead.html htmlClass="registerView" realStyle=true %}
+{% include whispeerHead.html htmlClass="registerView" webpackStyle=true %}
 <body data-ng-controller="ssn.registerController" data-mobile data-ng-class="{'loaded': loading === false}">
 	<div id="register-loading">
 	{% include loader.html id="register-loading-loader" %}

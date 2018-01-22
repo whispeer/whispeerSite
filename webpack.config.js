@@ -200,7 +200,7 @@ const config = {
 	output: {
 		crossOriginLoading: "anonymous",
 		path: path.resolve("./dist/assets"),
-		publicPath: "/assets",
+		publicPath: "/assets/",
 		filename: production ? "[name].[chunkhash:8].js" : "[name].bundle.js"
 	}
 };
