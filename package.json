@@ -108,7 +108,7 @@
     "clean": "rimraf dist static",
     "lint:fix": "eslint --fix assets/js",
 
-    "less:static": "lessc --include-path=node_modules assets/less/static.less staticRaw/assets/css/static.css",
+    "less:static": "./scripts/staticLess.sh",
     "less:static:watch": "watch 'npm run less:static' assets/less",
 
     "static:watch": "npm run build:static -- --watch",
