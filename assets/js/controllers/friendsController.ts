@@ -1,53 +1,86 @@
+import * as Bluebird from "bluebird"
+
 import cssService from "../services/css.service"
+import userService from "../users/userService"
+import CompanyLoader, { getOwnCompanyID } from "../services/companyService"
+
 var friendsService = require("../services/friendsService")
 var localize = require("../i18n/localizationConfig")
-import userService from "../users/userService"
 
 const controllerModule = require("../controllers/controllerModule")
 
 const friendsController: any = ($scope) => {
 	cssService.setClass("friendsView")
-	$scope.friends = []
+
 	$scope.requests = []
-	$scope.colleagues = []
-	$scope.friendsLoading = true
-	$scope.friendsFilter = {
+
+	let contacts = []
+	let colleagues = []
+
+	let contactsLoading = true
+	let colleaguesLoading = true
+
+	$scope.contactsFilter = {
 		name: ""
 	}
 
-	$scope.removeFriend = function (user) {
+	let showColleagues = true
+
+	$scope.toggleShowColleagues = () => {
+		showColleagues = !showColleagues
+	}
+
+	$scope.isLoading = () => showColleagues ? colleaguesLoading : contactsLoading
+	$scope.getContacts = () => showColleagues ? colleagues : contacts
+
+	$scope.removeFriend = (user) => {
 		if (confirm(localize.getLocalizedString("magicbar.requests.confirmRemove", { user: user.name }))) {
 			user.user.removeAsFriend()
 		}
 	}
 
-	function loadFriendsUsers() {
-		return userService.getMultipleFormatted(friendsService.getFriends())
-			.then((result) => {
-				$scope.friends = result
-				$scope.friendsLoading = false
+	const loadColleagues = () => {
+		if (!WHISPEER_BUSINESS) {
+			return Bluebird.resolve()
+		}
+
+		return getOwnCompanyID()
+			.then((companyID) => CompanyLoader.get(companyID))
+			.then((company) => {
+				return userService.getMultipleFormatted(company.getUserIDs())
+					.then((result: any[]) => {
+						colleagues = result
+						colleaguesLoading = false
+					})
 			})
 	}
 
-	function loadRequestsUsers() {
-		return userService.getMultipleFormatted(friendsService.getRequests())
-			.then((result) => $scope.requests = result)
+	const loadContacts = () =>
+		userService.getMultipleFormatted(friendsService.getFriends())
+			.then((result) => {
+				contacts = result
+				contactsLoading = false
+			})
+
+	const loadRequests = () =>
+		userService.getMultipleFormatted(friendsService.getRequests())
+			.then((result) => {
+				$scope.requests = result
+			})
+
+	const load = () => {
+		loadRequests()
+		loadContacts()
+			.then(() => loadColleagues())
 	}
 
-	friendsService.awaitLoading().then(function () {
-		friendsService.listen(loadFriendsUsers)
-		friendsService.listen(loadRequestsUsers)
-		loadFriendsUsers()
-		loadRequestsUsers()
+	friendsService.awaitLoading().then(() => {
+		friendsService.listen(load)
+		load()
 	})
 
-	$scope.acceptRequest = function (request) {
-		request.user.acceptFriendShip()
-	}
-
-	$scope.ignoreRequest = function (request) {
-		request.user.ignoreFriendShip()
-	}
+	$scope.acceptRequest = (request) => request.user.acceptFriendShip()
+	$scope.ignoreRequest = (request) => request.user.ignoreFriendShip()
 }
 
 controllerModule.controller("ssn.friendsController", ["$scope", friendsController])

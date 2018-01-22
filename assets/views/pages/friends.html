@@ -24,11 +24,12 @@
 <section class="friendsView-section" data-ng-class="{'friendsView-section--pullUp': requests.length > 0}">
 	<h2 class="friendsView-title" data-i18n="friends.title"></h2>
 	<ol id="friendsView-friendsList" class="unstyled post">
-		<li class="loadingSpinner" data-ng-if="friendsLoading">
+		<button data-ng-click="toggleShowColleagues()">Toggle</button>
+		<li class="loadingSpinner" data-ng-if="isLoading()">
 			<loadingindicator></loadingindicator>
 			<p data-i18n="friends.loading"></p>
 		</li>
-		<li id="friendsView-noFriends" class="zeroContent" data-ng-if="friends.length == 0 && !friendsLoading">
+		<li id="friendsView-noFriends" class="zeroContent" data-ng-if="getContacts().length == 0 && !isLoading()">
 			<h1 class="h1-noMarginTop" data-i18n="friends.zeroContent.headline"><span data-for="name">{{user.basic.shortname}}</span></h1>
 			<h2 data-i18n="friends.zeroContent.subhead"></h2>
 			<div class="zeroContent-actions">
@@ -37,9 +38,9 @@
 			</div>
 		</li>
 		<li id="friendsView-searchFriends">
-			<input id="friendsView-searchFriends-input" type="text" data-i18n-attr="friends.search|placeholder" data-ng-model="friendsFilter.name" data-ng-if="friends.length > 0 && !friendsLoading">
+			<input id="friendsView-searchFriends-input" type="text" data-i18n-attr="friends.search|placeholder" data-ng-model="contactsFilter.name" data-ng-if="getContacts().length > 0 && !isLoading()">
 		</li>
-		<li class="friendsView-friend" data-ng-repeat="friend in friends | orderBy: 'name' | filter: {name: friendsFilter.name}">
+		<li class="friendsView-friend" data-ng-repeat="friend in getContacts() | orderBy: 'name' | filter: {name: contactsFilter.name}">
 			<person data-user="friend" data-type="friend">
 				<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
 					<i class="fa fa-comment fa-fw"></i>
@@ -51,7 +52,7 @@
 				</a>
 			</person>
 		</li>
-		<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50 && friends.length > 7">
+		<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="getContacts().length < 50 && getContacts().length > 7">
 			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="friendsView-inviteFriends-link" whispeer-sref="app.invite">
 				<i class="fa fa-fw fa-share-alt btn-icon"></i>
 				<span class="btn-text" data-i18n="inviteFriends"></span>
