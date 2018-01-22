@@ -114,11 +114,16 @@
     "static:watch": "npm run build:static -- --watch",
     "build:static": "bundle exec jekyll build",
     "build:webpack": "NODE_ENV=production webpack -p",
-    "build": "npm-run-all clean copy build:static build:webpack",
+    "build": "npm-run-all clean copy build:static build:webpack copyStatic",
 
     "copy": "npm-run-all copy:*",
     "copy:fontAwesome": "cp node_modules/font-awesome/css/font-awesome.min.css staticRaw/_sass/font-awesome.scss",
     "copy:fonts": "cp -r node_modules/font-awesome/fonts/ assets/fonts/",
-    "copy:normalize": "cp node_modules/normalize.css/normalize.css staticRaw/_sass/normalize.scss"
+    "copy:normalize": "cp node_modules/normalize.css/normalize.css staticRaw/_sass/normalize.scss",
+
+    "copyStatic": "npm-run-all copyStatic:*",
+    "copyStatic:de": "cp -r static/de/* dist/de/",
+    "copyStatic:en": "cp -r static/en/* dist/en/",
+    "copyStatic:assets": "cp -r static/assets/* dist/assets/"
   }
 }

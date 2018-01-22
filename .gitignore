@@ -33,5 +33,5 @@ staticRaw/_sass/font-awesome.scss
 assets/less/base/addons/font-awesome.less
 assets/less/base/addons/normalize.less
 
-assets/js/i18n/companies
+staticRaw/assets/js/i18n/companies
 dist
