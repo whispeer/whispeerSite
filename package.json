@@ -114,7 +114,7 @@
     "static:watch": "npm run build:static -- --watch",
     "build:static": "bundle exec jekyll build",
     "build:webpack": "NODE_ENV=production webpack -p",
-    "build": "npm-run-all clean copy build:static build:webpack copyStatic",
+    "build": "npm-run-all clean copy less:static build:static build:webpack copyStatic",
 
     "copy": "npm-run-all copy:*",
     "copy:fontAwesome": "cp node_modules/font-awesome/css/font-awesome.min.css staticRaw/_sass/font-awesome.scss",
