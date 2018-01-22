@@ -37,28 +37,23 @@ cd deploy
 
 ./scripts/build_whispeer.sh
 
-cp ./index.html ../b2c
+cp -r ./dist ../b2c
 cp ./sw.js ../b2c
-cp -r ./assets ../b2c
-cp -r ./static ../b2c
-cp -r ./node_modules/bluebird/js/browser ../b2c/assets/bluebird
 
 echo "Building business version"
 cp b2b/de/index.html staticRaw/de/index.html
 cp b2b/en/index.html staticRaw/en/index.html
 
-cp b2b/grey.svg assets/img/logo/grey.svg
-cp b2b/white.svg assets/img/logo/white.svg
-cp b2b/white.svg assets/img/logo/white_darker.svg
+cp b2b/grey.svg staticRaw/img/logo/grey.svg
+cp b2b/white.svg staticRaw/img/logo/white.svg
+cp b2b/white.svg staticRaw/img/logo/white_darker.svg
 
 WHISPEER_BUSINESS=true ./scripts/build_whispeer.sh
 
-cp ./index.html ../b2b
+cp -r ./dist ../b2b
 cp ./sw.js ../b2b
-cp -r ./assets ../b2b
-cp -r ./static ../b2b
-cp -r ./node_modules/bluebird/js/browser ../b2b/assets/bluebird
 
+#TODO
 if [[ "${WHISPEER_ENV}" == "production" ]]; then
 	# upload sourcemaps to sentry
 	VERSION=$(./scripts/getVersion.js)
@@ -71,11 +66,12 @@ if [[ "${WHISPEER_ENV}" == "production" ]]; then
 fi
 
 # copy company extensions
-cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
-cp -r ../../companyExtensions/i18n/companies ../b2c/assets/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2b/dist/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2c/dist/js/i18n/
 
 cd /var/www/
-sudo cp whispeer/assets/js/build/* whispeer-build/ | true
+#TODO
+sudo cp whispeer/dist/js/build/* whispeer-build/ | true
 
 sudo rm -rf whispeer
 sudo mkdir whispeer
