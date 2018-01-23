@@ -37,7 +37,7 @@ cd deploy
 
 ./scripts/build_whispeer.sh
 
-cp -r ./dist ../b2c
+cp -r ./dist/* ../b2c
 cp ./sw.js ../b2c
 
 echo "Building business version"
@@ -50,7 +50,7 @@ cp b2b/white.svg staticRaw/assets/img/logo/white_darker.svg
 
 WHISPEER_BUSINESS=true ./scripts/build_whispeer.sh
 
-cp -r ./dist ../b2b
+cp -r ./dist/* ../b2b
 cp ./sw.js ../b2b
 
 #TODO
