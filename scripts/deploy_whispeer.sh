@@ -66,12 +66,12 @@ if [[ "${WHISPEER_ENV}" == "production" ]]; then
 fi
 
 # copy company extensions
-cp -r ../../companyExtensions/i18n/companies ../b2b/dist/js/i18n/
-cp -r ../../companyExtensions/i18n/companies ../b2c/dist/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2b/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2c/js/i18n/
 
 cd /var/www/
-#TODO
-sudo cp whispeer/dist/js/build/* whispeer-build/ | true
+sudo cp whispeer/b2b/assets/* whispeer-build/ | true
+sudo cp whispeer/b2c/assets/* whispeer-build/ | true
 
 sudo rm -rf whispeer
 sudo mkdir whispeer
