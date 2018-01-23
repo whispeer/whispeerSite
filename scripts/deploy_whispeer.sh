@@ -44,9 +44,9 @@ echo "Building business version"
 cp b2b/de/index.html staticRaw/de/index.html
 cp b2b/en/index.html staticRaw/en/index.html
 
-cp b2b/grey.svg staticRaw/img/logo/grey.svg
-cp b2b/white.svg staticRaw/img/logo/white.svg
-cp b2b/white.svg staticRaw/img/logo/white_darker.svg
+cp b2b/grey.svg staticRaw/assets/img/logo/grey.svg
+cp b2b/white.svg staticRaw/assets/img/logo/white.svg
+cp b2b/white.svg staticRaw/assets/img/logo/white_darker.svg
 
 WHISPEER_BUSINESS=true ./scripts/build_whispeer.sh
 
