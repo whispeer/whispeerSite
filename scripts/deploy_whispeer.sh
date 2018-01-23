@@ -66,8 +66,8 @@ if [[ "${WHISPEER_ENV}" == "production" ]]; then
 fi
 
 # copy company extensions
-cp -r ../../companyExtensions/i18n/companies ../b2b/js/i18n/
-cp -r ../../companyExtensions/i18n/companies ../b2c/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2b/assets/js/i18n/
+cp -r ../../companyExtensions/i18n/companies ../b2c/assets/js/i18n/
 
 cd /var/www/
 sudo cp whispeer/b2b/assets/* whispeer-build/ | true
