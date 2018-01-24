@@ -30,6 +30,7 @@ codekit-config.json
 node_modules/*
 staticRaw/_sass/normalize.scss
 staticRaw/_sass/font-awesome.scss
+staticRaw/assets/css/static.css
 assets/less/base/addons/font-awesome.less
 assets/less/base/addons/normalize.less
 
