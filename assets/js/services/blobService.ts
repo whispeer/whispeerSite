@@ -248,13 +248,13 @@ class MyBlob {
 			meta.one = 1;
 
 			if (this.preReservedID) {
-				return socketService.emit("blob.fullyReserveID", {
+				return socketService.definitlyEmit("blob.fullyReserveID", {
 					blobid: this.preReservedID,
 					meta: meta
 				});
 			}
 
-			return socketService.emit("blob.reserveBlobID", {
+			return socketService.definitlyEmit("blob.reserveBlobID", {
 				meta: meta
 			});
 		}).then((data) => {
