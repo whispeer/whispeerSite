@@ -112,5 +112,16 @@
 		"requests":{
 			"confirmRemove": "{user} wirklich von der Kontaktliste entfernen?"
 		}
+	},
+	"settings": {
+		"changes": {
+			"general": {
+				"friendsAccess": {
+					"title": "Wer darf Ihre Kontaktliste sehen?",
+					"friends": "Meine Kontakte",
+					"nobody": "Niemand"
+				}
+			}
+		}
 	}
 }

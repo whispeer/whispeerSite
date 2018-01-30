@@ -33,6 +33,22 @@
 		</p>
 	</div>
 
+	<div class="settingsView-setting">
+		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.friendsAccess.title"></h3>
+		<p class="settingsView-setting-row">
+			<label class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="friendsAccess.enabled" value="true">
+				&nbsp;<span data-i18n="settings.changes.general.friendsAccess.friends"></span>
+			</label>
+		</p>
+		<p class="settingsView-setting-row">
+			<label class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="friendsAccess.enabled" value="false">
+				&nbsp;<span data-i18n="settings.changes.general.friendsAccess.nobody"></span>
+			</label>
+		</p>
+	</div>
+
 	<div class="settingsView-setting" id="settingsView-sendMethod">
 		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.sendMethod.title"></h3>
 		<p class="settingsView-setting-row">

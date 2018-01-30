@@ -74,9 +74,12 @@ function settingsController($scope, $timeout) {
 	}
 
 	$scope.mails = {
-		available: typeof settingsService.getBranch("mailsEnabled") !== "undefined",
 		enabled: (settingsService.getBranch("mailsEnabled") ? "true": "false")
 	};
+
+	$scope.friendsAccess = {
+		enabled: (settingsService.getBranch("friendsAccess") ? "true": "false")
+	}
 
 	var names = userService.getOwn().data.names || {};
 	$scope.firstName = names.firstname;
@@ -103,7 +106,8 @@ function settingsController($scope, $timeout) {
 			var messages = settingsService.getBranch("messages");
 
 			sound.enabled = ($scope.notificationSound === "on" ? true : false);
-			var mailsEnabled = ($scope.mails.enabled === "true" ? true : false);
+			const mailsEnabled = ($scope.mails.enabled === "true" ? true : false);
+			const friendsAccess = ($scope.friendsAccess.enabled === "true" ? true : false);
 			messages.sendShortCut = $scope.sendShortCut;
 
 			localize.setLanguage($scope.uiLanguage);
@@ -111,6 +115,7 @@ function settingsController($scope, $timeout) {
 			settingsService.updateBranch("sound", sound);
 			settingsService.updateBranch("messages", messages);
 			settingsService.updateBranch("mailsEnabled", mailsEnabled);
+			settingsService.updateBranch("friendsAccess", friendsAccess);
 			settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
 
 			return settingsService.uploadChangedData();
