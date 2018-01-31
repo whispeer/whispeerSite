@@ -24,14 +24,17 @@ const friendsController: any = ($scope) => {
 		name: ""
 	}
 
-	let showColleagues = true
+	$scope.showColleagues = WHISPEER_BUSINESS
 
-	$scope.toggleShowColleagues = () => {
-		showColleagues = !showColleagues
-	}
+	$scope.isBusiness = () => WHISPEER_BUSINESS
 
-	$scope.isLoading = () => showColleagues ? colleaguesLoading : contactsLoading
-	$scope.getContacts = () => showColleagues ? colleagues : contacts
+	$scope.setShowColleagues = (val) =>
+		$scope.showColleagues = !!val
+
+	$scope.isLoading = () =>
+		WHISPEER_BUSINESS && $scope.showColleagues ? colleaguesLoading : contactsLoading
+	$scope.getContacts = () =>
+		WHISPEER_BUSINESS && $scope.showColleagues ? colleagues : contacts
 
 	$scope.removeFriend = (user) => {
 		if (confirm(localize.getLocalizedString("magicbar.requests.confirmRemove", { user: user.name }))) {

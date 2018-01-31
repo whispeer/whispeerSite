@@ -23,8 +23,11 @@
 </section>
 <section class="friendsView-section" data-ng-class="{'friendsView-section--pullUp': requests.length > 0}">
 	<h2 class="friendsView-title" data-i18n="friends.title"></h2>
+	<div class="tabs" data-ng-if="isBusiness()">
+		<button class="tab" data-ng-class="{'tab-active': !showColleagues}" data-ng-click="setShowColleagues(false)">Kontakte</button>
+		<button class="tab" data-ng-class="{'tab-active': showColleagues}" data-ng-click="setShowColleagues(true)">Kollegen</button>
+	</div>
 	<ol id="friendsView-friendsList" class="unstyled post">
-		<button data-ng-click="toggleShowColleagues()">Toggle</button>
 		<li class="loadingSpinner" data-ng-if="isLoading()">
 			<loadingindicator></loadingindicator>
 			<p data-i18n="friends.loading"></p>
