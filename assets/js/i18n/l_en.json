@@ -640,6 +640,11 @@
 					"all":		"Yes",
 					"none":		"No"
 				},
+				"friendsAccess": {
+					"title": "Who is allowed to see your friends list?",
+					"friends": "Friends",
+					"nobody": "Nobody"
+				},
 				"sendMethod": {
 					"title":		"Select a shortcut to send your messages",
 					"enter":		"Enter",

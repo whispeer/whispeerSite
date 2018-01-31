@@ -637,6 +637,11 @@
 					"all":		"Ja",
 					"none":		"Nein"
 				},
+				"friendsAccess": {
+					"title": "Wer darf deine Freundesliste sehen?",
+					"friends": "Freunde",
+					"nobody": "Niemand"
+				},
 				"sendMethod": {
 					"title":		"Wie möchtest du Nachrichten absenden?",
 					"enter":		"Enter",
