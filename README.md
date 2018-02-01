@@ -4,7 +4,7 @@ whispeer
 Initial installation:
 
 ```
-npm install -g grunt-cli
+npm install -g yarn
 git clone <repo-url>
 ```
 
@@ -13,6 +13,12 @@ For Developing purposes:
 ```
 git pull
 git submodule update --init
-npm install
-grunt
+yarn
+npm run development
+```
+
+Production Build:
+
+```
+npm run build
 ```
