@@ -1,14 +1,12 @@
 "use strict";
 
-var PromiseWorker = function (Promise, workerScriptOverride) {
-	this._Promise = Promise;
+const MyWorker = require("worker-loader!./worker.js")
+const Bluebird = require("bluebird")
+
+var PromiseWorker = function () {
 	this._busy = true;
 
-	if (!workerScriptOverride) {
-		this._worker = new Worker("./assets/js/build/worker.bundle.js");
-	} else {
-		this._worker = new Worker(workerScriptOverride);
-	}
+	this._worker = new MyWorker();
 
 	this._taskQueue = [];
 	this._freeListener = [];
@@ -43,7 +41,7 @@ PromiseWorker.prototype.isBusy = function () {
 
 PromiseWorker.prototype._lockFree = function () {
 	var that = this;
-	return new this._Promise(function (resolve) {
+	return new Bluebird(function (resolve) {
 		that._taskQueue.push(resolve);
 		that._checkQueues();
 	});
@@ -105,7 +103,7 @@ PromiseWorker.prototype._run = function (data, metaListener) {
 	this._busy = true;
 	this._metaListener = metaListener;
 
-	var waitPromise = new this._Promise(this._saveCallbacks.bind(this));
+	var waitPromise = new Bluebird(this._saveCallbacks.bind(this));
 	this._worker.postMessage({
 		action: "runTask",
 		data: data

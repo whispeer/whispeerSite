@@ -10,8 +10,6 @@
 tmp/*
 .jekyll-metadata
 
-build/
-
 # editors
 
 codekit-config.json
@@ -20,29 +18,21 @@ codekit-config.json
 
 # generated files
 
-/assets/files.json
-/assets/commit.sha
-
-/assets/css
 /assets/fonts
 /assets/less/base/addons/font-awesome.min.less
 /assets/less/codekit-config.json
 /assets/less/styleguide.md
 /static
-whispeer.mf
-manifest.mf
 .sass-cache
 
 # dependencies
 
 node_modules/*
-assets/vendor
 staticRaw/_sass/normalize.scss
 staticRaw/_sass/font-awesome.scss
+staticRaw/assets/css/static.css
 assets/less/base/addons/font-awesome.less
 assets/less/base/addons/normalize.less
 
-assets/js/build/*.js
-assets/js/build/*.js.map
-
-assets/js/i18n/companies
+staticRaw/assets/js/i18n/companies
+dist

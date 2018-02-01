@@ -6,6 +6,7 @@ window.jQuery = require("jquery");
 
 const angular = require("angular");
 const app = require("register/registerModule");
+require("whispeerStyle")
 require("register/registerController");
 require("directives/mobile");
 require("directives/autofocus");

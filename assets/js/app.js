@@ -1,3 +1,5 @@
+require("whispeerStyle")
+
 var context = require.context(
 	"../../assets/views/", // context folder
 	true, // include subdirectories
