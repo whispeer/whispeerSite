@@ -10,6 +10,7 @@ import MutableObjectLoader, { UpdateEvent } from "../services/mutableObjectLoade
 import SecuredDataApi, { SecuredData } from "../asset/securedDataWithMetaData"
 
 import h from "../helper/helper"
+import { isBusinessVersion } from "../services/location.manager"
 const EncryptedData = require("crypto/encryptedData")
 
 const RELOAD_DELAY = 10000
@@ -54,7 +55,8 @@ interface ISettings {
 	safety: {
 		blockedUsers: blockedUserInfo[]
 	},
-	uiLanguage: string
+	uiLanguage: string,
+	friendsAccess: boolean
 }
 
 const notVisible:IVisibility = {
@@ -65,7 +67,7 @@ const notVisible:IVisibility = {
 const privacyAttributes = ["birthday", "location", "relationship", "education", "work", "gender", "languages"]
 
 const publicBranches = ["uiLanguage", "sound", "donate", "safety"]
-const serverBranches = ["mailsEnabled"]
+const serverBranches = ["mailsEnabled", "friendsAccess"]
 
 const defaultSettings:ISettings = {
 	privacy: {
@@ -106,7 +108,8 @@ const defaultSettings:ISettings = {
 	safety: {
 		blockedUsers: []
 	},
-	uiLanguage: "en"
+	uiLanguage: "en",
+	friendsAccess: !isBusinessVersion()
 }
 
 const isBranchPublic = (branchName: string) => {

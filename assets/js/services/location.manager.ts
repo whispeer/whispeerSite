@@ -66,6 +66,8 @@ export const isLoginPage = () => {
 	return (<any>window).top.location.pathname.indexOf("/login") !== -1;
 }
 
+export const isBusinessVersion = () => !!WHISPEER_BUSINESS
+
 export const isSalesPage = () => {
 	return window.top.location.href.indexOf(config.salesUrl) > -1
 }

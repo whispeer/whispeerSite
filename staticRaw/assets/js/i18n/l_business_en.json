@@ -112,5 +112,16 @@
 			"mutuals": "{count} mutual contacts",
 			"confirmRemove": "Really remove {user} from your contacts list?"
 		}
+	},
+	"settings": {
+		"changes": {
+			"general": {
+				"friendsAccess": {
+					"title": "Who is allowed to see your contact list?",
+					"friends": "My contacts",
+					"nobody": "Nobody"
+				}
+			}
+		}
 	}
 }
