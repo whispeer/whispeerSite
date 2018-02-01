@@ -1,0 +1,45 @@
+// tabs have yet to be made a directive,
+// we'll keep the css here so everything is in one place already.
+
+.tabs {
+	display: flex;
+	width: 100%;
+}
+
+.tab {
+	position: relative;
+
+	appearance: none;
+	-webkit-appearance: none;
+
+	border: none;
+	outline: none;
+
+	background: transparent;
+
+	padding: 1em 2em 2em;
+	margin: auto;
+
+	&:after {
+		content: "";
+
+		position: absolute;
+		bottom: 1em;
+		left: 0;
+
+		width: 100%;
+		height: 4px;
+
+		background: @darkgrey;
+
+		transition: background .3s ease-in-out;
+	}
+
+	&.tab-active:after {
+		background: @primary;
+	}
+
+	&:hover:after {
+		background-color: @primaryLighter;
+	}
+}
