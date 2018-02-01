@@ -24,7 +24,7 @@ const friendsController: any = ($scope) => {
 		name: ""
 	}
 
-	$scope.showColleagues = WHISPEER_BUSINESS
+	$scope.showColleagues = false
 
 	$scope.isBusiness = () => WHISPEER_BUSINESS
 
