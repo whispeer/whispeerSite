@@ -59,10 +59,10 @@ if [[ "${WHISPEER_ENV}" == "production" ]]; then
 	VERSION=$(./scripts/getVersion.js)
 
 	sentry-cli releases -o sentry -p web new "$VERSION"
-	sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
+	sentry-cli releases -o sentry -p web files "$VERSION" upload-sourcemaps ../b2c/assets/*.js* --validate --url-prefix "~/assets"
 
 	sentry-cli releases -o sentry -p web-business new "$VERSION"
-	sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/js/build/ --validate --url-prefix "~/assets/js/build/"
+	sentry-cli releases -o sentry -p web-business files "$VERSION" upload-sourcemaps ../b2b/assets/*.js* --validate --url-prefix "~/assets"
 fi
 
 # copy company extensions
