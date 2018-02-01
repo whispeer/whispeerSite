@@ -17,7 +17,7 @@ const loadVoicemail = (voicemail) => {
 	voicemail.loading = true
 	voicemail.getProgress = () => loadProgress.getProgress()
 
-	return blobService.getBlobUrl(voicemail.blobID, voicemail.type, loadProgress, voicemail.size).then((url) => {
+	return blobService.getBlobUrl(voicemail.blobID, voicemail.type, voicemail.size, loadProgress).then((url) => {
 		voicemail.url = url
 		voicemail.loading = false
 		voicemail.loaded = true

@@ -13,7 +13,6 @@ const defaultUploadOptions = {
 	extraInfo: {}
 }
 
-
 const encryptionQueue = new Queue(500 * 1000);
 encryptionQueue.start();
 
