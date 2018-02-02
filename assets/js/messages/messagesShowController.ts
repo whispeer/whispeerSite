@@ -155,7 +155,7 @@ function messagesController($scope: myScope, $element, $stateParams, localize) {
 
 		file.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlobUrl(file.blobID, file.type, loadProgress, file.size)
+		blobService.getBlobUrl(file.blobID, file.type, file.size, loadProgress)
 			.then((blobURL) => getBlobFromURL(blobURL))
 			.then((blob) => saveAs(blob, file.name))
 	}

@@ -1,17 +1,19 @@
-var templateUrl = require("../../views/directives/gallery.html");
-var blobService = require("services/blobService").default
-var errorService = require("services/error.service").errorServiceInstance;
-var screenSizeService = require("services/screenSize.service.ts").default;
-
 "use strict";
 
+import * as Bluebird from "bluebird"
+
+import blobService from "../services/blobService"
+import errorService from "../services/error.service"
+import screenSizeService from "../services/screenSize.service"
+
 const jQuery = require("jquery");
-const Bluebird = require("bluebird");
+
+const templateUrl = require("../../views/directives/gallery.html");
 const directivesModule = require("directives/directivesModule");
 
 function imageGallery() {
 	function loadImage(data) {
-		var blobid = data.blobID;
+		const blobid = data.blobID;
 
 		if (data.loaded) {
 			return;
@@ -19,9 +21,9 @@ function imageGallery() {
 
 		data.loading = true;
 
-		Bluebird.try(function () {
-			return blobService.getBlobUrl(blobid);
-		}).then(function (url) {
+		Bluebird.try(() =>
+			blobService.getBlobUrl(blobid, "image/jpeg", 0)
+		).then(function (url) {
 			data.loading = false;
 			data.loaded = true;
 			data.url = url;
@@ -136,6 +138,4 @@ function imageGallery() {
 	};
 }
 
-imageGallery.$inject = [];
-
-directivesModule.directive("gallery", imageGallery);
+directivesModule.directive("gallery", [imageGallery]);
