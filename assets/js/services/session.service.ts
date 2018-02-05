@@ -34,9 +34,7 @@ export class SessionService {
 		this.loginResolve()
 	}
 
-	awaitLogin = () => {
-		return this.loginPromise
-	}
+	awaitLogin = () => this.loginPromise
 
 	setPassword = (password: string) => {
 		keyStore.security.setPassword(password);
@@ -45,8 +43,8 @@ export class SessionService {
 
 	bootLogin = h.cacheResult<Bluebird<boolean>>(() => this.loadLogin())
 
-	loadLogin = () => {
-		return this.sessionStorage.awaitLoading().then(() => {
+	loadLogin = () =>
+		this.sessionStorage.awaitLoading().then(() => {
 			const loggedin = this.sessionStorage.get("loggedin") === "true" && this.sessionStorage.get("password");
 			if (!loggedin) {
 				return this.clear().thenReturn(false);
@@ -57,30 +55,22 @@ export class SessionService {
 
 			return true;
 		})
-	}
 
-	getSID = () => {
-		return this.sid;
-	}
+	getSID = () => this.sid;
 
 	getUserID = () => this.userid
 
 	isOwnUserID = (id) => parseInt(id, 10) === this.userid
 
-	clear = () => {
-		return Bluebird.all([
+	clear = () =>
+		Bluebird.all([
 			this.sessionStorage.clear().then(() => console.log("session storage")),
 			Bluebird.resolve(Cache.deleteDatabase()).then(() => console.log("cache deletedb")),
 		].map(p => p.reflect()))
-	}
 
-	logout = () => {
-		this.clear().finally(landingPage)
-	}
+	logout = () => this.clear().finally(landingPage)
 
-	isLoggedin = () => {
-		return this.loggedin;
-	}
+	isLoggedin = () => this.loggedin
 }
 
 export default new SessionService();

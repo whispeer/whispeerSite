@@ -8,7 +8,7 @@
 			"es2015",
 			"dom"
 		],
-		"module": "es2015",
+		"module": "None",
 		"moduleResolution": "node",
 		"types" : ["node", "webpack", "jquery"],
 		"target": "es5",
