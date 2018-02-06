@@ -141,6 +141,8 @@ export interface UserInterface {
 	getMail: () => any
 	getName: () => any
 
+	changePassword: (newPassword: string) => any
+
 	isNotExistingUser: () => any
 	ignoreFriendShip: () => any
 	acceptFriendShip: () => any
@@ -533,7 +535,7 @@ class User implements UserInterface {
 		return 0
 	}
 
-	changePassword = (newPassword, cb) => {
+	changePassword = (newPassword) => {
 		return Bluebird.try(() => {
 			if (!this.isOwn()) {
 				throw new Error("not my own user")
@@ -560,7 +562,7 @@ class User implements UserInterface {
 			})
 		}).then(() => {
 			sessionService.setPassword(newPassword)
-		}).nodeify(cb)
+		})
 	}
 
 	loadFullData = () => {
@@ -838,6 +840,7 @@ export class NotExistingUser implements UserInterface {
 	acceptFriendShip = () => { throw new Error("not implemented for NotExistingUser") }
 	removeAsFriend = () => { throw new Error("not implemented for NotExistingUser") }
 	addAsFriend = () => { throw new Error("not implemented for NotExistingUser") }
+	changePassword = () => { throw new Error("not implemented for NotExistingUser") }
 }
 
 const improveKeyAccess = (keys, identifier) => {

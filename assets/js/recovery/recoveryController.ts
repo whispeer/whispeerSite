@@ -1,15 +1,16 @@
-var Cache = require("services/Cache.ts").default;
-var errorService = require("services/error.service").errorServiceInstance;
-var keyStore = require("services/keyStore.service").default;
-var sessionService = require("services/session.service").default;
-var socketService = require("services/socket.service").default;
-var userService = require("users/userService").default;
-
 "use strict";
 
-const h = require("whispeerHelper").default;
-const Bluebird = require("bluebird");
-const State = require("asset/state");
+import * as Bluebird from "bluebird"
+
+import h from "../helper/helper"
+import State from "../asset/state"
+import Cache from "../services/Cache"
+import errorService from "../services/error.service"
+import keyStore from "../services/keyStore.service"
+import sessionService from "../services/session.service"
+import socketService from "../services/socket.service"
+import userService from "../users/userService"
+
 const controllerModule = require("recovery/recoveryModule");
 
 function recoveryController($scope) {
@@ -36,10 +37,10 @@ function recoveryController($scope) {
 		enabled: $scope.codeProvided
 	};
 
-	var savePasswordState = new State.default();
+	var savePasswordState = new State();
 	$scope.savePasswordState = savePasswordState.data;
 
-	var loadBackupKeyState = new State.default();
+	var loadBackupKeyState = new State();
 	$scope.loadBackupKeyState = loadBackupKeyState.data;
 
 	$scope.pwValidationOptions = {
@@ -73,7 +74,7 @@ function recoveryController($scope) {
 		errorService.failOnErrorPromise(savePasswordState, savePromise);
 	};
 
-	function doRecovery(key, cb) {
+	function doRecovery(key) {
 		return Bluebird.try(function () {
 			keyStore.setKeyGenIdentifier(nick);
 			var keyID = keyStore.sym.loadBackupKey(keyStore.format.unBase32(key));
@@ -84,9 +85,9 @@ function recoveryController($scope) {
 				keyFingerPrint: keyID
 			});
 		}).then(function (response) {
-			sessionService.setLoginData(response.sid, response.userid, true);
+			sessionService.setLoginData(response.sid, response.userid);
 			$scope.changePassword.enabled = true;
-		}).nodeify(cb);
+		})
 	}
 
 	$scope.fileUpload = function (e) {
@@ -96,17 +97,10 @@ function recoveryController($scope) {
 			return;
 		}
 
-		Bluebird.try(function () {
-			return new Bluebird(function (resolve) {
-				require(["libs/qrreader"], resolve);
-			});
-		}).then(function (qrreader) {
-			return new Bluebird(function (resolve) {
-				qrreader.decode(h.toUrl(file), resolve);
-			});
-		}).then(function (code) {
-			doRecovery(code).catch(errorService.criticalError);
-		});
+
+		return import("../libs/qrreader")
+			.then((qrreader) => new Bluebird((resolve) => qrreader.decode(h.toUrl(file), resolve)))
+			.then((code) => doRecovery(code).catch(errorService.criticalError))
 	};
 
 	$scope.loadBackupKeyManual = function () {
@@ -127,7 +121,7 @@ function recoveryController($scope) {
 		}).catch(errorService.criticalError);
 	};
 
-	var requestState = new State.default();
+	var requestState = new State();
 	$scope.request = {
 		identifier: "",
 		state: requestState.data,
@@ -140,6 +134,4 @@ function recoveryController($scope) {
 	};
 }
 
-recoveryController.$inject = ["$scope"];
-
-controllerModule.controller("ssn.recoveryController", recoveryController);
+controllerModule.controller("ssn.recoveryController", ["$scope", recoveryController]);
