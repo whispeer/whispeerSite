@@ -19,6 +19,7 @@
     "> 0.5% in DE",
     "iOS > 7"
   ],
+  "license": "UNLICENSED",
   "dependencies": {
     "amanda": "~0.4.7",
     "angular": "1.6.5",

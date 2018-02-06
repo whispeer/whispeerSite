@@ -37,6 +37,7 @@ const unusedFiles = new UnusedFilesWebpackPlugin({
 			"less/**/*",
 			"img/**/*",
 			"data/**/*",
+			"fonts/**/*"
 		]
 	}
 })
