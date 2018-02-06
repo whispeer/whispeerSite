@@ -4,6 +4,20 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.15
+
+* Neuer Deployprozess
+* Kontaktliste vor Kontakten verstecken
+* Liste aller Kollegen
+* Bugfix: Korrumpierte Dateien
+* Bugfixes
+
+## 0.3.14
+
+* IE 11 Unterstützung
+* verbesserte Suche
+* Bugfixes
+
 ## 0.3.13
 
 * Geschäftskundenfeatures
