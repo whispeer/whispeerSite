@@ -13,7 +13,7 @@ runnerModule.run(["ssn.notificationService", function (notificationService) {
 		if (!message.isOwn()) {
 			if (!messageService.isActiveChat(chat.getID()) || !windowService.isVisible) {
 				windowService.playMessageSound();
-				notificationService.sendLocalNotification("message", message.data);
+				notificationService.sendLocalNotification(message);
 			}
 
 			const title = localize.getLocalizedString("window.title.newmessage").replace("{data}", message.data.sender.basic.shortname)
