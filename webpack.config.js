@@ -117,7 +117,7 @@ var plugins = [
 	}),
 	new WebpackBundleSizeAnalyzerPlugin("./report-size.txt"),
 	new SriPlugin({
-		hashFuncNames: ["sha256", "sha384"],
+		hashFuncNames: ["sha384"],
 		enabled: production,
 	}),
 	new WebpackSHAHash(),
