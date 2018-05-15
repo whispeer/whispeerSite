@@ -55,6 +55,22 @@ const staticIncludes = {
 const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
 const isBusiness = !!process.env.WHISPEER_BUSINESS
 
+const getPublicPath = () => {
+	if (!production) {
+		return "/assets/";
+	}
+
+	if (isBusiness) {
+		return "/b2b/assets/"
+	}
+
+	return "/b2c/assets/"
+}
+
+const publicPath = getPublicPath();
+
+console.log(publicPath);
+
 const getSentryKey = () => {
 	if (isBusiness) {
 		return process.env.SENTRY_KEY_BUSINESS || SENTRY_KEY_DEV
@@ -202,7 +218,7 @@ const config = {
 	output: {
 		crossOriginLoading: "anonymous",
 		path: path.resolve("./dist/assets"),
-		publicPath: isBusiness && production ? "/b2b/assets/" : "/b2c/assets/",
+		publicPath,
 		filename: production ? "[name].[chunkhash:8].js" : "[name].bundle.js"
 	}
 };
