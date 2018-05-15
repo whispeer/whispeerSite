@@ -53,9 +53,10 @@ const staticIncludes = {
 }
 
 const SENTRY_KEY_DEV = "https://fbe86ea09967450fa14f299f23038a96@errors.whispeer.de/9"
+const isBusiness = !!process.env.WHISPEER_BUSINESS
 
 const getSentryKey = () => {
-	if (process.env.WHISPEER_BUSINESS) {
+	if (isBusiness) {
 		return process.env.SENTRY_KEY_BUSINESS || SENTRY_KEY_DEV
 	}
 
@@ -102,7 +103,7 @@ var plugins = [
 	}),
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV),
-		"WHISPEER_BUSINESS": JSON.stringify(!!process.env.WHISPEER_BUSINESS),
+		"WHISPEER_BUSINESS": JSON.stringify(!!isBusiness),
 		"SENTRY_KEY": JSON.stringify(getSentryKey()),
 		"CLIENT_INFO": JSON.stringify({
 			type: "browser",
@@ -147,7 +148,7 @@ const config = {
 			socket: "socket.io-client",
 			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
-			whispeerStyle: path.resolve(__dirname, `./assets/less/${process.env.WHISPEER_BUSINESS ? "business" : "style"}.less`), //eslint-disable-line no-undef
+			whispeerStyle: path.resolve(__dirname, `./assets/less/${isBusiness ? "business" : "style"}.less`), //eslint-disable-line no-undef
 		}
 	},
 	module: {
@@ -201,7 +202,7 @@ const config = {
 	output: {
 		crossOriginLoading: "anonymous",
 		path: path.resolve("./dist/assets"),
-		publicPath: "/assets/",
+		publicPath: isBusiness && production ? "/b2b/assets/" : "/b2c/assets/",
 		filename: production ? "[name].[chunkhash:8].js" : "[name].bundle.js"
 	}
 };
