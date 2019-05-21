@@ -43,19 +43,7 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 	$scope.getFiltersByID = filterService.getFiltersByID;
 
-	$scope.showFullText = false;
-	$scope.infoHidden = false;
-
-	try {
-		if (localStorage.getItem("wall.info.hidden")) {
-			$scope.infoHidden = true
-		}
-	} catch (e) { console.warn(e) }
-
 	$scope.donateType = "donatePage.";
-
-	$scope.wallInformTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.inform.text", {}))
-	$scope.testAndroidBetaTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.inform.androidBeta", {}))
 
 	$scope.focusNewPost = function () {
 		var textarea = jQuery("#newsfeedView-postForm textarea");
@@ -86,15 +74,6 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 	$scope.sortByCommentTime = $stateParams.sortByCommentTime === "true" || settingsService.getBranch("sortByCommentTime");
 	$scope.sortIcon = "fa-newspaper-o";
-
-	$scope.toggleText = function() {
-		$scope.showFullText = !$scope.showFullText;
-	}
-
-	$scope.hideInfo = function() {
-		$scope.infoHidden = true;
-		localStorage.setItem("wall.info.hidden", true)
-	}
 
 	$scope.toggleSort = function() {
 		return Bluebird.try(function () {
