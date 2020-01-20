@@ -362,7 +362,7 @@ const decryptAndVerifyTitleUpdate = (titleUpdate) => {
 
 		await Bluebird.all([
 			securedData.decrypt(),
-			securedData.verify(sender.getSignKey())
+			sender.isNotExistingUser() ? false : securedData.verify(sender.getSignKey())
 		])
 
 		return {
@@ -428,8 +428,10 @@ export default class ChunkLoader extends ObjectLoader<Chunk, ChunkCache>({
 
 			const titleUpdate = await decryptAndVerifyTitleUpdate(latestTitleUpdate)
 
-			await securedData.verify(creator.getSignKey())
-			await securedData.decrypt()
+			await Bluebird.all([
+				securedData.decrypt(),
+				creator.isNotExistingUser() ? false : securedData.verify(creator.getSignKey())
+			]);
 
 			return {
 				content: securedData.contentGet(),

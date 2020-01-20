@@ -476,7 +476,7 @@ export default class MessageLoader extends ObjectLoader<Message, MessageCache>({
 
 			await Bluebird.all([
 				securedData.decrypt(),
-				securedData.verify(sender.getSignKey())
+				sender.isNotExistingUser() ? false : securedData.verify(sender.getSignKey())
 			])
 
 			return {
