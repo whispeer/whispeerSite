@@ -4,14 +4,12 @@ lang: de
 title: Impressum
 ---
 ### Angaben gemäß § 5 TMG:
-mindpost GmbH<br>
-Handelsregister: AG Charlottenburg, HRB 162914 B<br>
-Geschäftsführer: Nils Thenhausen, Sebastian Reck
+Nils Thenhausen
 
 ### Anschrift
-Schmargendorfer Straße 34<br>
-12159 Berlin, Deutschland
+Calvinstraße 13a<br>
+10557 Berlin, Germany
 
 ### Kontakt
 Mail: feedback@whispeer.de<br>
-Telefon: +49 - 30 - 55597624
+Telefon: +49 - 152 - 27369080

@@ -8,7 +8,7 @@ title: Terms And Conditions
 ## Valid for registrations from the 18/10/2017 (outdated version below)
 
 1.	Contractual partners and scope of application
- 	1.	Contractual partners are mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (hereinafter referred to as “whispeer”) and the user (natural or legal person)
+ 	1.	Contractual partners are Nils Thenhausen, Calvinstraße 13a, 10557 Berlin, Germany (hereinafter referred to as “whispeer”) and the user (natural or legal person)
  	2.	The here presented terms and conditions determine the users use of the social communication network (incl. whispeer business) run by whispeer and all services provided by whispeer (hereinafter referred to as “whispeer-services”).
  	3.	The private area of the communication network is designed for private use – whispeer business is recommended for business purposes.
  	4.	The whispeer services include the software provided by whispeer (hereinafter "software"). Not included in the software are Open-Source Libraries, which are required for the use of the software, even if the software reloads libraries automatically if necessary; only the respective open-source license and terms thereof apply for these libraries.
@@ -51,7 +51,7 @@ title: Terms And Conditions
 ## Valid for registrations before the 18/10/2017 (current version on top)
 
 1. Contractual partners and scope of application
-	1. Contractual partners are mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (hereinafter referred to as “whispeer”) and the user.
+	1. Contractual partners are Nils Thenhausen, Calvinstraße 13a, 10557 Berlin, Germany (hereinafter referred to as “whispeer”) and the user.
 	2. The here presented terms and conditions determine the users use of the social network run by whispeer and all services provided by whispeer (hereinafter referred to as “whispeer-services”), including but not limited to the software provided by whispeer (hereinafter: “software”). Not included in the software are Open-Source Libraries, which are required for the use of the software, even if the software reloads libraries automatically if necessary; only the respective open-source license and terms thereof apply for these libraries.
 	3. Deviating agreements in individual cases precede the regulations of these terms and conditions.
 2. User obligations, abuse, user liabilities

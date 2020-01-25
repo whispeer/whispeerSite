@@ -7,7 +7,7 @@ title: Allgemeine Geschäftsbedingungen
 ## gültig für Registrierungen ab dem 18.10.2017 (ältere Version darunter)
 
 1.	Vertragspartner und Geltungsbereich dieser AGB
- 	1. Vertragspartner sind die mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (nachfolgend „whispeer“ genannt) und der Nutzer (natürliche oder juristische Person).
+ 	1. Vertragspartner sind die Nils Thenhausen, Calvinstraße 13a, 10557 Berlin, Germany (nachfolgend „whispeer“ genannt) und der Nutzer (natürliche oder juristische Person).
 	2. Die vorliegenden Allgemeinen Geschäftsbedingungen (AGB) regeln die Nutzung des von whispeer betriebenen Kommunikationsnetzwerkes (inkl. whispeer Business) mit allen hierfür von whispeer zur Verfügung gestellten Leistungen (nachfolgend: „whispeer-Leistungen“) durch den Nutzer.
 	3.	Der private Bereich des Kommunikationsnetzwerks ist für die private Nutzung konzipiert - zur Nutzung für unternehmerische Zwecke empfiehlt sich whispeer Business.
 	4.	Zu den whispeer Leistungen gehört hierfür durch whispeer zur Verfügung gestellte Software (nachfolgend: „Software“). Nicht zur Software gehören Open-Source-Programm-Bibliotheken, die Voraussetzung zur Nutzung der Software sind, auch wenn die Software diese ggf. automatisch nachlädt; für diese gelten ausschließlich die jeweiligen Open-Source-Lizenzbedingungen.
@@ -49,7 +49,7 @@ title: Allgemeine Geschäftsbedingungen
 ## gültig für Registrierungen bis zum 17.10.2017 (aktuelle Version darüber)
 
 1. Vertragspartner und Geltungsbereich dieser AGB
-	1. Vertragspartner sind die mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (nachfolgend „whispeer“ genannt) und der Nutzer.
+	1. Vertragspartner sind die Nils Thenhausen, Calvinstraße 13a, 10557 Berlin, Germany (nachfolgend „whispeer“ genannt) und der Nutzer.
 	2. Die vorliegenden Allgemeinen Geschäftsbedingungen (AGB) regeln die Nutzung des von whispeer betriebenen sozialen Netzwerkes mit allen hierfür von whispeer zur Verfügung gestellten Leistungen (nachfolgend: „whispeer-Leistungen“) einschließlich hierfür durch whispeer zur Verfügung gestellter Software (nachfolgend: „Software“) durch den Nutzer. Nicht zur Software gehören Open-Source-Programm-Bibliotheken, die Voraussetzung zur Nutzung der Software sind, auch wenn die Software diese ggf. automatisch nachlädt; für diese gelten ausschließlich die jeweiligen Open-Source-Lizenzbedingungen.
 	3. Abweichende Vereinbarungen im Einzelfall gehen den Regelungen dieser AGB vor.
 2. Pflichten des Nutzers, Missbrauch, Haftung des Nutzers
