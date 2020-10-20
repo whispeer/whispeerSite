@@ -95,7 +95,7 @@
     "webpack-bundle-size-analyzer": "^2.6.0",
     "webpack-dev-middleware": "^2.0.2",
     "webpack-sha-hash": "^2.0.0",
-    "webpack-subresource-integrity": "^1.0.3",
+    "webpack-subresource-integrity": "^1.5.1",
     "webpack": "^3.8.1",
     "worker-loader": "^1.1.0"
   },
