@@ -22,7 +22,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "amanda": "~0.4.7",
-    "angular": "1.6.5",
+    "angular": "1.8.3",
     "angular-touch": "1.6.5",
     "angular-ui-router": "~0.3.1",
     "bluebird": "^3.4.7",
